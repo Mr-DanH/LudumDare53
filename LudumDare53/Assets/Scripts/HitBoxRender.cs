@@ -13,7 +13,7 @@ public class HitBoxRender : MonoBehaviour
     {
         m_pool.Add(m_hitBoxPrefab);
 
-        for(int i = 0; i < 9; ++i)
+        for(int i = 0; i < 19; ++i)
             m_pool.Add(Instantiate(m_hitBoxPrefab, transform));
 
         foreach(var pooledItem in m_pool)
