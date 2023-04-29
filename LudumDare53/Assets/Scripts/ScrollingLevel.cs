@@ -84,7 +84,8 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
             ActiveTiles.RemoveAt(0);
 
             AddTileToEnd(m_cityTilesLeft > 0);
-            --m_cityTilesLeft;
+            if(m_cityTilesLeft > 0)
+                --m_cityTilesLeft;
         }
 
         foreach(var tile in ActiveTiles)
@@ -97,6 +98,6 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
 
     public bool IsLevelComplete()
     {
-        return m_cityTilesLeft == 0 && ActiveTiles.TrueForAll(a => a.m_isCity);
+        return m_cityTilesLeft == 0 && ActiveTiles.TrueForAll(a => !a.m_isCity);
     }
 }
