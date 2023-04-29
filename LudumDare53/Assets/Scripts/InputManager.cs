@@ -11,13 +11,13 @@ public class InputManager : MonoBehaviour
     private void OnMove(InputValue value)
     {
         Vector2 movement = value.Get<Vector2>();
-        Player.Instance.UpdateMovement(movement);
+        Player.Instance.SetMovementDirection(movement);
         Log($"Movement: {movement}");
     }
 
     private void OnFire(InputValue value)
     {
-        bool fired = value.Get<bool>();
+        bool fired = value.isPressed;
         if(fired)
         {
             Player.Instance.Fire();
@@ -27,7 +27,7 @@ public class InputManager : MonoBehaviour
 
     private void OnFireRight(InputValue value)
     {
-        bool fired = value.Get<bool>();
+        bool fired = value.isPressed;
         if(fired)
         {
             Player.Instance.FireRight();
@@ -37,7 +37,7 @@ public class InputManager : MonoBehaviour
 
     private void OnFireLeft(InputValue value)
     {
-        bool fired = value.Get<bool>();
+        bool fired = value.isPressed;
         if(fired)
         {
             Player.Instance.FireLeft();
