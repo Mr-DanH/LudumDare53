@@ -20,7 +20,7 @@ public class HitBoxRender : MonoBehaviour
             pooledItem.gameObject.SetActive(false);
     }
 
-    void LateUpdate()
+    public void Tick()
     {
         Camera camera = Camera.main;
         int count = 0;

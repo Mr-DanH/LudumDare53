@@ -43,7 +43,7 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
         m_tilePool.RemoveAt(index);
     }
 
-    void Update()
+    public void Tick()
     {
         Vector3 shift = Vector3.back * Time.deltaTime * m_speed;
 
