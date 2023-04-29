@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawningParent: {fileID: 0}
+  fireDelayDuration: 1
   basicPigeonTemplate: {fileID: 9036979024860272924, guid: ca8c48a815cfa1b49bd5cdc89a7c7478, type: 3}
 --- !u!1 &8135716376148950102
 GameObject:

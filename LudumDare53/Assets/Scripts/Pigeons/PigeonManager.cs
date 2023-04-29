@@ -5,18 +5,25 @@ using UnityEngine;
 public class PigeonManager : Singleton<PigeonManager>
 {
     [SerializeField] private Transform spawningParent;
+    [SerializeField] private float fireDelayDuration = 0.5f;
     [SerializeField] private BasicPigeon basicPigeonTemplate;
 
     private List<Pigeon> firedPigeons = new List<Pigeon>();
     private List<Pigeon> availablePigeons = new List<Pigeon>();
 
-    public void Awake()
+    private float fireDelay;
+
+    void Awake()
     {
         CollisionDetector.Instance.OnCollisionTriggered += HandleCollisionTriggered;
+        fireDelay = 0;
     }
 
     public void FireNext(Vector2 direction)
     {
+        if(fireDelay > 0)
+            return;
+
         var pigeonTypes = System.Enum.GetValues(typeof(Pigeon.PigeonType));
         Pigeon.PigeonType pigeonType = (Pigeon.PigeonType)Random.Range(1, pigeonTypes.Length);
 
@@ -28,11 +35,15 @@ public class PigeonManager : Singleton<PigeonManager>
 
         nextPigeon.Fire(direction);
         firedPigeons.Add(nextPigeon);
+
+        fireDelay = fireDelayDuration;
     }
 
     public void Tick()
     {
         firedPigeons.ForEach(x=> x.Tick());
+
+        fireDelay -= Time.deltaTime;
     }
 
     private Pigeon GetPigeonInstance(Pigeon.PigeonType type)
