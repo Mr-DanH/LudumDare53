@@ -10,18 +10,17 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
     public float m_wrapAroundZ;
     public int m_numActiveTiles = 2;
     
-    List<Transform> m_tilePool = new List<Transform>();
-    public List<Transform> ActiveTiles { get; } = new List<Transform>();
+    List<Tile> m_tilePool = new List<Tile>();
+    public List<Tile> ActiveTiles { get; } = new List<Tile>();
 
     public override void Awake()
     {
         base.Awake();
 
-        foreach(Transform child in transform)
-        {
-            m_tilePool.Add(child);
-            child.gameObject.SetActive(false);
-        }
+        m_tilePool.AddRange(GetComponentsInChildren<Tile>());
+
+        foreach(Tile tile in m_tilePool)
+            tile.gameObject.SetActive(false);
 
         for(int i = 0; i < m_numActiveTiles; ++i)
             AddTileToEnd();
@@ -30,12 +29,12 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
     void AddTileToEnd()
     {
         int index = Random.Range(0, m_tilePool.Count);
-        Transform tile = m_tilePool[index];
+        Tile tile = m_tilePool[index];
 
         if(ActiveTiles.Count == 0)
-            tile.position = (Vector3.forward * (m_wrapAroundZ + m_spacing));
+            tile.transform.position = (Vector3.forward * (m_wrapAroundZ + m_spacing));
         else
-            tile.position = ActiveTiles.Last().position + (Vector3.forward * m_spacing);
+            tile.transform.position = ActiveTiles.Last().transform.position + (Vector3.forward * m_spacing);
 
         tile.gameObject.SetActive(true);
 
@@ -46,13 +45,15 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
     public void Tick()
     {
         Vector3 shift = Vector3.back * Time.deltaTime * m_speed;
+        Camera camera = Camera.main;
+        Vector3 screenScale = new Vector3(Screen.width, Screen.height, 1);
 
         foreach(var tile in ActiveTiles)
         {
-            tile.position += shift;
+            tile.transform.position += shift;
         }
 
-        if(ActiveTiles[0].position.z < m_wrapAroundZ)
+        if(ActiveTiles[0].transform.position.z < m_wrapAroundZ)
         {
             AddTileToEnd();
 
@@ -60,6 +61,12 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
             
             m_tilePool.Add(ActiveTiles[0]);
             ActiveTiles.RemoveAt(0);
+        }
+
+        foreach(var tile in ActiveTiles)
+        {            
+            Vector3 tileVpPos = camera.WorldToViewportPoint(tile.transform.position);
+            tile.m_waveOffset.position = Vector3.Scale(tileVpPos, screenScale);
         }
     } 
 }
