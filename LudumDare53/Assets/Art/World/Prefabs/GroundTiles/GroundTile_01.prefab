@@ -129,6 +129,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9207309793695136044, guid: 4ea267b3361eba04caef1aebe4844457, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 552b590b4d485a04392f5222e53201ef, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ea267b3361eba04caef1aebe4844457, type: 3}
 --- !u!4 &8180701534441035657 stripped
@@ -267,6 +271,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6450383547871964999}
     m_Modifications:
+    - target: {fileID: 3312049597576835131, guid: 5b4c882e738ad4248b27ea00e6c7094e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 552b590b4d485a04392f5222e53201ef, type: 2}
+    - target: {fileID: 3960423289597546990, guid: 5b4c882e738ad4248b27ea00e6c7094e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4561944263537999594, guid: 5b4c882e738ad4248b27ea00e6c7094e, type: 3}
       propertyPath: m_Name
       value: Spire_01
@@ -451,6 +463,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7412659605769701734, guid: b7339412173ce4848ba5df6b926412d0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070235162673277107, guid: b7339412173ce4848ba5df6b926412d0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 552b590b4d485a04392f5222e53201ef, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7339412173ce4848ba5df6b926412d0, type: 3}
 --- !u!4 &6479745888485420601 stripped
@@ -465,9 +485,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6450383547871964999}
     m_Modifications:
+    - target: {fileID: 3312049597576835131, guid: 9da23367245587b4aa82ae679b4a1001, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 552b590b4d485a04392f5222e53201ef, type: 2}
+    - target: {fileID: 3960423289597546990, guid: 9da23367245587b4aa82ae679b4a1001, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4561944263537999594, guid: 9da23367245587b4aa82ae679b4a1001, type: 3}
       propertyPath: m_Name
       value: TowerBlock_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 5208025848208745447, guid: 9da23367245587b4aa82ae679b4a1001, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 552b590b4d485a04392f5222e53201ef, type: 2}
+    - target: {fileID: 6000593067955405362, guid: 9da23367245587b4aa82ae679b4a1001, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6382766913978239339, guid: 9da23367245587b4aa82ae679b4a1001, type: 3}
       propertyPath: m_RootOrder
@@ -575,6 +611,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7412659605769701734, guid: b7339412173ce4848ba5df6b926412d0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070235162673277107, guid: b7339412173ce4848ba5df6b926412d0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 552b590b4d485a04392f5222e53201ef, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7339412173ce4848ba5df6b926412d0, type: 3}
 --- !u!4 &5717811130554945808 stripped
