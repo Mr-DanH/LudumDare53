@@ -14,6 +14,12 @@ public class GameScreen : MonoBehaviour
 
     public Transform m_waveNode;
 
+    const int NUM_TILES_PER_CITY = 5;
+    const int NORMAL_SCROLL_SPEED = 2;
+    const int POST_LEVEL_SCROLL_SPEED = 20;
+    const int SPEED_DELTA = POST_LEVEL_SCROLL_SPEED - NORMAL_SCROLL_SPEED;
+    const int TIME_BETWEEN_LEVELS = 5;
+
     int m_score;
     int m_level;
 
@@ -69,7 +75,6 @@ public class GameScreen : MonoBehaviour
             if(m_idleTime <= 0)
             {
                 m_idleTime = 3;
-                ScrollingLevel.Instance.m_speed = 10;
                 m_levelComplete.gameObject.SetActive(true);
             }
             else
@@ -80,7 +85,6 @@ public class GameScreen : MonoBehaviour
                 if(m_idleTime <= 0)
                 {
                     ++m_level;
-                    ScrollingLevel.Instance.m_speed = 1;
                     ScrollingLevel.Instance.StartCity(10);
                     m_levelComplete.gameObject.SetActive(false);
                 }
