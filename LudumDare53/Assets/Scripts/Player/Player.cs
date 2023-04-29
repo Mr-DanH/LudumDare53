@@ -18,9 +18,8 @@ public class Player : Singleton<Player>
     private Vector3 currentDirection = new Vector3();
     private RectTransform rect;
 
-    public override void Awake()
+    void Awake()
     {
-        base.Awake();
         rect = transform as RectTransform;
 
         PlayerLives = 3;

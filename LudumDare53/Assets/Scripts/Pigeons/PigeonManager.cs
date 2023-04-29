@@ -10,9 +10,8 @@ public class PigeonManager : Singleton<PigeonManager>
     private List<Pigeon> firedPigeons = new List<Pigeon>();
     private List<Pigeon> availablePigeons = new List<Pigeon>();
 
-    public override void Awake()
+    public void Awake()
     {
-        base.Awake();
         CollisionDetector.Instance.OnCollisionTriggered += HandleCollisionTriggered;
     }
 
