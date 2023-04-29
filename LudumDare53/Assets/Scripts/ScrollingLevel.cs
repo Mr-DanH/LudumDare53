@@ -11,7 +11,7 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
     public int m_numActiveTiles = 2;
     
     List<Transform> m_tilePool = new List<Transform>();
-    List<Transform> m_activeTiles = new List<Transform>();
+    public List<Transform> ActiveTiles { get; } = new List<Transform>();
 
     public override void Awake()
     {
@@ -32,14 +32,14 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
         int index = Random.Range(0, m_tilePool.Count);
         Transform tile = m_tilePool[index];
 
-        if(m_activeTiles.Count == 0)
+        if(ActiveTiles.Count == 0)
             tile.position = Vector3.zero;
         else
-            tile.position = m_activeTiles.Last().position + (Vector3.forward * m_spacing);
+            tile.position = ActiveTiles.Last().position + (Vector3.forward * m_spacing);
 
         tile.gameObject.SetActive(true);
 
-        m_activeTiles.Add(tile);
+        ActiveTiles.Add(tile);
         m_tilePool.RemoveAt(index);
     }
 
@@ -47,19 +47,19 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
     {
         Vector3 shift = Vector3.back * Time.deltaTime * m_speed;
 
-        foreach(var tile in m_activeTiles)
+        foreach(var tile in ActiveTiles)
         {
             tile.position += shift;
         }
 
-        if(m_activeTiles[0].position.z < m_wrapAroundZ)
+        if(ActiveTiles[0].position.z < m_wrapAroundZ)
         {
             AddTileToEnd();
 
-            m_activeTiles[0].gameObject.SetActive(false);
+            ActiveTiles[0].gameObject.SetActive(false);
             
-            m_tilePool.Add(m_activeTiles[0]);
-            m_activeTiles.RemoveAt(0);
+            m_tilePool.Add(ActiveTiles[0]);
+            ActiveTiles.RemoveAt(0);
         }
     } 
 }
