@@ -57,7 +57,7 @@ public class Player : Singleton<Player>
 
     private void UpdateMovement()
     {
-        Vector3 newPosition = rect.localPosition + (currentDirection * baseSpeed);
+        Vector3 newPosition = rect.localPosition + (currentDirection * baseSpeed * Time.deltaTime);
 
         int screenY = Mathf.RoundToInt(Screen.height / (transform.lossyScale.x * 2));
         int screenX = Mathf.RoundToInt(Screen.width / (transform.lossyScale.y * 2));
