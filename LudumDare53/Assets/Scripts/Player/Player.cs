@@ -13,6 +13,8 @@ public class Player : Singleton<Player>
     [Header("Player")]
     [SerializeField] private float baseSpeed;
 
+    public int PlayerLives { get; private set; }
+
     private Vector3 currentDirection = new Vector3();
     private RectTransform rect;
 
@@ -20,6 +22,11 @@ public class Player : Singleton<Player>
     {
         base.Awake();
         rect = transform as RectTransform;
+
+        PlayerLives = 3;
+
+        CollisionDetector.Instance.Register(CollidableObject.ColliderType.Player, rect);
+        CollisionDetector.Instance.OnCollisionTriggered += HandleCollisionTriggered;
     }
 
     public void Tick()
@@ -61,5 +68,12 @@ public class Player : Singleton<Player>
         newPosition.y = Mathf.Clamp(newPosition.y, -screenY + halfHeight, screenY - halfHeight);
 
         rect.localPosition = newPosition;
+    }
+
+    private void HandleCollisionTriggered(List<CollidableObject> collidables)
+    {
+        bool playerInvolved = collidables.Exists(x=>x.Type == CollidableObject.ColliderType.Player);
+        if (playerInvolved && PlayerLives > 0)
+            PlayerLives--;
     }
 }

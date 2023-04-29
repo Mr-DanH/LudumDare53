@@ -18,6 +18,8 @@ public class HitBoxRender : MonoBehaviour
 
         foreach(var pooledItem in m_pool)
             pooledItem.gameObject.SetActive(false);
+
+        CollisionDetector.Instance.OnCollisionTriggered += HandleCollisionTriggered;
     }
 
     public void Tick()
@@ -44,6 +46,8 @@ public class HitBoxRender : MonoBehaviour
                     m_pool.RemoveAt(0);
 
                     ++count;
+
+                    CollisionDetector.Instance.Register(CollidableObject.ColliderType.Building, box);
                 }
                 else
                 {
@@ -104,6 +108,21 @@ public class HitBoxRender : MonoBehaviour
             box.gameObject.SetActive(false);
             m_pool.Add(box);
             m_activeHitBoxes.RemoveAt(count);
+
+            CollisionDetector.Instance.UnRegister(box);
+        }
+    }
+
+    private void HandleCollisionTriggered(List<CollidableObject> collidables)
+    {
+        var collidable = collidables.Find(x=>x.Type == CollidableObject.ColliderType.Building);
+        if (collidable != null)
+        {
+            collidable.RectTransform.gameObject.SetActive(false);
+            m_pool.Add(collidable.RectTransform);
+            m_activeHitBoxes.Remove(collidable.RectTransform);
+
+            CollisionDetector.Instance.UnRegister(collidable);
         }
     }
 }

@@ -16,7 +16,6 @@ public class GameScreen : MonoBehaviour
 
     int m_score;
     int m_level;
-    int m_lives = 3;
 
     HitBoxRender m_hitBoxRender;
 
@@ -40,7 +39,7 @@ public class GameScreen : MonoBehaviour
     {
         m_scoreLabel.text = $"Score: {m_score}";
         m_levelLabel.text = $"Level: {m_level}";
-        m_livesLabel.text = $"Lives: {m_lives}";
+        m_livesLabel.text = $"Lives: {Player.Instance.PlayerLives}";
     }
 
     void Update()
@@ -51,38 +50,13 @@ public class GameScreen : MonoBehaviour
 
         m_hitBoxRender.Tick();
 
-        RectTransform playerRectTransform = Player.Instance.transform as RectTransform;
-        Rect playerRect = playerRectTransform.rect;
-        playerRect.position += (Vector2)playerRectTransform.position;
+        CollisionDetector.Instance.Tick();
 
-        foreach(var tile in ScrollingLevel.Instance.ActiveTiles)
+        if (Player.Instance.PlayerLives <= 0)
         {
-            foreach(RectTransform enemy in tile.m_waveOffset)
-            {
-                if(!enemy.gameObject.activeInHierarchy)
-                    continue;
-
-                if(m_lives == 0)
-                    break;
-                    
-                Rect enemyRect = enemy.rect;
-                enemyRect.position += (Vector2)enemy.position;
-
-                if(playerRect.Overlaps(enemyRect))
-                {
-                    enemy.gameObject.SetActive(false);
-                    --m_lives;
-
-                    if(m_lives == 0)
-                    {
-                        Player.Instance.gameObject.SetActive(false);
-                        m_gameOver.gameObject.SetActive(true);
-                    }
-                }
-            }
+            Player.Instance.gameObject.SetActive(false);
+            m_gameOver.gameObject.SetActive(true);
         }
-
-        //collision detection
 
         UpdateUI();
     }

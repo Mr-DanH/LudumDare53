@@ -49,6 +49,7 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
 
         ActiveTiles.Add(tile);
         m_tilePool.RemoveAt(index);
+        
     }
 
     public void Tick()
@@ -77,5 +78,5 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
             Vector3 tileVpPos = camera.WorldToViewportPoint(tile.transform.position);
             tile.m_waveOffset.position = Vector3.Scale(tileVpPos, screenScale);
         }
-    } 
+    }
 }

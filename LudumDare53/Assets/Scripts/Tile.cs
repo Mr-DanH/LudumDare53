@@ -22,16 +22,34 @@ public class Tile : MonoBehaviour
             tower.Activate(TargetTowers.Contains(tower));
 
         foreach(Transform child in m_waveOffset)
+        {
             child.gameObject.SetActive(activateWave);
-            
+            RectTransform childRectTransform = child as RectTransform;
+            CollisionDetector.Instance.Register(CollidableObject.ColliderType.Enemy, childRectTransform);
+        }
+
+        CollisionDetector.Instance.OnCollisionTriggered += OnCollisionTriggered;
+
         gameObject.SetActive(true);
     }
 
     public void Deactivate()
     {
-        foreach(Transform child in m_waveOffset)
-            child.gameObject.SetActive(false);
+        foreach(RectTransform child in m_waveOffset)
+            DeactivateChild(child);
             
         gameObject.SetActive(false);
+    }
+
+    private void OnCollisionTriggered(List<CollidableObject> collidables)
+    {
+        var collidable = collidables.Find(x=>x.Type == CollidableObject.ColliderType.Enemy);
+        DeactivateChild(collidable.RectTransform);
+    }
+
+    private void DeactivateChild(RectTransform rectTransform)
+    {
+        rectTransform.gameObject.SetActive(false);
+        CollisionDetector.Instance.UnRegister(rectTransform);
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PigeonManager : MonoBehaviour
+public class PigeonManager : Singleton<PigeonManager>
 {
     [SerializeField] private Transform spawningParent;
     [SerializeField] private BasicPigeon basicPigeonTemplate;
@@ -10,12 +10,23 @@ public class PigeonManager : MonoBehaviour
     private List<Pigeon> firedPigeons = new List<Pigeon>();
     private List<Pigeon> availablePigeons = new List<Pigeon>();
 
+    public override void Awake()
+    {
+        base.Awake();
+        CollisionDetector.Instance.OnCollisionTriggered += HandleCollisionTriggered;
+    }
+
     public void FireNext(Vector2 direction)
     {
         var pigeonTypes = System.Enum.GetValues(typeof(Pigeon.PigeonType));
         Pigeon.PigeonType pigeonType = (Pigeon.PigeonType)Random.Range(1, pigeonTypes.Length);
 
         Pigeon nextPigeon = GetPigeonInstance(pigeonType);
+        nextPigeon.gameObject.SetActive(true);
+
+        RectTransform nextPigeonTransform = nextPigeon.transform as RectTransform;
+        CollisionDetector.Instance.Register(CollidableObject.ColliderType.Pigeon, nextPigeonTransform);
+
         nextPigeon.Fire(direction);
         firedPigeons.Add(nextPigeon);
     }
@@ -53,7 +64,20 @@ public class PigeonManager : MonoBehaviour
 
     private void PigeonReturned(Pigeon pigeon)
     {
+        pigeon.gameObject.SetActive(false);
         firedPigeons.Remove(pigeon);
         availablePigeons.Add(pigeon);
+    }
+
+    private void HandleCollisionTriggered(List<CollidableObject> collidables)
+    {
+        CollidableObject collidable = collidables.Find(x=>x.Type == CollidableObject.ColliderType.Pigeon);
+
+        if (collidable != null)
+        {
+            Pigeon returnedPigeon = collidable.RectTransform.GetComponent<Pigeon>();
+            PigeonReturned(returnedPigeon);
+            CollisionDetector.Instance.UnRegister(collidable);
+        }
     }
 }
