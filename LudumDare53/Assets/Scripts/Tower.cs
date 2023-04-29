@@ -17,11 +17,11 @@ public class Tower : MonoBehaviour
     {
         TryGetComponent(out m_renderer);
         TryGetComponent(out m_collider);
-        m_collider.enabled = false;
     }
 
     public void Activate(bool isTarget)
     {
+        m_collider.enabled = isTarget;
         IsTarget = isTarget;
         m_renderer.material = isTarget ? m_targetMaterial : m_standardMaterial;        
     }
