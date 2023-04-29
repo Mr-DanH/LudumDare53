@@ -37,6 +37,31 @@ public class GameScreen : MonoBehaviour
 
         m_hitBoxRender.Tick();
 
+        RectTransform playerRectTransform = Player.Instance.transform as RectTransform;
+        Rect playerRect = playerRectTransform.rect;
+        playerRect.position += (Vector2)playerRectTransform.position;
+
+        foreach(var tile in ScrollingLevel.Instance.ActiveTiles)
+        {
+            foreach(RectTransform enemy in tile.m_waveOffset)
+            {
+                if(!enemy.gameObject.activeInHierarchy)
+                    continue;
+
+                if(m_lives == 0)
+                    break;
+                    
+                Rect enemyRect = enemy.rect;
+                enemyRect.position += (Vector2)enemy.position;
+
+                if(playerRect.Overlaps(enemyRect))
+                {
+                    enemy.gameObject.SetActive(false);
+                    --m_lives;
+                }
+            }
+        }
+
         //collision detection
 
         UpdateUI();

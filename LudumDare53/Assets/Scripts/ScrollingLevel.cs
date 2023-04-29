@@ -20,13 +20,13 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
         m_tilePool.AddRange(GetComponentsInChildren<Tile>());
 
         foreach(Tile tile in m_tilePool)
-            tile.gameObject.SetActive(false);
+            tile.Deactivate();
 
         for(int i = 0; i < m_numActiveTiles; ++i)
-            AddTileToEnd();
+            AddTileToEnd(i > 1);
     }
 
-    void AddTileToEnd()
+    void AddTileToEnd(bool activateWave)
     {
         int index = Random.Range(0, m_tilePool.Count);
         Tile tile = m_tilePool[index];
@@ -36,7 +36,7 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
         else
             tile.transform.position = ActiveTiles.Last().transform.position + (Vector3.forward * m_spacing);
 
-        tile.gameObject.SetActive(true);
+        tile.Activate(activateWave);
 
         ActiveTiles.Add(tile);
         m_tilePool.RemoveAt(index);
@@ -55,9 +55,9 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
 
         if(ActiveTiles[0].transform.position.z < m_wrapAroundZ)
         {
-            AddTileToEnd();
+            AddTileToEnd(true);
 
-            ActiveTiles[0].gameObject.SetActive(false);
+            ActiveTiles[0].Deactivate();
             
             m_tilePool.Add(ActiveTiles[0]);
             ActiveTiles.RemoveAt(0);
