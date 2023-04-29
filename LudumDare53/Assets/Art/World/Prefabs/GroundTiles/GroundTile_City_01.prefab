@@ -1085,7 +1085,7 @@ GameObject:
   m_Component:
   - component: {fileID: 454361272554332968}
   m_Layer: 0
-  m_Name: GroundTile_01
+  m_Name: GroundTile_City_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

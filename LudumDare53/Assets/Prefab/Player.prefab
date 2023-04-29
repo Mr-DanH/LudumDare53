@@ -55,7 +55,7 @@ MonoBehaviour:
   fireStraightDirection: {x: 0, y: 1}
   fireRightDirection: {x: 0.7, y: 0.7}
   fireLeftDirection: {x: -0.7, y: 0.7}
-  baseSpeed: 1
+  baseSpeed: 100
 --- !u!1 &8134407618346145050
 GameObject:
   m_ObjectHideFlags: 0

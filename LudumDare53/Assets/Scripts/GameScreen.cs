@@ -19,6 +19,8 @@ public class GameScreen : MonoBehaviour
 
     HitBoxRender m_hitBoxRender;
 
+    float m_idleTime;
+
     void Awake()
     {
         m_hitBoxRender = GetComponentInChildren<HitBoxRender>();
@@ -34,7 +36,7 @@ public class GameScreen : MonoBehaviour
     {
         ScrollingLevel.Instance.ReparentWaves(m_waveNode);
 
-        ScrollingLevel.Instance.StartCity(10);
+        ScrollingLevel.Instance.StartCity(4);
     }
 
     void UpdateUI()
@@ -58,6 +60,27 @@ public class GameScreen : MonoBehaviour
         {
             Player.Instance.gameObject.SetActive(false);
             m_gameOver.gameObject.SetActive(true);
+        }
+        else if(ScrollingLevel.Instance.IsLevelComplete())
+        {
+            if(m_idleTime <= 0)
+            {
+                m_idleTime = 3;
+                ScrollingLevel.Instance.m_speed = 10;
+                m_levelComplete.gameObject.SetActive(true);
+            }
+            else
+            {
+                m_idleTime -= Time.deltaTime;
+
+                if(m_idleTime <= 0)
+                {
+                    ++m_level;
+                    ScrollingLevel.Instance.m_speed = 1;
+                    ScrollingLevel.Instance.StartCity(10);
+                    m_levelComplete.gameObject.SetActive(false);
+                }
+            }            
         }
 
         UpdateUI();
