@@ -2,12 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class ActiveHitBox
+{
+    public Tower AttachedTower { get; private set; }
+    public RectTransform HitBox { get; private set; }
+
+    public ActiveHitBox(Tower tower, RectTransform hitBox)
+    {
+        AttachedTower = tower;
+        HitBox = hitBox;
+    }
+}
+
 public class HitBoxRender : MonoBehaviour
 {
+    public System.Action OnPigeonArrived;
+
     public RectTransform m_hitBoxPrefab;
 
     List<RectTransform> m_pool = new List<RectTransform>();
-    List<RectTransform> m_activeHitBoxes = new List<RectTransform>();
+    List<ActiveHitBox> m_activeHitBoxes = new List<ActiveHitBox>();
 
     void Awake()
     {
@@ -42,7 +56,7 @@ public class HitBoxRender : MonoBehaviour
                 {
                     box = m_pool[0];
                     box.gameObject.SetActive(true);
-                    m_activeHitBoxes.Add(box);
+                    m_activeHitBoxes.Add(new ActiveHitBox(tower,box));
                     m_pool.RemoveAt(0);
 
                     ++count;
@@ -51,7 +65,7 @@ public class HitBoxRender : MonoBehaviour
                 }
                 else
                 {
-                    box = m_activeHitBoxes[count];
+                    box = m_activeHitBoxes[count].HitBox;
                 }
 
                 //Get bounds in viewport space
@@ -104,7 +118,7 @@ public class HitBoxRender : MonoBehaviour
 
         while(count < m_activeHitBoxes.Count)
         {
-            RectTransform box = m_activeHitBoxes[count];
+            RectTransform box = m_activeHitBoxes[count].HitBox;
             box.gameObject.SetActive(false);
             m_pool.Add(box);
             m_activeHitBoxes.RemoveAt(count);
@@ -120,9 +134,14 @@ public class HitBoxRender : MonoBehaviour
         {
             collidable.RectTransform.gameObject.SetActive(false);
             m_pool.Add(collidable.RectTransform);
-            m_activeHitBoxes.Remove(collidable.RectTransform);
+
+            ActiveHitBox activeHitBox = m_activeHitBoxes.Find(x=>x.HitBox == collidable.RectTransform);
+            m_activeHitBoxes.Remove(activeHitBox);
+            activeHitBox.AttachedTower.PigeonArrive();
 
             CollisionDetector.Instance.UnRegister(collidable);
+
+            OnPigeonArrived.Invoke();
         }
     }
 }

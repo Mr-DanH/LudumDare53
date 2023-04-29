@@ -30,6 +30,7 @@ public class GameScreen : MonoBehaviour
     void Awake()
     {
         m_hitBoxRender = GetComponentInChildren<HitBoxRender>();
+        m_hitBoxRender.OnPigeonArrived += () => m_score++;
 
         UpdateUI();
 
@@ -47,7 +48,7 @@ public class GameScreen : MonoBehaviour
 
     void UpdateUI()
     {
-        m_scoreLabel.text = $"Score: {m_score}";
+        m_scoreLabel.text = $"Deliveries: {m_score}/{6}"; // todo - proper level settings
         m_levelLabel.text = $"Level: {m_level}";
         m_livesLabel.text = $"Lives: {Player.Instance.PlayerLives}";
     }
