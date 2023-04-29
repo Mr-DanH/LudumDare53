@@ -9,7 +9,6 @@ public class BasicPigeon : Pigeon
     public override void Fire(Vector2 direction)
     {
         firedDirection = direction;
-        transform.localPosition = firedDirection;
     }
 
     public override void Tick()

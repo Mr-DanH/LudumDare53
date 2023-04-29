@@ -47,6 +47,8 @@ public class PigeonManager : Singleton<PigeonManager>
             chosenPigeon = InstantiatePigeon(type);
         }
 
+        chosenPigeon.transform.position = transform.position;
+
         return chosenPigeon;
     }
 
