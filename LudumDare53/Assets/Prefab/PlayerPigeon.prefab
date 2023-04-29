@@ -49,6 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43c948b25d34dc345b423bb1253986ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pigeonPlayer: {fileID: 2221588544650872327}
+  baseSpeed: 1
 --- !u!1 &8135716376148950102
 GameObject:
   m_ObjectHideFlags: 0
