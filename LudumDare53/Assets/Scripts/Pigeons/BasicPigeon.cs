@@ -13,7 +13,35 @@ public class BasicPigeon : Pigeon
 
     public override void Tick()
     {
-        Vector3 newPosition = transform.localPosition + firedDirection * baseSpeed * Time.deltaTime;
-        transform.localPosition = ClampToScreen(newPosition);
+        if(ReturnState == Pigeon.eReturnState.NONE)
+        {
+            Vector3 newPosition = transform.localPosition + firedDirection * baseSpeed * Time.deltaTime;
+            Vector3 cappedPosition = ClampToScreen(newPosition, 0.9f);
+            transform.localPosition = cappedPosition;
+
+            if(cappedPosition != newPosition)
+                ReturnState = Pigeon.eReturnState.RETURNING;
+        }
+        else if(ReturnState == Pigeon.eReturnState.RETURNING)
+        {
+            Vector3 toPlayer = Player.Instance.transform.localPosition - transform.localPosition;
+            Vector3 toPlayerDir = toPlayer.normalized;
+
+            Vector3 cross = Vector3.forward;
+            float angle = Vector3.Angle(firedDirection, toPlayerDir);
+
+            if(angle != 180)
+                cross = Vector3.Cross(firedDirection, toPlayerDir);
+
+            firedDirection = Quaternion.AngleAxis(Mathf.Min(angle, 180 * Time.deltaTime), cross) * firedDirection;            
+
+            float dist = Mathf.Min(baseSpeed * Time.deltaTime, toPlayer.magnitude);
+            
+            Vector3 newPosition = transform.localPosition + firedDirection * dist;
+            transform.localPosition = ClampToScreen(newPosition);
+
+            if(baseSpeed * Time.deltaTime > toPlayer.magnitude)
+                ReturnState = Pigeon.eReturnState.RETURNED;
+        }
     }
 }

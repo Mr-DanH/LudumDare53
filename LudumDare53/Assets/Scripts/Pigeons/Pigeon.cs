@@ -10,6 +10,13 @@ public abstract class Pigeon : MonoBehaviour
         BASIC = 1,
     }
 
+    public enum eReturnState
+    {
+        NONE,
+        RETURNING,
+        RETURNED
+    }
+
     [SerializeField] protected float baseSpeed;
 
     protected RectTransform rect;
@@ -17,6 +24,8 @@ public abstract class Pigeon : MonoBehaviour
     protected virtual Vector3 firedDirection { get; set; }
 
     public abstract PigeonType Type { get; }
+
+    public eReturnState ReturnState { get; set; }
 
     public abstract void Fire(Vector2 direction);
 
@@ -27,10 +36,10 @@ public abstract class Pigeon : MonoBehaviour
         rect = transform as RectTransform;
     }
 
-    protected Vector2 ClampToScreen(Vector2 newPosition)
+    protected Vector2 ClampToScreen(Vector2 newPosition, float screenScale = 1)
     {
-        int screenY = Mathf.RoundToInt(Screen.height / (transform.lossyScale.x * 2));
-        int screenX = Mathf.RoundToInt(Screen.width / (transform.lossyScale.y * 2));
+        int screenY = Mathf.RoundToInt(Screen.height * screenScale / (transform.lossyScale.x * 2));
+        int screenX = Mathf.RoundToInt(Screen.width * screenScale / (transform.lossyScale.y * 2));
         float halfWidth = rect.rect.width * 0.5f;
         float halfHeight = rect.rect.height * 0.5f;
 

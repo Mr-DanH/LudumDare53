@@ -33,6 +33,7 @@ public class PigeonManager : Singleton<PigeonManager>
         RectTransform nextPigeonTransform = nextPigeon.transform as RectTransform;
         CollisionDetector.Instance.Register(CollidableObject.ColliderType.Pigeon, nextPigeonTransform);
 
+        nextPigeon.ReturnState = Pigeon.eReturnState.NONE;
         nextPigeon.Fire(direction);
         firedPigeons.Add(nextPigeon);
 
@@ -42,6 +43,12 @@ public class PigeonManager : Singleton<PigeonManager>
     public void Tick()
     {
         firedPigeons.ForEach(x=> x.Tick());
+
+        for(int i = firedPigeons.Count - 1; i >= 0; --i)
+        {
+            if(firedPigeons[i].ReturnState == Pigeon.eReturnState.RETURNED)
+                PigeonReturned(firedPigeons[i]);
+        }
 
         fireDelay -= Time.deltaTime;
     }
