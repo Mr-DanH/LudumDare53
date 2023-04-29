@@ -16,7 +16,7 @@ public class Player : Singleton<Player>
         rect = transform as RectTransform;
     }
 
-    void Update()
+    public void Tick()
     {
         UpdateMovement();
     }

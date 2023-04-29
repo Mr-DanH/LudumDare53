@@ -31,7 +31,7 @@ public class GameScreen : MonoBehaviour
 
     void Update()
     {
-        //Input handling
+        Player.Instance.Tick();
 
         ScrollingLevel.Instance.Tick();
 
