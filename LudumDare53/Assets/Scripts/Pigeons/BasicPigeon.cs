@@ -14,7 +14,7 @@ public class BasicPigeon : Pigeon
 
     public override void Tick()
     {
-        Vector3 newPosition = transform.localPosition * baseSpeed;
+        Vector3 newPosition = transform.localPosition + firedDirection * baseSpeed;
         transform.localPosition = ClampToScreen(newPosition);
     }
 }
