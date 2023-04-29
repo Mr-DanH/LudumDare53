@@ -24,11 +24,15 @@ public class Tile : MonoBehaviour
         foreach(Transform child in m_waveOffset)
         {
             child.gameObject.SetActive(activateWave);
-            RectTransform childRectTransform = child as RectTransform;
-            CollisionDetector.Instance.Register(CollidableObject.ColliderType.Enemy, childRectTransform);
+            if (activateWave)
+            {
+                RectTransform childRectTransform = child as RectTransform;
+                CollisionDetector.Instance.Register(CollidableObject.ColliderType.Enemy, childRectTransform);
+            }
         }
 
-        CollisionDetector.Instance.OnCollisionTriggered += OnCollisionTriggered;
+        if (activateWave)
+            CollisionDetector.Instance.OnCollisionTriggered += OnCollisionTriggered;
 
         gameObject.SetActive(true);
     }

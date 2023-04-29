@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class CollidableObject
 {
     public enum ColliderType
@@ -54,6 +55,8 @@ public class CollisionDetector : Singleton<CollisionDetector>
 
         foreach (CollidableObject collidable in collidableObjectsA)
         {
+            collidableObjectsB.Remove(collidable);
+            
             Rect collidableRect = collidable.RectTransform.rect;
             collidableRect.position += (Vector2)collidable.RectTransform.position;
             CollidableObject.ColliderType collidableType = collidable.Type;
@@ -68,6 +71,7 @@ public class CollisionDetector : Singleton<CollisionDetector>
                     if(collidableRect.Overlaps(otherCollidableRect))
                     {
                         OnCollisionTriggered(new List<CollidableObject>(){collidable, otherCollidable});
+
                     }
                 }
             }
