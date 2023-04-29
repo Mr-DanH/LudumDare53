@@ -28,8 +28,9 @@ public class Tile : MonoBehaviour
             CollisionDetector.Instance.Register(CollidableObject.ColliderType.Enemy, childRectTransform);
         }
 
-        CollisionDetector.Instance.OnCollisionTriggered += OnCollisionTriggered;
-
+        if(CollisionDetector.Instance != null)
+            CollisionDetector.Instance.OnCollisionTriggered += OnCollisionTriggered;
+            
         gameObject.SetActive(true);
     }
 
@@ -50,6 +51,7 @@ public class Tile : MonoBehaviour
     private void DeactivateChild(RectTransform rectTransform)
     {
         rectTransform.gameObject.SetActive(false);
-        CollisionDetector.Instance.UnRegister(rectTransform);
+        if(CollisionDetector.Instance != null)
+            CollisionDetector.Instance.UnRegister(rectTransform);
     }
 }
