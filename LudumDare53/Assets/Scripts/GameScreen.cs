@@ -8,6 +8,9 @@ public class GameScreen : MonoBehaviour
     public TMPro.TextMeshProUGUI m_scoreLabel;
     public TMPro.TextMeshProUGUI m_levelLabel;
     public TMPro.TextMeshProUGUI m_livesLabel;
+    public TMPro.TextMeshProUGUI m_levelComplete;
+    public TMPro.TextMeshProUGUI m_gameOver;
+    public RectTransform m_progress;
 
     public Transform m_waveNode;
 
@@ -22,6 +25,10 @@ public class GameScreen : MonoBehaviour
         m_hitBoxRender = GetComponentInChildren<HitBoxRender>();
 
         UpdateUI();
+
+        m_levelComplete.gameObject.SetActive(false);
+        m_gameOver.gameObject.SetActive(false);
+        m_progress.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 0);
     }
 
     void Start()
@@ -65,6 +72,12 @@ public class GameScreen : MonoBehaviour
                 {
                     enemy.gameObject.SetActive(false);
                     --m_lives;
+
+                    if(m_lives == 0)
+                    {
+                        Player.Instance.gameObject.SetActive(false);
+                        m_gameOver.gameObject.SetActive(true);
+                    }
                 }
             }
         }
