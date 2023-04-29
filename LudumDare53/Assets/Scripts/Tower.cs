@@ -22,7 +22,7 @@ public class Tower : MonoBehaviour
 
     public void Activate(bool isTarget)
     {
-        IsTarget = false;
+        IsTarget = isTarget;
         m_renderer.material = isTarget ? m_targetMaterial : m_standardMaterial;        
     }
 

@@ -63,7 +63,8 @@ public class Tile : MonoBehaviour
     private void OnCollisionTriggered(List<CollidableObject> collidables)
     {
         var collidable = collidables.Find(x=>x.Type == CollidableObject.ColliderType.Enemy);
-        DeactivateChild(collidable.RectTransform);
+        if(collidable != null)
+            DeactivateChild(collidable.RectTransform);
     }
 
     private void DeactivateChild(RectTransform rectTransform)
