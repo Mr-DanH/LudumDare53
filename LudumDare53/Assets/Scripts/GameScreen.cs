@@ -9,6 +9,8 @@ public class GameScreen : MonoBehaviour
     public TMPro.TextMeshProUGUI m_levelLabel;
     public TMPro.TextMeshProUGUI m_livesLabel;
 
+    public Transform m_waveNode;
+
     int m_score;
     int m_level;
     int m_lives = 3;
@@ -17,9 +19,14 @@ public class GameScreen : MonoBehaviour
 
     void Awake()
     {
-        TryGetComponent(out m_hitBoxRender);
+        m_hitBoxRender = GetComponentInChildren<HitBoxRender>();
 
         UpdateUI();
+    }
+
+    void Start()
+    {
+        ScrollingLevel.Instance.ReparentWaves(m_waveNode);
     }
 
     void UpdateUI()

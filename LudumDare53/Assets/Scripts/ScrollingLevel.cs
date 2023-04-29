@@ -26,6 +26,15 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
             AddTileToEnd(i > 1);
     }
 
+    public void ReparentWaves(Transform parent)
+    {
+        foreach(Tile tile in m_tilePool)
+            tile.m_waveOffset.SetParent(parent);
+
+        foreach(Tile tile in ActiveTiles)
+            tile.m_waveOffset.SetParent(parent);
+    }
+
     void AddTileToEnd(bool activateWave)
     {
         int index = Random.Range(0, m_tilePool.Count);
