@@ -33,7 +33,7 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
         Transform tile = m_tilePool[index];
 
         if(ActiveTiles.Count == 0)
-            tile.position = Vector3.zero;
+            tile.position = (Vector3.forward * (m_wrapAroundZ + m_spacing));
         else
             tile.position = ActiveTiles.Last().position + (Vector3.forward * m_spacing);
 

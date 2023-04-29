@@ -1824,7 +1824,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_speed: 1
   m_spacing: 10
-  m_wrapAroundZ: -5
+  m_wrapAroundZ: -6
   m_numActiveTiles: 2
 --- !u!4 &1618544659
 Transform:
