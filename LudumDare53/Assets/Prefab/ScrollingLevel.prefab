@@ -1912,6 +1912,7 @@ MonoBehaviour:
   m_spacing: 10
   m_wrapAroundZ: -11
   m_numActiveTiles: 3
+  m_waveOffsetYOffset: 5
 --- !u!1 &8705305386600964596
 GameObject:
   m_ObjectHideFlags: 0
