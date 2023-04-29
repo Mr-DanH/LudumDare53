@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    public bool m_isCity = true;
+    public enum eType
+    {
+        City,
+        CityToWasteland,
+        Wasteland,
+        WastelandToCity
+    }
+
+    public eType m_type;
     public Transform m_waveOffset;
 
     public List<Tower> m_possibleTargetTowers = new List<Tower>();

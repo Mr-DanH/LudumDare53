@@ -56,7 +56,9 @@ public class GameScreen : MonoBehaviour
     {
         Player.Instance.Tick();
 
-        if(!ScrollingLevel.Instance.ActiveTiles.TrueForAll(a => !a.m_isCity))
+        if(ScrollingLevel.Instance.IsLevelComplete())
+            ScrollingLevel.Instance.m_speed = Mathf.MoveTowards(ScrollingLevel.Instance.m_speed, POST_LEVEL_SCROLL_SPEED, Time.deltaTime * SPEED_DELTA);
+        else if(!ScrollingLevel.Instance.ActiveTiles.TrueForAll(a => a.m_type == Tile.eType.Wasteland))
             ScrollingLevel.Instance.m_speed = Mathf.MoveTowards(ScrollingLevel.Instance.m_speed, NORMAL_SCROLL_SPEED, Time.deltaTime * SPEED_DELTA);
 
         ScrollingLevel.Instance.Tick();
@@ -79,7 +81,6 @@ public class GameScreen : MonoBehaviour
             }
             else
             {
-                ScrollingLevel.Instance.m_speed = Mathf.MoveTowards(ScrollingLevel.Instance.m_speed, POST_LEVEL_SCROLL_SPEED, Time.deltaTime * SPEED_DELTA);
                 m_idleTime -= Time.deltaTime;
 
                 if(m_idleTime <= 0)

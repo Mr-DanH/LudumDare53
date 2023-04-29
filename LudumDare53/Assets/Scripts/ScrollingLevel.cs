@@ -11,7 +11,7 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
     public int m_numActiveTiles = 2;
     public float m_waveOffsetYOffset;
     
-    List<Tile> m_cityTilePool = new List<Tile>();
+    List<Tile> m_tilePool = new List<Tile>();
     List<Tile> m_outskirtTilePool = new List<Tile>();
     public List<Tile> ActiveTiles { get; } = new List<Tile>();
 
@@ -21,16 +21,14 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
     {
         foreach(var tile in GetComponentsInChildren<Tile>())
         {
-            if(tile.m_isCity)
-                m_cityTilePool.Add(tile);
-            else
-                m_outskirtTilePool.Add(tile);
-                
+            m_tilePool.Add(tile);                
             tile.Deactivate();
         }
 
-        for(int i = 0; i < m_numActiveTiles; ++i)
-            AddTileToEnd(false);
+        for(int i = 0; i < m_numActiveTiles - 1; ++i)
+            AddTileToEnd(Tile.eType.Wasteland);
+            
+        AddTileToEnd(Tile.eType.WastelandToCity);
     }
 
     public void StartCity(int tiles)
@@ -40,26 +38,48 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
 
     public void ReparentWaves(Transform parent)
     {
-        foreach(Tile tile in m_cityTilePool)
-            tile.m_waveOffset.SetParent(parent);
+        foreach(Tile tile in m_tilePool)
+        {
+            if(tile.m_waveOffset)
+                tile.m_waveOffset.SetParent(parent);
+        }
     }
 
-    void AddTileToEnd(bool isCityTile)
+    Tile GetTile(Tile.eType type)
     {
-        List<Tile> pool = isCityTile ? m_cityTilePool : m_outskirtTilePool;
+        int count = 0;
 
-        int index = Random.Range(0, pool.Count);
-        Tile tile = pool[index];
+        foreach(var tile in m_tilePool)
+        {
+            if(tile.m_type == type)
+                ++count;
+        }
+
+        int index = Random.Range(0, count);
+        
+        foreach(var tile in m_tilePool)
+        {
+            if(tile.m_type == type && --count == 0)
+                return tile;
+        }
+
+        return null;
+    }
+
+    void AddTileToEnd(Tile.eType type)
+    {
+        int index = Random.Range(0, m_tilePool.Count);
+        Tile tile = GetTile(type);
 
         if(ActiveTiles.Count == 0)
             tile.transform.position = (Vector3.forward * m_wrapAroundZ);
         else
             tile.transform.position = ActiveTiles.Last().transform.position + (Vector3.forward * m_spacing);
 
-        tile.Activate(isCityTile);
+        tile.Activate(type == Tile.eType.City);
 
         ActiveTiles.Add(tile);
-        pool.RemoveAt(index);
+        m_tilePool.Remove(tile);
     }
 
     public void Tick()
@@ -78,13 +98,22 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
             Tile tile = ActiveTiles[0];
             tile.Deactivate();
             
-            List<Tile> pool = tile.m_isCity ? m_cityTilePool : m_outskirtTilePool;
-            pool.Add(tile);
+            m_tilePool.Add(tile);
             ActiveTiles.RemoveAt(0);
 
-            AddTileToEnd(m_cityTilesLeft > 0);
             if(m_cityTilesLeft > 0)
-                --m_cityTilesLeft;
+            {
+                bool wasWasteland = ActiveTiles.Last().m_type == Tile.eType.Wasteland;
+                AddTileToEnd(wasWasteland ? Tile.eType.WastelandToCity : Tile.eType.City);
+                
+                if(!wasWasteland)
+                    --m_cityTilesLeft;
+            }
+            else
+            {
+                bool wasCity = ActiveTiles.Last().m_type == Tile.eType.City;
+                AddTileToEnd(wasCity ? Tile.eType.CityToWasteland : Tile.eType.Wasteland);
+            }
         }
 
         foreach(var tile in ActiveTiles)
@@ -97,6 +126,6 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
 
     public bool IsLevelComplete()
     {
-        return m_cityTilesLeft == 0 && ActiveTiles.TrueForAll(a => !a.m_isCity);
+        return m_cityTilesLeft == 0 && ActiveTiles.TrueForAll(a => a.m_type != Tile.eType.City);
     }
 }
