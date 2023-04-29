@@ -28,7 +28,12 @@ public class HitBoxRender : MonoBehaviour
         Vector3 screenScale = new Vector3(Screen.width, Screen.height, 1);
 
         foreach(var tile in ScrollingLevel.Instance.ActiveTiles)
-        {
+        {                            
+            Vector3 tileVpPos = camera.WorldToViewportPoint(tile.position);
+
+            Canvas canvas = tile.GetComponentInChildren<Canvas>();
+            canvas.transform.GetChild(0).position = Vector3.Scale(tileVpPos, screenScale);
+
             BoxCollider[] colliders = tile.GetComponentsInChildren<BoxCollider>();
 
             foreach(var collider in colliders)
