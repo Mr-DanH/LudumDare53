@@ -29,10 +29,11 @@ public class HitBoxRender : MonoBehaviour
 
         foreach(var tile in ScrollingLevel.Instance.ActiveTiles)
         {
-            BoxCollider[] colliders = tile.GetComponentsInChildren<BoxCollider>();
-
-            foreach(var collider in colliders)
+            foreach(var tower in tile.TargetTowers)
             {
+                if(!tower.IsTarget)
+                    continue;
+
                 RectTransform box;
 
                 if(count >= m_activeHitBoxes.Count)
@@ -50,7 +51,7 @@ public class HitBoxRender : MonoBehaviour
                 }
 
                 //Get bounds in viewport space
-                Bounds bounds = collider.bounds;
+                Bounds bounds = tower.Collider.bounds;
                 Vector3 min = bounds.min;
                 Vector3 max = bounds.max;
                 
