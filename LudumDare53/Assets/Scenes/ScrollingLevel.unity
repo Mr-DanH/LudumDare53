@@ -824,11 +824,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2991198703844240798, guid: 1c7cb32e36e265f4eba8155b19997c54, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 2991198703844240798, guid: 1c7cb32e36e265f4eba8155b19997c54, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 2991198703844240798, guid: 1c7cb32e36e265f4eba8155b19997c54, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1547,6 +1547,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8705305385954017742, guid: e7404fec2b0d59f41835ecb452485635, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 49.1072
+      objectReference: {fileID: 0}
+    - target: {fileID: 8705305385954017742, guid: e7404fec2b0d59f41835ecb452485635, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.4464
+      objectReference: {fileID: 0}
+    - target: {fileID: 8705305386239417123, guid: e7404fec2b0d59f41835ecb452485635, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8705305386239417123, guid: e7404fec2b0d59f41835ecb452485635, type: 3}
+      propertyPath: m_UseSpriteMesh
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8705305386493297673, guid: e7404fec2b0d59f41835ecb452485635, type: 3}
       propertyPath: m_Name
       value: ScrollingLevel (1)
