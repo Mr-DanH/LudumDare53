@@ -74,7 +74,7 @@ public class GameScreen : MonoBehaviour
         {
             if(m_idleTime <= 0)
             {
-                m_idleTime = 3;
+                m_idleTime = TIME_BETWEEN_LEVELS;
                 m_levelComplete.gameObject.SetActive(true);
             }
             else
@@ -85,7 +85,7 @@ public class GameScreen : MonoBehaviour
                 if(m_idleTime <= 0)
                 {
                     ++m_level;
-                    ScrollingLevel.Instance.StartCity(10);
+                    ScrollingLevel.Instance.StartCity(NUM_TILES_PER_CITY);
                     m_levelComplete.gameObject.SetActive(false);
                 }
             }            
