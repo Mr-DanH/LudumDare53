@@ -33,6 +33,8 @@ public class GameScreen : MonoBehaviour
     void Start()
     {
         ScrollingLevel.Instance.ReparentWaves(m_waveNode);
+
+        ScrollingLevel.Instance.StartCity(10);
     }
 
     void UpdateUI()
