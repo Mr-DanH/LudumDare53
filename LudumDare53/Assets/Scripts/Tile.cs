@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
+    public bool m_isCity = true;
     public Transform m_waveOffset;
 
     public List<Tower> m_possibleTargetTowers = new List<Tower>();
@@ -21,17 +22,20 @@ public class Tile : MonoBehaviour
         foreach(var tower in m_possibleTargetTowers)
             tower.Activate(TargetTowers.Contains(tower));
 
-        foreach(Transform child in m_waveOffset)
+        if(m_waveOffset != null)
         {
-            child.gameObject.SetActive(activateWave);
-            if (activateWave)
+            foreach(Transform child in m_waveOffset)
             {
-                RectTransform childRectTransform = child as RectTransform;
-                CollisionDetector.Instance.Register(CollidableObject.ColliderType.Enemy, childRectTransform);
+                child.gameObject.SetActive(activateWave);
+                if (activateWave)
+                {
+                    RectTransform childRectTransform = child as RectTransform;
+                    CollisionDetector.Instance.Register(CollidableObject.ColliderType.Enemy, childRectTransform);
+                }
             }
         }
 
-        if (activateWave)
+        if(activateWave)
             CollisionDetector.Instance.OnCollisionTriggered += OnCollisionTriggered;
 
         gameObject.SetActive(true);
@@ -39,8 +43,11 @@ public class Tile : MonoBehaviour
 
     public void Deactivate()
     {
-        foreach(RectTransform child in m_waveOffset)
-            DeactivateChild(child);
+        if(m_waveOffset != null)
+        {
+            foreach(RectTransform child in m_waveOffset)
+                DeactivateChild(child);
+        }
             
         gameObject.SetActive(false);
     }
@@ -54,6 +61,7 @@ public class Tile : MonoBehaviour
     private void DeactivateChild(RectTransform rectTransform)
     {
         rectTransform.gameObject.SetActive(false);
-        CollisionDetector.Instance.UnRegister(rectTransform);
+        if(CollisionDetector.Instance != null)
+            CollisionDetector.Instance.UnRegister(rectTransform);
     }
 }
