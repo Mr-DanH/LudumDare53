@@ -236,6 +236,42 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7321174913466223673, guid: b4563be947291f44f9e055bf576c7152, type: 3}
   m_PrefabInstance: {fileID: 7321174913718149836}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &375531186
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 375531187}
+  m_Layer: 5
+  m_Name: Pigeons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &375531187
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375531186}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 976963881}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &536542524
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,8 +714,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1429539628}
-  - {fileID: 1483749876}
   - {fileID: 1016561149}
+  - {fileID: 375531187}
+  - {fileID: 1483749876}
   - {fileID: 1438074057}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -746,7 +783,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2991198703844240798, guid: 1c7cb32e36e265f4eba8155b19997c54, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2991198703844240798, guid: 1c7cb32e36e265f4eba8155b19997c54, type: 3}
       propertyPath: m_AnchorMax.x
@@ -823,7 +860,7 @@ PrefabInstance:
     - target: {fileID: 5998045110813995335, guid: 1c7cb32e36e265f4eba8155b19997c54, type: 3}
       propertyPath: spawningParent
       value: 
-      objectReference: {fileID: 976963881}
+      objectReference: {fileID: 375531187}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c7cb32e36e265f4eba8155b19997c54, type: 3}
 --- !u!224 &1016561149 stripped
@@ -1099,7 +1136,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 976963881}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1362,7 +1399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7321174912316253701, guid: b4563be947291f44f9e055bf576c7152, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7321174912316253701, guid: b4563be947291f44f9e055bf576c7152, type: 3}
       propertyPath: m_AnchorMax.x
