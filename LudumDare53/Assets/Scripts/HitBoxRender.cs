@@ -23,6 +23,8 @@ public class HitBoxRender : MonoBehaviour
     List<RectTransform> m_pool = new List<RectTransform>();
     List<ActiveHitBox> m_activeHitBoxes = new List<ActiveHitBox>();
 
+    int m_count;
+
     void Awake()
     {
         m_pool.Add(m_hitBoxPrefab);
@@ -58,6 +60,8 @@ public class HitBoxRender : MonoBehaviour
                     box.gameObject.SetActive(true);
                     m_activeHitBoxes.Add(new ActiveHitBox(tower,box));
                     m_pool.RemoveAt(0);
+
+                    box.name = $"{m_count++}-Box";
 
                     ++count;
 

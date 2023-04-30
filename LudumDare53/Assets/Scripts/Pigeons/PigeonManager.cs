@@ -12,6 +12,7 @@ public class PigeonManager : Singleton<PigeonManager>
     private List<Pigeon> availablePigeons = new List<Pigeon>();
 
     private float fireDelay;
+    int m_count;
 
     void Awake()
     {
@@ -65,6 +66,7 @@ public class PigeonManager : Singleton<PigeonManager>
             chosenPigeon = InstantiatePigeon(type);
         }
 
+        chosenPigeon.name = $"{m_count++}-Pigeon";
         chosenPigeon.transform.position = transform.position;
 
         return chosenPigeon;
