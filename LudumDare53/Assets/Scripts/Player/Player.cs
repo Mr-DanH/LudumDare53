@@ -54,12 +54,14 @@ public class Player : Singleton<Player>
 
     public void FireRight()
     {
-        pigeonManager.FireNext(fireRightDirection);
+        if(gameObject.activeInHierarchy)
+            pigeonManager.FireNext(fireRightDirection);
     }
 
     public void FireLeft()
     {
-        pigeonManager.FireNext(fireLeftDirection);
+        if(gameObject.activeInHierarchy)
+            pigeonManager.FireNext(fireLeftDirection);
     }
 
     private void UpdateMovement()
