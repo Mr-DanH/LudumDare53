@@ -25,6 +25,12 @@ public class CollidableObject
 
 public class CollisionDetector : Singleton<CollisionDetector>
 {
+    List<CollidableObject.ColliderType> CollisionPairings = new List<CollidableObject.ColliderType>()
+        {
+            CollidableObject.ColliderType.Player, CollidableObject.ColliderType.Enemy,
+            CollidableObject.ColliderType.Pigeon, CollidableObject.ColliderType.Building,
+        };
+
     public System.Action<List<CollidableObject>> OnCollisionTriggered;
 
     private List<CollidableObject> collidableObjects = new List<CollidableObject>();
@@ -80,25 +86,14 @@ public class CollisionDetector : Singleton<CollisionDetector>
 
     private bool ShouldCheckCollision(CollidableObject.ColliderType firstType, CollidableObject.ColliderType secondType)
     {
-        switch (firstType)
+        for(int i = 0; i < CollisionPairings.Count; i += 2)
         {
-            case CollidableObject.ColliderType.Player:
-            {
-                return secondType == CollidableObject.ColliderType.Enemy;
-            }
-            case CollidableObject.ColliderType.Pigeon:
-            {
-                return secondType == CollidableObject.ColliderType.Enemy || secondType == CollidableObject.ColliderType.Building;
-            }
-            case CollidableObject.ColliderType.Enemy:
-            {
-                return secondType == CollidableObject.ColliderType.Player || secondType == CollidableObject.ColliderType.Pigeon;                
-            }
-            case CollidableObject.ColliderType.Building:
-            {
-                return secondType == CollidableObject.ColliderType.Pigeon;
-            }
+            if ((firstType == CollisionPairings[i] && secondType == CollisionPairings[i + 1])
+                ||
+                (secondType == CollisionPairings[i] && firstType == CollisionPairings[i + 1]))
+                return true;
         }
+
         return false;
     }
 }
