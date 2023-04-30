@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    public MeshRenderer m_renderer;
     public Material m_standardMaterial;
     public Material m_targetMaterial;
 
     public Collider Collider { get { return m_collider; } }
     public bool IsTarget { get; private set; }
 
-    MeshRenderer m_renderer;
     BoxCollider m_collider;
     Vector3 m_baseScale;
 
     void Awake()
     {
-        TryGetComponent(out m_renderer);
-        TryGetComponent(out m_collider);
+        m_collider = GetComponentInChildren<BoxCollider>();
         m_baseScale = transform.localScale;
     }
 
@@ -31,7 +30,8 @@ public class Tower : MonoBehaviour
     public void PigeonArrive()
     {
         Activate(false);
-        StartCoroutine(SquashAndSqueeze());
+        if(gameObject.activeInHierarchy)
+            StartCoroutine(SquashAndSqueeze());
     }
 
     IEnumerator SquashAndSqueeze()
