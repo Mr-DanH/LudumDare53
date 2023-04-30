@@ -15,6 +15,7 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
     List<Tile> m_outskirtTilePool = new List<Tile>();
     public List<Tile> ActiveTiles { get; } = new List<Tile>();
 
+    int m_cityTiles;
     int m_cityTilesLeft;
 
     void Awake()
@@ -33,6 +34,7 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
 
     public void StartCity(int tiles)
     {
+        m_cityTiles = tiles;
         m_cityTilesLeft = tiles;
     }
 
@@ -127,5 +129,23 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
     public bool IsLevelComplete()
     {
         return m_cityTilesLeft == 0 && ActiveTiles.TrueForAll(a => a.m_type != Tile.eType.City);
+    }
+
+    public float GetProgressThroughLevel()
+    {
+        float lastZ;
+
+        if(m_cityTilesLeft > 0)
+        {
+            lastZ = ActiveTiles.Last().transform.position.z + (m_cityTilesLeft * m_spacing);
+        }
+        else
+        {
+            lastZ = ActiveTiles.FindLast(a => a.m_type == Tile.eType.City).transform.position.z;
+        }
+
+        float frontZ = lastZ - ((m_cityTiles + 1) * m_spacing);
+
+        return Mathf.InverseLerp(frontZ, lastZ, m_wrapAroundZ);
     }
 }
