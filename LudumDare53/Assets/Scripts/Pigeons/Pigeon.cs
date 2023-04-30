@@ -38,8 +38,8 @@ public abstract class Pigeon : MonoBehaviour
 
     protected Vector2 ClampToScreen(Vector2 newPosition, float screenScale = 1)
     {
-        int screenY = Mathf.RoundToInt(Screen.height * screenScale / (transform.lossyScale.x * 2));
-        int screenX = Mathf.RoundToInt(Screen.width * screenScale / (transform.lossyScale.y * 2));
+        int screenY = Mathf.RoundToInt(Screen.height * screenScale / (transform.parent.lossyScale.x * 2));
+        int screenX = Mathf.RoundToInt(Screen.width * screenScale / (transform.parent.lossyScale.y * 2));
         float halfWidth = rect.rect.width * 0.5f;
         float halfHeight = rect.rect.height * 0.5f;
 
