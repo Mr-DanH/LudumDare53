@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class MenuScreen : MonoBehaviour
 {
@@ -9,11 +10,11 @@ public class MenuScreen : MonoBehaviour
 
     [Header("MainMenu")]
     [SerializeField] private GameObject mainMenu;
-    [SerializeField] private GameObject startLabel;
     [SerializeField] private Button startButton;
 
     [Header("GameOver")]
     [SerializeField] private GameObject gameOver;
+    [SerializeField] private TextMeshProUGUI gameOverMessage;
     [SerializeField] private Button restartButton;
 
     [SerializeField] private float introDuration = 0.5f;
@@ -26,16 +27,17 @@ public class MenuScreen : MonoBehaviour
         InputManager.Instance.ChangeToUIInput();
         mainMenu.SetActive(true);
         gameOver.SetActive(false);
-        startLabel.SetActive(false);
+        startButton.gameObject.SetActive(false);
         introTimer = introDuration;
         runningIntro = true;
     }
 
-    public void SetupGameOver()
+    public void SetupGameOver(string message)
     {
         InputManager.Instance.ChangeToUIInput();
         mainMenu.SetActive(false);
         gameOver.SetActive(true);
+        gameOverMessage.SetText(message);
         restartButton.Select();
     }
 
@@ -60,8 +62,8 @@ public class MenuScreen : MonoBehaviour
 
     private void IntroComplete()
     {
+        startButton.gameObject.SetActive(true);
         startButton.Select();
-        startLabel.SetActive(true);
         runningIntro = false;
     }
 }

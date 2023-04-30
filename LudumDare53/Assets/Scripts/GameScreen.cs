@@ -34,7 +34,8 @@ public class GameScreen : MonoBehaviour
     const int NORMAL_SCROLL_SPEED = 2;
     const int POST_LEVEL_SCROLL_SPEED = 20;
     const int SPEED_DELTA = POST_LEVEL_SCROLL_SPEED - NORMAL_SCROLL_SPEED;
-    const int TIME_BETWEEN_LEVELS = 5;
+    const string DIED_MESSAGE = "You had too many accidents and your license was revoked.";
+    const string FAILED_MISSION_MESSAGE = "You didn't deliver enough post!";
 
     private GameScreenView currentView = GameScreenView.MainMenu;
 
@@ -125,18 +126,25 @@ public class GameScreen : MonoBehaviour
 
         CollisionDetector.Instance.Tick();
 
-        if (Player.Instance.PlayerLives <= 0 && currentView == GameScreenView.Game)
+        if (currentView == GameScreenView.Game)
         {
-            OpenGameOver();
-        }
-        else if(currentView == GameScreenView.Game && ScrollingLevel.Instance.IsLevelComplete())
-        {
-            OpenLevelScreen();
-        }
-        else if(currentView == GameScreenView.Game)
-        {
-            float maxSize = (m_progress.parent as RectTransform).sizeDelta.y;
-            m_progress.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, maxSize * ScrollingLevel.Instance.GetProgressThroughLevel());
+            if(Player.Instance.PlayerLives <= 0)
+            {
+                OpenGameOver(DIED_MESSAGE);
+            }
+            else if(HasFailedCompletedLevel())
+            {
+                OpenGameOver(FAILED_MISSION_MESSAGE);
+            }
+            else if(HasPassedCompletedLevel())
+            {
+                OpenLevelScreen();
+            }
+            else
+            {
+                float maxSize = (m_progress.parent as RectTransform).sizeDelta.y;
+                m_progress.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, maxSize * ScrollingLevel.Instance.GetProgressThroughLevel());
+            }
         }
 
         Player.Instance.gameObject.SetActive(currentView == GameScreenView.Game || currentView == GameScreenView.LevelMenu);
@@ -146,13 +154,14 @@ public class GameScreen : MonoBehaviour
         UpdateUI();
     }
 
-    private void OpenGameOver()
+    private void OpenGameOver(string message)
     {      
         Player.Instance.gameObject.SetActive(false);
         Player.Instance.Reset();
         
         ScrollingLevel.Instance.Reset();
-        menuScreen.SetupGameOver();
+
+        menuScreen.SetupGameOver(message);
         m_level = -1;
         m_score = 0;
 
@@ -191,5 +200,20 @@ public class GameScreen : MonoBehaviour
     private bool InWasteland()
     {
         return currentView != GameScreenView.Game;
+    }
+
+    private bool HasPassedCompletedLevel()
+    {
+        return ScrollingLevel.Instance.IsLevelComplete() && HasCompletedAllDeliveries();
+    }
+
+    private bool HasFailedCompletedLevel()
+    {
+        return ScrollingLevel.Instance.IsLevelComplete() && !HasCompletedAllDeliveries();
+    }
+
+    private bool HasCompletedAllDeliveries()
+    {
+        return m_score >= deliveriesImages.Count;
     }
 }
