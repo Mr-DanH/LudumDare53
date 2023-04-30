@@ -45,7 +45,10 @@ public class InputManager : MonoBehaviour
         Log($"FireLeft: {fired}");
     }
 
-    // Todo Add Menu Input
+    public void OnButtonConfirm()
+    {
+        Log("Confirm!");
+    }
 
     private void Log(string inputType)
     {
