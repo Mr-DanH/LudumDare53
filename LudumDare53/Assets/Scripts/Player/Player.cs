@@ -12,6 +12,7 @@ public class Player : Singleton<Player>
 
     [Header("Player")]
     [SerializeField] private float baseSpeed;
+    [SerializeField] private RectTransform explodeVfx;
 
     public int PlayerLives { get; private set; }
 
@@ -21,6 +22,7 @@ public class Player : Singleton<Player>
     void Awake()
     {
         rect = transform as RectTransform;
+        explodeVfx.gameObject.SetActive(false);
 
         PlayerLives = 3;
 
@@ -73,6 +75,13 @@ public class Player : Singleton<Player>
     {
         bool playerInvolved = collidables.Exists(x=>x.Type == CollidableObject.ColliderType.Player);
         if (playerInvolved && PlayerLives > 0)
+        {
             PlayerLives--;
+            
+            explodeVfx.gameObject.SetActive(false);
+            var other = collidables.Find(x => x.Type != CollidableObject.ColliderType.Player);
+            explodeVfx.transform.position = other.RectTransform.position;
+            explodeVfx.gameObject.SetActive(true);
+        }
     }
 }
