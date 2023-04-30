@@ -31,9 +31,10 @@ public class GameScreen : MonoBehaviour
     public Color m_nightTimeFog;
 
     const int NUM_TILES_PER_CITY = 5;
-    const int NORMAL_SCROLL_SPEED = 2;
-    const int POST_LEVEL_SCROLL_SPEED = 20;
-    const int SPEED_DELTA = POST_LEVEL_SCROLL_SPEED - NORMAL_SCROLL_SPEED;
+    const float NORMAL_SCROLL_SPEED = 2;
+    const float SPEED_INCREASE_PER_LEVEL = 0.4f;
+    const float POST_LEVEL_SCROLL_SPEED = 20;
+    const float SPEED_DELTA = POST_LEVEL_SCROLL_SPEED - NORMAL_SCROLL_SPEED;
     const string DIED_MESSAGE = "You had too many accidents and your license was revoked.";
     const string FAILED_MISSION_MESSAGE = "You didn't deliver enough post!";
 
@@ -113,9 +114,16 @@ public class GameScreen : MonoBehaviour
         Player.Instance.Tick();
 
         if(InWasteland())
-            ScrollingLevel.Instance.m_speed = Mathf.MoveTowards(ScrollingLevel.Instance.m_speed, POST_LEVEL_SCROLL_SPEED, Time.deltaTime * SPEED_DELTA);
+        {
+            float speedDelta = POST_LEVEL_SCROLL_SPEED - NORMAL_SCROLL_SPEED;
+            ScrollingLevel.Instance.m_speed = Mathf.MoveTowards(ScrollingLevel.Instance.m_speed, POST_LEVEL_SCROLL_SPEED, Time.deltaTime * speedDelta);
+        }
         else if(!ScrollingLevel.Instance.ActiveTiles.TrueForAll(a => a.m_type == Tile.eType.Wasteland))
-            ScrollingLevel.Instance.m_speed = Mathf.MoveTowards(ScrollingLevel.Instance.m_speed, NORMAL_SCROLL_SPEED, Time.deltaTime * SPEED_DELTA);
+        {
+            float targetSpeed = NORMAL_SCROLL_SPEED + (m_level * SPEED_INCREASE_PER_LEVEL);
+            float speedDelta = POST_LEVEL_SCROLL_SPEED - targetSpeed;
+            ScrollingLevel.Instance.m_speed = Mathf.MoveTowards(ScrollingLevel.Instance.m_speed, targetSpeed, Time.deltaTime * speedDelta);
+        }
 
         float fogLerp = Mathf.InverseLerp(NORMAL_SCROLL_SPEED, POST_LEVEL_SCROLL_SPEED, ScrollingLevel.Instance.m_speed);
         RenderSettings.fogColor = Color.Lerp(m_dayTimeFog, m_nightTimeFog, fogLerp);
