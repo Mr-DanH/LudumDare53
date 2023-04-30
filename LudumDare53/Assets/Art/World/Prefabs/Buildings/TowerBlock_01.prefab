@@ -136,6 +136,7 @@ MonoBehaviour:
   m_renderer: {fileID: 9070235162673277107}
   m_standardMaterial: {fileID: 2100000, guid: ef19bf7b767977f478dc33a14b6e114e, type: 2}
   m_targetMaterial: {fileID: 2100000, guid: 1b904ee04b127044ebbb01616951e01d, type: 2}
+  m_mailbox: {fileID: 5693524787658212150}
 --- !u!1 &3915240879504189713
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,6 +490,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4275439000542831562}
     m_Modifications:
+    - target: {fileID: 2792773700292586827, guid: b8cb54585a7ed2949b23d43561cf036e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3918447151853186042, guid: b8cb54585a7ed2949b23d43561cf036e, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -539,10 +544,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6659740591974660574, guid: b8cb54585a7ed2949b23d43561cf036e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8cb54585a7ed2949b23d43561cf036e, type: 3}
+--- !u!95 &5693524787658212150 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2132056815412890651, guid: b8cb54585a7ed2949b23d43561cf036e, type: 3}
+  m_PrefabInstance: {fileID: 5950909599415340845}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7274718763692631255 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3918447151853186042, guid: b8cb54585a7ed2949b23d43561cf036e, type: 3}

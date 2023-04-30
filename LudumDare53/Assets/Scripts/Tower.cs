@@ -7,6 +7,7 @@ public class Tower : MonoBehaviour
     public MeshRenderer m_renderer;
     public Material m_standardMaterial;
     public Material m_targetMaterial;
+    public Animator m_mailbox;
 
     public Collider Collider { get { return m_collider; } }
     public bool IsTarget { get; private set; }
@@ -24,12 +25,17 @@ public class Tower : MonoBehaviour
     {
         m_collider.enabled = isTarget;
         IsTarget = isTarget;
-        m_renderer.material = isTarget ? m_targetMaterial : m_standardMaterial;        
+        m_renderer.material = isTarget ? m_targetMaterial : m_standardMaterial;
+        m_mailbox.gameObject.SetActive(isTarget);
+        m_mailbox.transform.rotation = Quaternion.LookRotation(Vector3.right);
     }
 
     public void PigeonArrive()
     {
-        Activate(false);
+        m_collider.enabled = false;
+        IsTarget = false;
+        m_renderer.material = m_standardMaterial;
+        m_mailbox.SetTrigger("Closed");
         if(gameObject.activeInHierarchy)
             StartCoroutine(SquashAndSqueeze());
     }
