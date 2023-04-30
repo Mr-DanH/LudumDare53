@@ -14,6 +14,9 @@ public class GameScreen : MonoBehaviour
 
     public Transform m_waveNode;
 
+    public Color m_dayTimeFog;
+    public Color m_nightTimeFog;
+
     const int NUM_TILES_PER_CITY = 5;
     const int NORMAL_SCROLL_SPEED = 2;
     const int POST_LEVEL_SCROLL_SPEED = 20;
@@ -61,6 +64,9 @@ public class GameScreen : MonoBehaviour
             ScrollingLevel.Instance.m_speed = Mathf.MoveTowards(ScrollingLevel.Instance.m_speed, POST_LEVEL_SCROLL_SPEED, Time.deltaTime * SPEED_DELTA);
         else if(!ScrollingLevel.Instance.ActiveTiles.TrueForAll(a => a.m_type == Tile.eType.Wasteland))
             ScrollingLevel.Instance.m_speed = Mathf.MoveTowards(ScrollingLevel.Instance.m_speed, NORMAL_SCROLL_SPEED, Time.deltaTime * SPEED_DELTA);
+
+        float fogLerp = Mathf.InverseLerp(NORMAL_SCROLL_SPEED, POST_LEVEL_SCROLL_SPEED, ScrollingLevel.Instance.m_speed);
+        RenderSettings.fogColor = Color.Lerp(m_dayTimeFog, m_nightTimeFog, fogLerp);
 
         ScrollingLevel.Instance.Tick();
 

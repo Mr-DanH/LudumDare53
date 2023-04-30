@@ -745,6 +745,8 @@ MonoBehaviour:
   m_gameOver: {fileID: 890778374}
   m_progress: {fileID: 286011125}
   m_waveNode: {fileID: 1483749876}
+  m_dayTimeFog: {r: 0, g: 1, b: 0.50980395, a: 1}
+  m_nightTimeFog: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &976963883
 MonoBehaviour:
   m_ObjectHideFlags: 0
