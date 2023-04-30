@@ -17,14 +17,23 @@ public class Tower : MonoBehaviour
     BoxCollider m_collider;
     Vector3 m_baseScale;
 
-    void Awake()
+    bool m_init;
+
+    void Init()
     {
-        m_collider = GetComponentInChildren<BoxCollider>();
+        if(m_init)
+            return;
+
+        m_collider = GetComponentInChildren<BoxCollider>(true);
         m_baseScale = transform.localScale;
+
+        m_init = true;
     }
 
     public void Activate(bool isTarget)
     {
+        Init();
+
         m_collider.enabled = isTarget;
         IsTarget = isTarget;
         m_renderer.material = isTarget ? m_targetMaterial : m_standardMaterial;
