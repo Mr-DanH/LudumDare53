@@ -163,8 +163,9 @@ public class HitBoxRender : MonoBehaviour
         {
             activeHitBox.HitBox.gameObject.SetActive(false);
             m_pool.Add(activeHitBox.HitBox);
-            m_activeHitBoxes.Remove(activeHitBox);            
-            CollisionDetector.Instance.UnRegister(activeHitBox.HitBox);
+            m_activeHitBoxes.Remove(activeHitBox);  
+            if(CollisionDetector.Instance != null)          
+                CollisionDetector.Instance.UnRegister(activeHitBox.HitBox);
         }
     }
 
