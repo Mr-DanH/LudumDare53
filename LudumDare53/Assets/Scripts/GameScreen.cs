@@ -92,6 +92,11 @@ public class GameScreen : MonoBehaviour
                 }
             }            
         }
+        else
+        {
+            float maxSize = (m_progress.parent as RectTransform).sizeDelta.y;
+            m_progress.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, maxSize * ScrollingLevel.Instance.GetProgressThroughLevel());
+        }
 
         UpdateUI();
     }
