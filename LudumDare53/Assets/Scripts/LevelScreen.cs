@@ -67,7 +67,10 @@ public class LevelScreen : MonoBehaviour
             yield return null;
 
             letters += 30 * Time.deltaTime;
-            m_pigeonFactLabel.SetText(text.Substring(0, Mathf.Min(text.Length, Mathf.CeilToInt(letters))));
+
+            int ceilLetterCount = Mathf.Min(text.Length, Mathf.CeilToInt(letters));
+            string richText = $"{text.Substring(0, ceilLetterCount)}<color=#FFFFFF00>{text.Substring(ceilLetterCount, text.Length - ceilLetterCount)}</color>"; 
+            m_pigeonFactLabel.SetText(richText);
         }
 
         m_pigeonFactLabel.SetText(text);
