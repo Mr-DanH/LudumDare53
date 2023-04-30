@@ -49,7 +49,7 @@ public class Player : Singleton<Player>
 
     public void Fire()
     {
-        pigeonManager.FireNext(fireStraightDirection);
+        //pigeonManager.FireNext(fireStraightDirection);
     }
 
     public void FireRight()
