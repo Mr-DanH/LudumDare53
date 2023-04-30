@@ -86,6 +86,7 @@ public class PigeonManager : Singleton<PigeonManager>
         pigeon.gameObject.SetActive(false);
         firedPigeons.Remove(pigeon);
         availablePigeons.Add(pigeon);
+        CollisionDetector.Instance.UnRegister(pigeon.transform as RectTransform);
     }
 
     private void HandleCollisionTriggered(List<CollidableObject> collidables)
@@ -96,7 +97,6 @@ public class PigeonManager : Singleton<PigeonManager>
         {
             Pigeon returnedPigeon = collidable.RectTransform.GetComponent<Pigeon>();
             PigeonReturned(returnedPigeon);
-            CollisionDetector.Instance.UnRegister(collidable);
         }
     }
 }
