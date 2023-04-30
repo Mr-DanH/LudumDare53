@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BasicPigeon : Pigeon
 {
@@ -8,6 +9,8 @@ public class BasicPigeon : Pigeon
 
     public override void Fire(Vector2 direction)
     {
+        GetComponentInChildren<Image>().transform.localScale = new Vector3(Mathf.Sign(direction.x), 1, 1);
+
         firedDirection = direction;
     }
 
