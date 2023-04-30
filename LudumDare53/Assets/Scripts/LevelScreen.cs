@@ -25,9 +25,17 @@ public class LevelScreen : MonoBehaviour
 
     [SerializeField] private LevelData levelData;
 
+    public List<string> m_pigeonFacts = new List<string>();
+
+    public Animator m_pigeonFactAnimator;
+    public TextMeshProUGUI m_pigeonFactLabel;
+
     private ScreenMode status = ScreenMode.Off;
     private ScreenMode previousStatus = ScreenMode.None;
     private float delay;
+
+    List<string> m_pigeonFactPool = new List<string>();
+    string m_pigeonFact;
 
     public void Setup(int levelIndex)
     {
@@ -37,9 +45,32 @@ public class LevelScreen : MonoBehaviour
         levelLabel.SetText($"{level.Title}");
         messageLabel.SetText($"{level.Message}");
 
+        int factIndex = Random.Range(0, m_pigeonFactPool.Count);
+        m_pigeonFact = $"Pigeon Fact: {m_pigeonFactPool[factIndex]}";
+        m_pigeonFactPool.RemoveAt(factIndex);
+
         background.SetActive(true);
 
         status = ScreenMode.Completed;
+    }
+
+    IEnumerator RevealPigeonFact(string text)
+    {
+        m_pigeonFactLabel.SetText("");
+
+        yield return new WaitForSeconds(0.5f);
+
+        float letters = 0;
+
+        while(letters < text.Length)
+        {
+            yield return null;
+
+            letters += 30 * Time.deltaTime;
+            m_pigeonFactLabel.SetText(text.Substring(0, Mathf.Min(text.Length, Mathf.CeilToInt(letters))));
+        }
+
+        m_pigeonFactLabel.SetText(text);
     }
 
     public void SetupStartLevel()
@@ -49,6 +80,10 @@ public class LevelScreen : MonoBehaviour
         var level = levelData.Levels[0];
         levelLabel.SetText($"{level.Title}");
         messageLabel.SetText($"{level.Message}");
+        m_pigeonFactAnimator.SetBool("in", false);
+
+        m_pigeonFactPool.Clear();
+        m_pigeonFactPool.AddRange(m_pigeonFacts);
 
         background.SetActive(true);
 
@@ -66,6 +101,8 @@ public class LevelScreen : MonoBehaviour
                 {
                     DeactivateAll();
                     levelComplete.SetActive(true);
+                    m_pigeonFactAnimator.SetBool("in", true);
+                    StartCoroutine(RevealPigeonFact(m_pigeonFact));
                     previousStatus = status;
                     delay = delayDuration;
                 }
@@ -114,6 +151,7 @@ public class LevelScreen : MonoBehaviour
                 if (previousStatus != status)
                 {
                     DeactivateAll();
+                    m_pigeonFactAnimator.SetBool("in", false);
                     previousStatus = status;
                     background.SetActive(false);
                 }
@@ -129,7 +167,4 @@ public class LevelScreen : MonoBehaviour
         levelLabel.gameObject.SetActive(false);
         messageLabel.gameObject.SetActive(false);
     }
-
-
-
 }
