@@ -166,8 +166,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pigeonManager: {fileID: 5998045110813995335}
   fireStraightDirection: {x: 0, y: 1}
-  fireRightDirection: {x: 0.7, y: 0.7}
-  fireLeftDirection: {x: -0.7, y: 0.7}
+  fireRightDirection: {x: 0.866, y: 0.5}
+  fireLeftDirection: {x: -0.866, y: 0.5}
   baseSpeed: 100
 --- !u!1 &2681434260478419906
 GameObject:
