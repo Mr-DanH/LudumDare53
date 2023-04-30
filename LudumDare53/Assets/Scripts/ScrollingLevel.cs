@@ -61,7 +61,7 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
         
         foreach(var tile in m_tilePool)
         {
-            if(tile.m_type == type && --count == 0)
+            if(tile.m_type == type && index-- == 0)
                 return tile;
         }
 
