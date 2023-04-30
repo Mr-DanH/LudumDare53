@@ -14,6 +14,7 @@ public class GameScreen : MonoBehaviour
     [SerializeField] private PlayerInput playerInput;
     public GameObject m_gameOver;
     [SerializeField] private Button restartButton;
+    [SerializeField] private List<Image> deliveriesImages;
     [SerializeField] private List<Image> livesImages;
     [SerializeField] private List<Image> availablePigeonImages;
 
@@ -75,8 +76,12 @@ public class GameScreen : MonoBehaviour
     {
         uiContainer.SetActive(!isBetweenLevels);
 
-        m_scoreLabel.text = $"Deliveries: {m_score}/{6}";
-        m_levelLabel.text = $"Level: {m_level+1}";
+        for(int i = 0; i < deliveriesImages.Count; ++i)
+        {
+            float alpha = (i >= m_score) ? 0.8f : 0.2f;
+
+            deliveriesImages[i].color = new Color(1, 1, 1, alpha);
+        }
 
         for(int i = 0; i < livesImages.Count; ++i)
         {
