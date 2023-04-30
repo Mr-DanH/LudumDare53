@@ -23,12 +23,13 @@ public class BasicPigeon : Pigeon
         if(ReturnState == Pigeon.eReturnState.NONE)
         {
             Vector3 newPosition = transform.localPosition + firedDirection * baseSpeed * Time.deltaTime;
-            Vector3 cappedPosition = ClampToScreen(newPosition, 0.9f);
-            transform.localPosition = cappedPosition;
+            transform.localPosition = newPosition;
 
             transform.localScale = Vector3.one * Mathf.MoveTowards(transform.localScale.x, TARGET_SIZE, Time.deltaTime * 0.5f);
 
-            if(cappedPosition != newPosition)
+            float vpX = transform.position.x / Screen.width;
+
+            if(Mathf.Abs(0.5f - vpX) > 0.4f)
                 ReturnState = Pigeon.eReturnState.RETURNING;
         }
         else if(ReturnState == Pigeon.eReturnState.RETURNING)
