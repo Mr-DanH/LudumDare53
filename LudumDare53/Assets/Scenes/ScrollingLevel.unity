@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1662a8b3214685148ba2a57a5086a82b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnOnLogs: 1
+  turnOnLogs: 0
 --- !u!114 &47509197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,7 +213,7 @@ MonoBehaviour:
     m_ActionName: UI/Confirm[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: 39be1c6a-6aa1-465e-b289-adb892554c0b
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 963194227}
 --- !u!4 &47509198
@@ -1124,7 +1124,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1783713253
 RectTransform:
   m_ObjectHideFlags: 0
