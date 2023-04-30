@@ -43,7 +43,10 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
         foreach(Tile tile in m_tilePool)
         {
             if(tile.m_waveOffset)
+            {
                 tile.m_waveOffset.SetParent(parent);
+                tile.m_waveOffset.localScale = Vector3.one;
+            }
         }
     }
 
