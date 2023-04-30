@@ -3,10 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputManager : MonoBehaviour
+public class InputManager : Singleton<InputManager>
 {
-    [SerializeField]
-    private bool turnOnLogs = true;
+    [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private bool turnOnLogs = true;
+
+    public void ChangeToPlayerInput()
+    {
+        playerInput.SwitchCurrentActionMap("Player");
+    }
+    public void ChangeToUIInput()
+    {
+        playerInput.SwitchCurrentActionMap("UI");
+    }
 
     private void OnMove(InputValue value)
     {

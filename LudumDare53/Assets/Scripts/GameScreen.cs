@@ -6,14 +6,19 @@ using UnityEngine.InputSystem;
 
 public class GameScreen : MonoBehaviour
 {
+    private enum GameScreenView
+    {
+        None = 0,
+        MainMenu = 1,
+        LevelMenu = 2,
+        Game = 3,
+        GameOver = 4
+    }
+
     [SerializeField] private GameObject uiContainer;
     public TMPro.TextMeshProUGUI m_scoreLabel;
     public TMPro.TextMeshProUGUI m_levelLabel;
     public TMPro.TextMeshProUGUI m_livesLabel;
-
-    [SerializeField] private PlayerInput playerInput;
-    public GameObject m_gameOver;
-    [SerializeField] private Button restartButton;
 
     public RectTransform m_progress;
 
@@ -28,28 +33,32 @@ public class GameScreen : MonoBehaviour
     const int SPEED_DELTA = POST_LEVEL_SCROLL_SPEED - NORMAL_SCROLL_SPEED;
     const int TIME_BETWEEN_LEVELS = 5;
 
+    private GameScreenView currentView = GameScreenView.MainMenu;
+
     int m_score;
     int m_level = -1;
 
     HitBoxRender m_hitBoxRender;
     LevelScreen levelScreen;
-
-    private bool isBetweenLevels = false;
+    MenuScreen menuScreen;
 
     void Awake()
     {
         m_hitBoxRender = GetComponentInChildren<HitBoxRender>();
         m_hitBoxRender.OnPigeonArrived += () => m_score++;
 
-        levelScreen = GetComponentInChildren<LevelScreen>();
+        levelScreen = GetComponentInChildren<LevelScreen>(includeInactive:true);
+        levelScreen.gameObject.SetActive(true);
         levelScreen.OnClosed += LevelUiClosed;
 
-        levelScreen.SetupStartLevel();
-        isBetweenLevels = true;
+        menuScreen = GetComponentInChildren<MenuScreen>(includeInactive:true);
+        menuScreen.OnClosed += MenuClosed;
+        menuScreen.SetupMainMenu();
+
+        Player.Instance.gameObject.SetActive(false);
 
         UpdateUI();
 
-        m_gameOver.gameObject.SetActive(false);
         m_progress.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 0);
     }
 
@@ -58,20 +67,17 @@ public class GameScreen : MonoBehaviour
         ScrollingLevel.Instance.ReparentWaves(m_waveNode);
     }
 
-    public void OnRestart()
+    private void StartLevel()
     {
         ScrollingLevel.Instance.StartCity(NUM_TILES_PER_CITY);
         Player.Instance.gameObject.SetActive(true);
-        m_gameOver.gameObject.SetActive(false);
-        playerInput.SwitchCurrentActionMap("Player");
-        isBetweenLevels = false;
-        Player.Instance.Reset();
-
+        
+        currentView = GameScreenView.Game;
     }
 
     void UpdateUI()
     {
-        uiContainer.SetActive(!isBetweenLevels);
+        uiContainer.SetActive(currentView == GameScreenView.Game);
 
         m_scoreLabel.text = $"Deliveries: {m_score}/{6}";
         m_levelLabel.text = $"Level: {m_level+1}";
@@ -96,52 +102,71 @@ public class GameScreen : MonoBehaviour
 
         CollisionDetector.Instance.Tick();
 
-        if (Player.Instance.PlayerLives <= 0)
+        if (Player.Instance.PlayerLives <= 0 && currentView == GameScreenView.Game)
         {
-            if (!InWasteland())
-            {
-                GameOver();
-            }
+            OpenGameOver();
         }
-        else if(InWasteland())
+        else if(currentView == GameScreenView.Game && ScrollingLevel.Instance.IsLevelComplete())
         {
-            if (!isBetweenLevels)
-            {
-                levelScreen.Setup(m_level+1);
-                m_score = 0;
-                isBetweenLevels = true;
-                playerInput.SwitchCurrentActionMap("UI");
-            }
+            OpenLevelScreen();
         }
-        else
+        else if(currentView == GameScreenView.Game)
         {
             float maxSize = (m_progress.parent as RectTransform).sizeDelta.y;
             m_progress.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, maxSize * ScrollingLevel.Instance.GetProgressThroughLevel());
         }
 
+        Player.Instance.gameObject.SetActive(currentView == GameScreenView.Game || currentView == GameScreenView.LevelMenu);
+
         levelScreen.Tick();
+        menuScreen.Tick();
         UpdateUI();
     }
 
-    private void GameOver()
+    private void OpenGameOver()
     {      
         Player.Instance.gameObject.SetActive(false);
-        m_gameOver.gameObject.SetActive(true);
-        playerInput.SwitchCurrentActionMap("UI");
+        Player.Instance.Reset();
+        
         ScrollingLevel.Instance.Reset();
-        restartButton.Select();
+        menuScreen.SetupGameOver();
+        m_level = -1;
+        m_score = 0;
+
+        currentView = GameScreenView.GameOver;
+    }
+
+    private void OpenLevelScreen()
+    {
+        levelScreen.Setup(m_level+1);
+        m_score = 0;
+
+        currentView = GameScreenView.LevelMenu;
     }
 
     private void LevelUiClosed()
     {
-        ScrollingLevel.Instance.StartCity(NUM_TILES_PER_CITY);
         ++m_level;
-        isBetweenLevels = false;
-        playerInput.SwitchCurrentActionMap("Player");
+
+        StartLevel();
+    }
+
+    private void MenuClosed()
+    {
+        if(currentView == GameScreenView.MainMenu)
+        {
+            levelScreen.SetupStartLevel();
+            currentView = GameScreenView.LevelMenu;
+        }
+        else if (currentView == GameScreenView.GameOver)
+        {
+            menuScreen.SetupMainMenu();
+            currentView = GameScreenView.MainMenu;
+        }
     }
 
     private bool InWasteland()
     {
-        return ScrollingLevel.Instance.IsLevelComplete() || isBetweenLevels || m_gameOver.gameObject.activeSelf;
+        return currentView != GameScreenView.Game;
     }
 }

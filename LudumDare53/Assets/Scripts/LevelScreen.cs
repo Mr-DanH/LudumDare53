@@ -26,32 +26,24 @@ public class LevelScreen : MonoBehaviour
     [SerializeField] private LevelData levelData;
 
     private ScreenMode status = ScreenMode.Off;
-    private ScreenMode previousStatus = ScreenMode.None;
+    private ScreenMode previousStatus = ScreenMode.Off;
     private float delay;
+
+    void Awake()
+    {
+        DeactivateAll();
+        background.SetActive(false);
+    }
 
     public void Setup(int levelIndex)
     {
-        DeactivateAll();
-
-        var level = levelData.Levels[levelIndex];
-        levelLabel.SetText($"{level.Title}");
-        messageLabel.SetText($"{level.Message}");
-
-        background.SetActive(true);
-
+        SetupLevel(levelIndex);
         status = ScreenMode.Completed;
     }
 
     public void SetupStartLevel()
     {
-        DeactivateAll();
-
-        var level = levelData.Levels[0];
-        levelLabel.SetText($"{level.Title}");
-        messageLabel.SetText($"{level.Message}");
-
-        background.SetActive(true);
-
+        SetupLevel(0);
         status = ScreenMode.LevelDetails;
     }
 
@@ -104,7 +96,6 @@ public class LevelScreen : MonoBehaviour
                 if(delay <= 0)
                 {
                     status = ScreenMode.Off;
-                    OnClosed.Invoke();
                 }
 
                 break;
@@ -116,6 +107,8 @@ public class LevelScreen : MonoBehaviour
                     DeactivateAll();
                     previousStatus = status;
                     background.SetActive(false);
+                    InputManager.Instance.ChangeToPlayerInput();
+                    OnClosed.Invoke();
                 }
                 break;
             }
@@ -130,6 +123,16 @@ public class LevelScreen : MonoBehaviour
         messageLabel.gameObject.SetActive(false);
     }
 
+    private void SetupLevel(int levelIndex)
+    {
+        InputManager.Instance.ChangeToUIInput();
 
+        DeactivateAll();
 
+        var level = levelData.Levels[levelIndex];
+        levelLabel.SetText($"{level.Title}");
+        messageLabel.SetText($"{level.Message}");
+
+        background.SetActive(true);
+    }
 }
