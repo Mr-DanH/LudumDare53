@@ -1543,10 +1543,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3724554932575689175, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
-      propertyPath: levelData.Levels.Array.data[0].Message
-      value: I don't like Mondays but I do like Lasagne
-      objectReference: {fileID: 0}
     - target: {fileID: 3724554932575689177, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
       propertyPath: m_Name
       value: LevelScreen
