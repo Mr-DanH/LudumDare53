@@ -20,6 +20,9 @@ public class GameScreen : MonoBehaviour
     public TMPro.TextMeshProUGUI m_levelLabel;
     public TMPro.TextMeshProUGUI m_livesLabel;
 
+    [SerializeField] private List<Image> deliveriesImages;
+    [SerializeField] private List<Image> livesImages;
+    [SerializeField] private List<Image> availablePigeonImages;
     public RectTransform m_progress;
 
     public Transform m_waveNode;
@@ -55,16 +58,14 @@ public class GameScreen : MonoBehaviour
         menuScreen.OnClosed += MenuClosed;
         menuScreen.SetupMainMenu();
 
-        Player.Instance.gameObject.SetActive(false);
-
-        UpdateUI();
-
         m_progress.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 0);
     }
 
     void Start()
     {
         ScrollingLevel.Instance.ReparentWaves(m_waveNode);
+        UpdateUI();
+        Player.Instance.gameObject.SetActive(false);
     }
 
     private void StartLevel()
@@ -79,9 +80,31 @@ public class GameScreen : MonoBehaviour
     {
         uiContainer.SetActive(currentView == GameScreenView.Game);
 
-        m_scoreLabel.text = $"Deliveries: {m_score}/{6}";
-        m_levelLabel.text = $"Level: {m_level+1}";
-        m_livesLabel.text = $"Lives: {Player.Instance.PlayerLives}";
+        for(int i = 0; i < deliveriesImages.Count; ++i)
+        {
+            float alpha = (i >= m_score) ? 0.8f : 0.2f;
+
+            deliveriesImages[i].color = new Color(1, 1, 1, alpha);
+        }
+
+        for(int i = 0; i < livesImages.Count; ++i)
+        {
+            float alpha = (i < Player.Instance.PlayerLives) ? 0.8f : 0.2f;
+
+            livesImages[i].color = new Color(1, 1, 1, alpha);
+        }
+
+
+        int availablePigeons = PigeonManager.Instance.GetAvailablePigeonCount();
+        int maxPigeons = PigeonManager.Instance.m_maxPigeons;
+        for(int i = 0; i < availablePigeonImages.Count; ++i)
+        {
+            float alpha = 0;
+            if(i < maxPigeons)
+                alpha = (i < availablePigeons) ? 0.8f : 0.2f;
+
+            availablePigeonImages[i].color = new Color(1, 1, 1, alpha);
+        }
     }
 
     void Update()

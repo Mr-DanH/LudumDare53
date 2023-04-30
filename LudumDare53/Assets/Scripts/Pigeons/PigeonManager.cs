@@ -8,6 +8,8 @@ public class PigeonManager : Singleton<PigeonManager>
     [SerializeField] private float fireDelayDuration = 0.5f;
     [SerializeField] private BasicPigeon basicPigeonTemplate;
 
+    public int m_maxPigeons = 3;
+
     private List<Pigeon> firedPigeons = new List<Pigeon>();
     private List<Pigeon> availablePigeons = new List<Pigeon>();
 
@@ -23,6 +25,9 @@ public class PigeonManager : Singleton<PigeonManager>
     public void FireNext(Vector2 direction)
     {
         if(fireDelay > 0)
+            return;
+
+        if(firedPigeons.Count >= m_maxPigeons)
             return;
 
         var pigeonTypes = System.Enum.GetValues(typeof(Pigeon.PigeonType));
@@ -100,5 +105,10 @@ public class PigeonManager : Singleton<PigeonManager>
             Pigeon returnedPigeon = collidable.RectTransform.GetComponent<Pigeon>();
             PigeonReturned(returnedPigeon);
         }
+    }
+
+    public int GetAvailablePigeonCount()
+    {
+        return Mathf.Max(0, m_maxPigeons - firedPigeons.Count);
     }
 }
