@@ -10,6 +10,7 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
     public float m_wrapAroundZ;
     public int m_numActiveTiles = 2;
     public float m_waveOffsetYOffset;
+    public float m_waveOffsetZOffset;
     
     List<Tile> m_tilePool = new List<Tile>();
     List<Tile> m_outskirtTilePool = new List<Tile>();
@@ -123,7 +124,7 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
 
         foreach(var tile in ActiveTiles)
         {            
-            Vector3 tileVpPos = camera.WorldToViewportPoint(tile.transform.position + new Vector3(0, m_waveOffsetYOffset, 0));
+            Vector3 tileVpPos = camera.WorldToViewportPoint(tile.transform.position + new Vector3(0, m_waveOffsetYOffset, m_waveOffsetZOffset));
             if(tile.m_waveOffset != null)
                 tile.m_waveOffset.position = Vector3.Scale(tileVpPos, screenScale);
         }
