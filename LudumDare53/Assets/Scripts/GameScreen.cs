@@ -14,6 +14,7 @@ public class GameScreen : MonoBehaviour
     [SerializeField] private PlayerInput playerInput;
     public GameObject m_gameOver;
     [SerializeField] private Button restartButton;
+    [SerializeField] private List<Image> availablePigeonImages;
 
     public RectTransform m_progress;
 
@@ -76,6 +77,17 @@ public class GameScreen : MonoBehaviour
         m_scoreLabel.text = $"Deliveries: {m_score}/{6}";
         m_levelLabel.text = $"Level: {m_level+1}";
         m_livesLabel.text = $"Lives: {Player.Instance.PlayerLives}";
+
+        int availablePigeons = PigeonManager.Instance.GetAvailablePigeonCount();
+        int maxPigeons = PigeonManager.Instance.m_maxPigeons;
+        for(int i = 0; i < availablePigeonImages.Count; ++i)
+        {
+            float alpha = 0;
+            if(i < maxPigeons)
+                alpha = (i < availablePigeons) ? 1 : 0.2f;
+
+            availablePigeonImages[i].color = new Color(1, 1, 1, alpha);
+        }
     }
 
     void Update()
