@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ActiveHitBox
 {
-    public Tower AttachedTower { get; private set; }
+    public Tower AttachedTower { get; set; }
     public RectTransform HitBox { get; private set; }
 
     public ActiveHitBox(Tower tower, RectTransform hitBox)
@@ -66,6 +66,7 @@ public class HitBoxRender : MonoBehaviour
                 else
                 {
                     box = m_activeHitBoxes[count].HitBox;
+                    m_activeHitBoxes[count].AttachedTower = tower;
                 }
 
                 //Get bounds in viewport space
@@ -130,16 +131,17 @@ public class HitBoxRender : MonoBehaviour
     private void HandleCollisionTriggered(List<CollidableObject> collidables)
     {
         var collidable = collidables.Find(x=>x.Type == CollidableObject.ColliderType.Building);
+
         if (collidable != null)
         {
+            CollisionDetector.Instance.UnRegister(collidable);
+
             collidable.RectTransform.gameObject.SetActive(false);
             m_pool.Add(collidable.RectTransform);
 
             ActiveHitBox activeHitBox = m_activeHitBoxes.Find(x=>x.HitBox == collidable.RectTransform);
             m_activeHitBoxes.Remove(activeHitBox);
             activeHitBox.AttachedTower.PigeonArrive();
-
-            CollisionDetector.Instance.UnRegister(collidable);
 
             OnPigeonArrived.Invoke();
         }
