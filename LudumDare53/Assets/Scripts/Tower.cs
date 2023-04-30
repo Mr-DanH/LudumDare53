@@ -12,6 +12,8 @@ public class Tower : MonoBehaviour
     public Collider Collider { get { return m_collider; } }
     public bool IsTarget { get; private set; }
 
+    public event System.Action<Tower> OnDisableEvent;
+
     BoxCollider m_collider;
     Vector3 m_baseScale;
 
@@ -56,5 +58,10 @@ public class Tower : MonoBehaviour
         }
 
         transform.localScale = m_baseScale;
+    }
+
+    void OnDisable()
+    {
+        OnDisableEvent?.Invoke(this);
     }
 }

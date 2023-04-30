@@ -6,11 +6,16 @@ public class ActiveHitBox
 {
     public Tower AttachedTower { get; set; }
     public RectTransform HitBox { get; private set; }
+    public RectTransform VisualBox { get; private set; }
 
-    public ActiveHitBox(Tower tower, RectTransform hitBox)
+    public float TimeActive { get; set; }
+
+    public ActiveHitBox(Tower tower, RectTransform hitBox, RectTransform visualBox)
     {
+        TimeActive = 0;
         AttachedTower = tower;
         HitBox = hitBox;
+        VisualBox = visualBox;
     }
 }
 
@@ -23,14 +28,16 @@ public class HitBoxRender : MonoBehaviour
     List<RectTransform> m_pool = new List<RectTransform>();
     List<ActiveHitBox> m_activeHitBoxes = new List<ActiveHitBox>();
 
-    int m_count;
-
     void Awake()
     {
         m_pool.Add(m_hitBoxPrefab);
 
         for(int i = 0; i < 19; ++i)
-            m_pool.Add(Instantiate(m_hitBoxPrefab, transform));
+        {
+            var gameObject = Instantiate(m_hitBoxPrefab, transform);
+            gameObject.name = $"{i}-Box";
+            m_pool.Add(gameObject);
+        }
 
         foreach(var pooledItem in m_pool)
             pooledItem.gameObject.SetActive(false);
@@ -41,10 +48,10 @@ public class HitBoxRender : MonoBehaviour
     public void Tick()
     {
         Camera camera = Camera.main;
-        int count = 0;
 
         Vector3 screenScale = new Vector3(Screen.width, Screen.height, 1);
 
+        //Create new hit boxes
         foreach(var tile in ScrollingLevel.Instance.ActiveTiles)
         {
             foreach(var tower in tile.TargetTowers)
@@ -52,83 +59,112 @@ public class HitBoxRender : MonoBehaviour
                 if(!tower.IsTarget)
                     continue;
 
-                RectTransform box;
+                bool hasBox = false;
 
-                if(count >= m_activeHitBoxes.Count)
+                foreach(var activeBox in m_activeHitBoxes)
                 {
-                    box = m_pool[0];
-                    box.gameObject.SetActive(true);
-                    m_activeHitBoxes.Add(new ActiveHitBox(tower,box));
-                    m_pool.RemoveAt(0);
-
-                    box.name = $"{m_count++}-Box";
-
-                    ++count;
-
-                    CollisionDetector.Instance.Register(CollidableObject.ColliderType.Building, box);
-                }
-                else
-                {
-                    box = m_activeHitBoxes[count].HitBox;
-                    m_activeHitBoxes[count].AttachedTower = tower;
+                    if(activeBox.AttachedTower == tower)
+                        hasBox = true;
                 }
 
-                //Get bounds in viewport space
-                Bounds bounds = tower.Collider.bounds;
-                Vector3 min = bounds.min;
-                Vector3 max = bounds.max;
+                if(hasBox)
+                    continue;
+
+                RectTransform box = m_pool[0];
+                m_pool.RemoveAt(0);
+                box.gameObject.SetActive(true);
                 
-                Vector2 vpMin = Vector2.one * 2;
-                Vector2 vpMax = Vector2.one * -1;
+                RectTransform visualBox = box.GetChild(0) as RectTransform;
+                visualBox.gameObject.SetActive(false);
 
-                for(int x = 0; x < 2; ++x)
-                {
-                    for(int y = 0; y < 2; ++y)
-                    {
-                        for(int z = 0; z < 2; ++z)
-                        {
-                            Vector3 worldPos = new Vector3(
-                                x == 0 ? min.x : max.x,
-                                y == 0 ? min.y : max.y,
-                                z == 0 ? min.z : max.z
-                                );
+                m_activeHitBoxes.Add(new ActiveHitBox(tower, box, visualBox));
 
-                            Vector3 vpPos = camera.WorldToViewportPoint(worldPos);
-
-                            if(vpPos.z < 0)
-                                continue;
-
-                            vpMin.x = Mathf.Min(vpMin.x, vpPos.x);
-                            vpMin.y = Mathf.Min(vpMin.y, vpPos.y);
-                            vpMax.x = Mathf.Max(vpMax.x, vpPos.x);
-                            vpMax.y = Mathf.Max(vpMax.y, vpPos.y);
-                        }
-                    }
-                }
+                tower.OnDisableEvent += OnTowerDisabled;
                 
-
-                vpMin.x = Mathf.Clamp(vpMin.x, -1, 2);
-                vpMin.y = Mathf.Clamp(vpMin.y, -1, 2);
-                vpMax.x = Mathf.Clamp(vpMax.x, -1, 2);
-                vpMax.y = Mathf.Clamp(vpMax.y, -1, 2);
-                
-                Vector2 vpAvg = (vpMin + vpMax) * 0.5f;
-
-                box.position = Vector3.Scale(vpAvg, screenScale);
-                box.sizeDelta = Vector3.Scale(vpMax - vpMin, screenScale);
-
-                ++count;
+                CollisionDetector.Instance.Register(CollidableObject.ColliderType.Building, box);
             }
         }
 
-        while(count < m_activeHitBoxes.Count)
-        {
-            RectTransform box = m_activeHitBoxes[count].HitBox;
-            box.gameObject.SetActive(false);
-            m_pool.Add(box);
-            m_activeHitBoxes.RemoveAt(count);
+        // //Remove dead boxes
+        // for(int i = m_activeHitBoxes.Count - 1; i >= 0; --i)
+        // {
+        //     var activeBox = m_activeHitBoxes[i];
+        //     if(!activeBox.AttachedTower.gameObject.activeInHierarchy)
+        //     {            
+        //         CollisionDetector.Instance.Register(CollidableObject.ColliderType.Building, activeBox.HitBox);
+        //         activeBox.HitBox.gameObject.SetActive(false);
+        //         m_activeHitBoxes.RemoveAt(i);
+        //     }
+        // }
 
-            CollisionDetector.Instance.UnRegister(box);
+        foreach(var activeBox in m_activeHitBoxes)
+        {
+            //Get bounds in viewport space
+            Bounds bounds = activeBox.AttachedTower.Collider.bounds;
+            Vector3 min = bounds.min;
+            Vector3 max = bounds.max;
+            
+            Vector2 vpMin = Vector2.one * 2;
+            Vector2 vpMax = Vector2.one * -1;
+
+            for(int x = 0; x < 2; ++x)
+            {
+                for(int y = 0; y < 2; ++y)
+                {
+                    for(int z = 0; z < 2; ++z)
+                    {
+                        Vector3 worldPos = new Vector3(
+                            x == 0 ? min.x : max.x,
+                            y == 0 ? min.y : max.y,
+                            z == 0 ? min.z : max.z
+                            );
+
+                        Vector3 vpPos = camera.WorldToViewportPoint(worldPos);
+
+                        if(vpPos.z < 0)
+                            continue;
+
+                        vpMin.x = Mathf.Min(vpMin.x, vpPos.x);
+                        vpMin.y = Mathf.Min(vpMin.y, vpPos.y);
+                        vpMax.x = Mathf.Max(vpMax.x, vpPos.x);
+                        vpMax.y = Mathf.Max(vpMax.y, vpPos.y);
+                    }
+                }
+            }            
+
+            vpMin.x = Mathf.Clamp(vpMin.x, -1, 2);
+            vpMin.y = Mathf.Clamp(vpMin.y, -1, 2);
+            vpMax.x = Mathf.Clamp(vpMax.x, -1, 2);
+            vpMax.y = Mathf.Clamp(vpMax.y, -1, 2);
+            
+            Vector2 vpAvg = (vpMin + vpMax) * 0.5f;
+
+            activeBox.HitBox.position = Vector3.Scale(vpAvg, screenScale);
+            activeBox.HitBox.sizeDelta = Vector3.Scale(vpMax - vpMin, screenScale);
+
+            if(vpAvg.y < 1)
+            {
+                activeBox.TimeActive += Time.deltaTime;
+                
+                if(!activeBox.VisualBox.gameObject.activeSelf)
+                    activeBox.VisualBox.gameObject.SetActive(true);
+                    
+                activeBox.VisualBox.sizeDelta = Vector3.Scale(vpMax - vpMin, screenScale) * Mathf.Lerp(3, 1, Mathf.Sin(Mathf.Clamp01(activeBox.TimeActive * 2) * Mathf.PI * 0.5f));
+            }
+        }
+    }
+
+    void OnTowerDisabled(Tower tower)
+    {
+        tower.OnDisableEvent -= OnTowerDisabled;
+        
+        ActiveHitBox activeHitBox = m_activeHitBoxes.Find(x => x.AttachedTower == tower);
+        if(activeHitBox != null && activeHitBox.HitBox != null)
+        {
+            activeHitBox.HitBox.gameObject.SetActive(false);
+            m_pool.Add(activeHitBox.HitBox);
+            m_activeHitBoxes.Remove(activeHitBox);            
+            CollisionDetector.Instance.UnRegister(activeHitBox.HitBox);
         }
     }
 
