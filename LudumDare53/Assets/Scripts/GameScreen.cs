@@ -8,7 +8,6 @@ public class GameScreen : MonoBehaviour
     public TMPro.TextMeshProUGUI m_scoreLabel;
     public TMPro.TextMeshProUGUI m_levelLabel;
     public TMPro.TextMeshProUGUI m_livesLabel;
-    public TMPro.TextMeshProUGUI m_levelComplete;
     public TMPro.TextMeshProUGUI m_gameOver;
     public RectTransform m_progress;
 
@@ -24,20 +23,26 @@ public class GameScreen : MonoBehaviour
     const int TIME_BETWEEN_LEVELS = 5;
 
     int m_score;
-    int m_level;
+    int m_level = -1;
 
     HitBoxRender m_hitBoxRender;
+    LevelScreen levelScreen;
 
-    float m_idleTime;
+    private bool isBetweenLevels = false;
 
     void Awake()
     {
         m_hitBoxRender = GetComponentInChildren<HitBoxRender>();
         m_hitBoxRender.OnPigeonArrived += () => m_score++;
 
+        levelScreen = GetComponentInChildren<LevelScreen>();
+        levelScreen.OnClosed += LevelUiClosed;
+
+        levelScreen.SetupStartLevel();
+        isBetweenLevels = true;
+
         UpdateUI();
 
-        m_levelComplete.gameObject.SetActive(false);
         m_gameOver.gameObject.SetActive(false);
         m_progress.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 0);
     }
@@ -45,14 +50,16 @@ public class GameScreen : MonoBehaviour
     void Start()
     {
         ScrollingLevel.Instance.ReparentWaves(m_waveNode);
-        ScrollingLevel.Instance.m_speed = NORMAL_SCROLL_SPEED;
-        ScrollingLevel.Instance.StartCity(NUM_TILES_PER_CITY);
     }
 
     void UpdateUI()
     {
-        m_scoreLabel.text = $"Deliveries: {m_score}/{6}"; // todo - proper level settings
-        m_levelLabel.text = $"Level: {m_level}";
+        m_scoreLabel.gameObject.SetActive(!isBetweenLevels);
+        m_levelLabel.gameObject.SetActive(!isBetweenLevels);
+        m_livesLabel.gameObject.SetActive(!isBetweenLevels);
+
+        m_scoreLabel.text = $"Deliveries: {m_score}/{6}";
+        m_levelLabel.text = $"Level: {m_level+1}";
         m_livesLabel.text = $"Lives: {Player.Instance.PlayerLives}";
     }
 
@@ -60,7 +67,7 @@ public class GameScreen : MonoBehaviour
     {
         Player.Instance.Tick();
 
-        if(ScrollingLevel.Instance.IsLevelComplete())
+        if(InWasteland())
             ScrollingLevel.Instance.m_speed = Mathf.MoveTowards(ScrollingLevel.Instance.m_speed, POST_LEVEL_SCROLL_SPEED, Time.deltaTime * SPEED_DELTA);
         else if(!ScrollingLevel.Instance.ActiveTiles.TrueForAll(a => a.m_type == Tile.eType.Wasteland))
             ScrollingLevel.Instance.m_speed = Mathf.MoveTowards(ScrollingLevel.Instance.m_speed, NORMAL_SCROLL_SPEED, Time.deltaTime * SPEED_DELTA);
@@ -79,24 +86,15 @@ public class GameScreen : MonoBehaviour
             Player.Instance.gameObject.SetActive(false);
             m_gameOver.gameObject.SetActive(true);
         }
-        else if(ScrollingLevel.Instance.IsLevelComplete())
+        else if(InWasteland())
         {
-            if(m_idleTime <= 0)
+            if (!isBetweenLevels)
             {
-                m_idleTime = TIME_BETWEEN_LEVELS;
-                m_levelComplete.gameObject.SetActive(true);
+                levelScreen.Setup(m_level+1);
+                m_score = 0;
+                isBetweenLevels = true;
             }
-            else
-            {
-                m_idleTime -= Time.deltaTime;
 
-                if(m_idleTime <= 0)
-                {
-                    ++m_level;
-                    ScrollingLevel.Instance.StartCity(NUM_TILES_PER_CITY);
-                    m_levelComplete.gameObject.SetActive(false);
-                }
-            }            
         }
         else
         {
@@ -104,6 +102,19 @@ public class GameScreen : MonoBehaviour
             m_progress.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, maxSize * ScrollingLevel.Instance.GetProgressThroughLevel());
         }
 
+        levelScreen.Tick();
         UpdateUI();
+    }
+
+    private void LevelUiClosed()
+    {
+        ScrollingLevel.Instance.StartCity(NUM_TILES_PER_CITY);
+        ++m_level;
+        isBetweenLevels = false;
+    }
+
+    private bool InWasteland()
+    {
+        return ScrollingLevel.Instance.IsLevelComplete() || isBetweenLevels;
     }
 }
