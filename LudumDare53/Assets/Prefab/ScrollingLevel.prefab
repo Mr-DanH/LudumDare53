@@ -495,7 +495,7 @@ MonoBehaviour:
   m_type: 0
   m_waveOffset: {fileID: 8705305385143855371}
   m_possibleTargetTowers:
-  - {fileID: 2986357968822433301}
+  - {fileID: 1114754601503494473}
   - {fileID: 1014017086915212276}
   - {fileID: 6898765625632009268}
   - {fileID: 7829054000813194704}
@@ -833,7 +833,7 @@ MonoBehaviour:
   m_waveOffset: {fileID: 8705305386700231678}
   m_possibleTargetTowers:
   - {fileID: 3042948134014634685}
-  - {fileID: 2986357968972114016}
+  - {fileID: 1114754601819901756}
   - {fileID: 1014017087132003713}
   - {fileID: 6898765626011333185}
   - {fileID: 7829054000493110181}
@@ -3850,9 +3850,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5078d987d00e63f4797264883c230958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2986357968822433301 stripped
+--- !u!114 &1114754601503494473 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5890384918922661413, guid: 794ee5dce150f0848a559d54419c1936, type: 3}
+  m_CorrespondingSourceObject: {fileID: 8626383709135464825, guid: 794ee5dce150f0848a559d54419c1936, type: 3}
   m_PrefabInstance: {fileID: 8705305385120397360}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -4018,9 +4018,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5078d987d00e63f4797264883c230958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2986357968972114016 stripped
+--- !u!114 &1114754601819901756 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5890384918922661413, guid: 794ee5dce150f0848a559d54419c1936, type: 3}
+  m_CorrespondingSourceObject: {fileID: 8626383709135464825, guid: 794ee5dce150f0848a559d54419c1936, type: 3}
   m_PrefabInstance: {fileID: 8705305385332467269}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
