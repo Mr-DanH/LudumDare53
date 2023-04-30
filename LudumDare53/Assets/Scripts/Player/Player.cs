@@ -36,6 +36,12 @@ public class Player : Singleton<Player>
         pigeonManager.Tick();
     }
 
+    public void Reset()
+    {
+        PlayerLives = 3;
+        explodeVfx.gameObject.SetActive(false);
+    }
+
     public void SetMovementDirection(Vector2 movement)
     {
         currentDirection = movement;

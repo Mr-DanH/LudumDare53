@@ -8,7 +8,7 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
     public float m_speed = 1;
     public float m_spacing = 10;
     public float m_wrapAroundZ;
-    public int m_numActiveTiles = 2;
+    public int m_numActiveTiles = 3;
     public float m_waveOffsetYOffset;
     public float m_waveOffsetZOffset;
     
@@ -31,6 +31,22 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
             AddTileToEnd(Tile.eType.Wasteland);
             
         AddTileToEnd(Tile.eType.WastelandToCity);
+    }
+
+    public void Reset()
+    {
+        foreach(var activeTile in ActiveTiles)
+        {
+            activeTile.Deactivate();       
+            m_tilePool.Add(activeTile);
+        }
+        ActiveTiles.Clear();
+        
+        for(int i = 0; i < m_numActiveTiles; ++i)
+            AddTileToEnd(Tile.eType.Wasteland);
+
+        m_cityTiles = 0;
+        m_cityTilesLeft = 0;
     }
 
     public void StartCity(int tiles)

@@ -2,13 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class GameScreen : MonoBehaviour
 {
+    [SerializeField] private GameObject uiContainer;
     public TMPro.TextMeshProUGUI m_scoreLabel;
     public TMPro.TextMeshProUGUI m_levelLabel;
     public TMPro.TextMeshProUGUI m_livesLabel;
-    public TMPro.TextMeshProUGUI m_gameOver;
+
+    [SerializeField] private PlayerInput playerInput;
+    public GameObject m_gameOver;
+    [SerializeField] private Button restartButton;
+
     public RectTransform m_progress;
 
     public Transform m_waveNode;
@@ -52,11 +58,20 @@ public class GameScreen : MonoBehaviour
         ScrollingLevel.Instance.ReparentWaves(m_waveNode);
     }
 
+    public void OnRestart()
+    {
+        ScrollingLevel.Instance.StartCity(NUM_TILES_PER_CITY);
+        Player.Instance.gameObject.SetActive(true);
+        m_gameOver.gameObject.SetActive(false);
+        playerInput.SwitchCurrentActionMap("Player");
+        isBetweenLevels = false;
+        Player.Instance.Reset();
+
+    }
+
     void UpdateUI()
     {
-        m_scoreLabel.gameObject.SetActive(!isBetweenLevels);
-        m_levelLabel.gameObject.SetActive(!isBetweenLevels);
-        m_livesLabel.gameObject.SetActive(!isBetweenLevels);
+        uiContainer.SetActive(!isBetweenLevels);
 
         m_scoreLabel.text = $"Deliveries: {m_score}/{6}";
         m_levelLabel.text = $"Level: {m_level+1}";
@@ -83,8 +98,10 @@ public class GameScreen : MonoBehaviour
 
         if (Player.Instance.PlayerLives <= 0)
         {
-            Player.Instance.gameObject.SetActive(false);
-            m_gameOver.gameObject.SetActive(true);
+            if (!InWasteland())
+            {
+                GameOver();
+            }
         }
         else if(InWasteland())
         {
@@ -93,8 +110,8 @@ public class GameScreen : MonoBehaviour
                 levelScreen.Setup(m_level+1);
                 m_score = 0;
                 isBetweenLevels = true;
+                playerInput.SwitchCurrentActionMap("UI");
             }
-
         }
         else
         {
@@ -106,15 +123,25 @@ public class GameScreen : MonoBehaviour
         UpdateUI();
     }
 
+    private void GameOver()
+    {      
+        Player.Instance.gameObject.SetActive(false);
+        m_gameOver.gameObject.SetActive(true);
+        playerInput.SwitchCurrentActionMap("UI");
+        ScrollingLevel.Instance.Reset();
+        restartButton.Select();
+    }
+
     private void LevelUiClosed()
     {
         ScrollingLevel.Instance.StartCity(NUM_TILES_PER_CITY);
         ++m_level;
         isBetweenLevels = false;
+        playerInput.SwitchCurrentActionMap("Player");
     }
 
     private bool InWasteland()
     {
-        return ScrollingLevel.Instance.IsLevelComplete() || isBetweenLevels;
+        return ScrollingLevel.Instance.IsLevelComplete() || isBetweenLevels || m_gameOver.gameObject.activeSelf;
     }
 }
