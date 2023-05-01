@@ -974,6 +974,8 @@ MonoBehaviour:
   m_levelLabel: {fileID: 1196902649}
   m_livesLabel: {fileID: 220518656}
   m_controls: {fileID: 99285373}
+  m_bossRoot: {fileID: 1066749316}
+  m_bossHealthSlider: {fileID: 1066749315}
   deliveriesImages:
   - {fileID: 941783069}
   - {fileID: 941783068}
@@ -1202,6 +1204,16 @@ PrefabInstance:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2991198703844240798, guid: 1c7cb32e36e265f4eba8155b19997c54, type: 3}
   m_PrefabInstance: {fileID: 1016561148}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1066749315 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7229794124976602049, guid: b4563be947291f44f9e055bf576c7152, type: 3}
+  m_PrefabInstance: {fileID: 7321174913718149836}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1066749316 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7500460023396410156, guid: b4563be947291f44f9e055bf576c7152, type: 3}
+  m_PrefabInstance: {fileID: 7321174913718149836}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1196902649 stripped
 MonoBehaviour:

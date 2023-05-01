@@ -107,7 +107,7 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
         else
             tile.transform.position = ActiveTiles.Last().transform.position + (Vector3.forward * m_spacing);
 
-        tile.Activate(type == Tile.eType.City, m_levelData != null ? m_levelData.m_materials : null);
+        tile.Activate(m_levelData != null ? m_levelData.m_materials : null);
 
         ActiveTiles.Add(tile);
         m_tilePool.Remove(tile);
@@ -132,18 +132,46 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
             m_tilePool.Add(tile);
             ActiveTiles.RemoveAt(0);
 
+            Tile.eType lastType = ActiveTiles.Last().m_type;
+
             if(m_cityTilesLeft > 0)
             {
-                bool wasWasteland = ActiveTiles.Last().m_type == Tile.eType.Wasteland;
-                AddTileToEnd(wasWasteland ? Tile.eType.WastelandToCity : Tile.eType.City);
-                
-                if(!wasWasteland)
-                    --m_cityTilesLeft;
+                bool wasWasteland = lastType == Tile.eType.Wasteland;
+
+                if(wasWasteland)
+                {
+                    AddTileToEnd(Tile.eType.WastelandToCity);
+                }
+                else
+                {
+                    if(m_cityTilesLeft == 999)
+                    {
+                        if(lastType != Tile.eType.Boss)
+                            AddTileToEnd(Tile.eType.Boss);   
+                        else
+                            AddTileToEnd(Tile.eType.BossCooldown);
+                    }
+                    else
+                    {
+                        AddTileToEnd(Tile.eType.City);
+                        --m_cityTilesLeft;
+                    }
+                }
             }
             else
             {
-                bool wasCity = ActiveTiles.Last().m_type == Tile.eType.City;
-                AddTileToEnd(wasCity ? Tile.eType.CityToWasteland : Tile.eType.Wasteland);
+                switch(lastType)
+                {
+                    case Tile.eType.City:
+                    case Tile.eType.Boss:
+                    case Tile.eType.BossCooldown:
+                        AddTileToEnd(Tile.eType.CityToWasteland);
+                        break;
+
+                    default:
+                        AddTileToEnd(Tile.eType.Wasteland);
+                        break;
+                }
             }
         }
 

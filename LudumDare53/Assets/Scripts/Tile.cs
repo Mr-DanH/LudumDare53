@@ -9,7 +9,9 @@ public class Tile : MonoBehaviour
         City,
         CityToWasteland,
         Wasteland,
-        WastelandToCity
+        WastelandToCity,
+        Boss,
+        BossCooldown
     }
 
     public eType m_type;
@@ -43,7 +45,7 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void Activate(bool activateWave, List<Material> materials)
+    public void Activate(List<Material> materials)
     {
         if(materials != null)
         {
@@ -69,6 +71,8 @@ public class Tile : MonoBehaviour
         foreach(var tower in m_possibleTargetTowers)
             tower.Activate(TargetTowers.Contains(tower));
 
+        bool activateWave = m_type == eType.City || m_type == eType.Boss || m_type == eType.BossCooldown;
+
         if(m_waveOffset != null)
         {
             foreach(Transform child in m_waveOffset)
@@ -77,7 +81,8 @@ public class Tile : MonoBehaviour
                 if (activateWave)
                 {
                     RectTransform childRectTransform = child as RectTransform;
-                    CollisionDetector.Instance.Register(CollidableObject.ColliderType.Enemy, childRectTransform);
+                    CollidableObject.ColliderType colType = (child.name == "Boss") ? CollidableObject.ColliderType.Boss : CollidableObject.ColliderType.Enemy;
+                    CollisionDetector.Instance.Register(colType, childRectTransform);
                 }
             }
         }
@@ -101,9 +106,23 @@ public class Tile : MonoBehaviour
 
     private void OnCollisionTriggered(List<CollidableObject> collidables)
     {
-        var collidable = collidables.Find(x=>x.Type == CollidableObject.ColliderType.Enemy);
-        if(collidable != null)
-            DeactivateChild(collidable.RectTransform);
+        var enemy = collidables.Find(x=>x.Type == CollidableObject.ColliderType.Enemy);
+        if(enemy != null)
+            DeactivateChild(enemy.RectTransform);
+            
+        var boss = collidables.Find(x=>x.Type == CollidableObject.ColliderType.Boss);
+        if(boss != null)
+        {
+            var other = collidables.Find(x=>x.Type != CollidableObject.ColliderType.Boss);
+            if(other.Type == CollidableObject.ColliderType.Pigeon)
+            {
+                GameScreen.Instance.BossHit();
+            }            
+            if(other.Type == CollidableObject.ColliderType.Player)
+            {
+                
+            }
+        }
     }
 
     private void DeactivateChild(RectTransform rectTransform)

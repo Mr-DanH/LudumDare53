@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
-public class GameScreen : MonoBehaviour
+public class GameScreen : Singleton<GameScreen>
 {
     private enum GameScreenView
     {
@@ -28,6 +28,8 @@ public class GameScreen : MonoBehaviour
     public TMPro.TextMeshProUGUI m_levelLabel;
     public TMPro.TextMeshProUGUI m_livesLabel;
     public CanvasGroup m_controls;
+    public GameObject m_bossRoot;
+    public RectTransform m_bossHealthSlider;
 
     [SerializeField] private List<Image> deliveriesImages;
     [SerializeField] private List<Image> livesImages;
@@ -52,6 +54,8 @@ public class GameScreen : MonoBehaviour
 
     int m_score;
     int m_level = -1;
+    int m_bossHealth;
+    const int BOSS_HEALTH_MAX = 20;
 
     HitBoxRender m_hitBoxRender;
     LevelScreen levelScreen;
@@ -83,7 +87,20 @@ public class GameScreen : MonoBehaviour
 
     private void StartLevel()
     {
-        ScrollingLevel.Instance.StartCity(NUM_TILES_PER_CITY, m_levelData[m_level]);
+        bool isBossLevel = false;//(m_level == 0);
+
+        if(isBossLevel)
+            ScrollingLevel.Instance.StartCity(999, m_levelData[m_level]);
+        else
+            ScrollingLevel.Instance.StartCity(NUM_TILES_PER_CITY, m_levelData[m_level]);
+
+        m_bossRoot.gameObject.SetActive(isBossLevel);
+
+        if(isBossLevel)
+        {        
+            m_bossHealth = BOSS_HEALTH_MAX;
+        }
+
         Player.Instance.gameObject.SetActive(true);
         
         currentView = GameScreenView.Game;
@@ -137,7 +154,10 @@ public class GameScreen : MonoBehaviour
                 alpha = (i < availablePigeons) ? 0.8f : 0.2f;
 
             availablePigeonImages[i].color = new Color(1, 1, 1, alpha);
-        }
+        }        
+
+        float maxSize = (m_bossHealthSlider.parent as RectTransform).sizeDelta.y;
+        m_bossHealthSlider.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, maxSize * m_bossHealth / BOSS_HEALTH_MAX);
     }
 
     void Update()
@@ -290,5 +310,11 @@ public class GameScreen : MonoBehaviour
         bool hasAnotherLevel = levelScreen.HasAnotherLevel(m_level);
 
         return !hasAnotherLevel && HasPassedCompletedLevel();
+    }
+
+    public void BossHit()
+    {
+        if(m_bossHealth > 0)
+            --m_bossHealth;
     }
 }
