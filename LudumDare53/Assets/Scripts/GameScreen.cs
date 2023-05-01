@@ -17,6 +17,7 @@ public class GameScreen : MonoBehaviour
 
     [SerializeField] private GameObject uiContainer;
     public TMPro.TextMeshProUGUI m_scoreLabel;
+    public TMPro.TextMeshProUGUI m_overtimeBonusLabel;
     public TMPro.TextMeshProUGUI m_levelLabel;
     public TMPro.TextMeshProUGUI m_livesLabel;
 
@@ -82,12 +83,17 @@ public class GameScreen : MonoBehaviour
     {
         uiContainer.SetActive(currentView == GameScreenView.Game);
 
+        m_scoreLabel.text = $"{m_score}/6";
+        m_overtimeBonusLabel.gameObject.SetActive(m_score > 6);
+
         for(int i = 0; i < deliveriesImages.Count; ++i)
         {
             float alpha = (i >= m_score) ? 0.8f : 0.2f;
 
             deliveriesImages[i].color = new Color(1, 1, 1, alpha);
         }
+
+        m_livesLabel.text = $"x{Player.Instance.PlayerLives}";
 
         for(int i = 0; i < livesImages.Count; ++i)
         {
