@@ -258,9 +258,7 @@ public class GameScreen : Singleton<GameScreen>
 
         m_level = -1;
         m_score = 0;
-
-        CollisionDetector.Instance.UnRegisterAll();
-
+        
         currentView = GameScreenView.GameOver;
     }
 
