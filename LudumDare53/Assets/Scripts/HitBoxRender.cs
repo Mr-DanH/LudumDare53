@@ -48,6 +48,7 @@ public class HitBoxRender : MonoBehaviour
     public void Tick()
     {
         Camera camera = Camera.main;
+        float lossyScale = 1 / transform.lossyScale.x; 
 
         Vector3 screenScale = new Vector3(Screen.width, Screen.height, 1);
 
@@ -140,7 +141,7 @@ public class HitBoxRender : MonoBehaviour
             Vector2 vpAvg = (vpMin + vpMax) * 0.5f;
 
             activeBox.HitBox.position = Vector3.Scale(vpAvg, screenScale);
-            activeBox.HitBox.sizeDelta = Vector3.Scale(vpMax - vpMin, screenScale);
+            activeBox.HitBox.sizeDelta = Vector3.Scale(vpMax - vpMin, screenScale) * lossyScale;
 
             if(vpAvg.y < 1)
             {
@@ -149,7 +150,7 @@ public class HitBoxRender : MonoBehaviour
                 if(!activeBox.VisualBox.gameObject.activeSelf)
                     activeBox.VisualBox.gameObject.SetActive(true);
                     
-                activeBox.VisualBox.sizeDelta = Vector3.Scale(vpMax - vpMin, screenScale) * Mathf.Lerp(3, 1, Mathf.Sin(Mathf.Clamp01(activeBox.TimeActive * 2) * Mathf.PI * 0.5f));
+                activeBox.VisualBox.sizeDelta = activeBox.HitBox.sizeDelta * Mathf.Lerp(3, 1, Mathf.Sin(Mathf.Clamp01(activeBox.TimeActive * 2) * Mathf.PI * 0.5f));
             }
         }
     }
