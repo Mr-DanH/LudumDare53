@@ -987,7 +987,7 @@ MonoBehaviour:
   m_livesLabel: {fileID: 220518656}
   m_controls: {fileID: 99285373}
   m_bossUiRoot: {fileID: 1066749316}
-  m_deliveryUiRoot: {fileID: 1691999546}
+  m_deliveryUiRoot: {fileID: 1710252627}
   m_bossHealthSlider: {fileID: 1066749315}
   deliveriesImages:
   - {fileID: 941783069}
@@ -1508,6 +1508,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1710252627 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6821927620268017589, guid: b4563be947291f44f9e055bf576c7152, type: 3}
+  m_PrefabInstance: {fileID: 7321174913718149836}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1783713252
 GameObject:
   m_ObjectHideFlags: 0
