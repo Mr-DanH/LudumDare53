@@ -1818,6 +1818,10 @@ PrefabInstance:
       propertyPath: m_enableAutoSizing
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 670479968627975299, guid: 24941edcc33010d43b762a87586ebc17, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6037351200250194254, guid: 24941edcc33010d43b762a87586ebc17, type: 3}
       propertyPath: m_Name
       value: Menu
@@ -1904,6 +1908,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6424002152165167458, guid: 24941edcc33010d43b762a87586ebc17, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7918851478917651654, guid: 24941edcc33010d43b762a87586ebc17, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8659790523864399179, guid: 24941edcc33010d43b762a87586ebc17, type: 3}
