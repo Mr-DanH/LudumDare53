@@ -159,11 +159,18 @@ public class PigeonManager : Singleton<PigeonManager>
         while(availablePigeons.Count == 0)
             yield return null;
 
-        pooledPigeons.Add(availablePigeons[0]);
-        availablePigeons.RemoveAt(0);
+        for(int i = 0; i < availablePigeons.Count; ++i)
+        {
+            if(availablePigeons[i].Type == Pigeon.PigeonType.HOMING)
+                continue;
 
-        Pigeon pigeon = GetPigeonInstance(Pigeon.PigeonType.HOMING);
-        availablePigeons.Insert(0, pigeon);
-        pigeon.gameObject.SetActive(false);
+            pooledPigeons.Add(availablePigeons[i]);
+            availablePigeons.RemoveAt(i);
+
+            Pigeon pigeon = GetPigeonInstance(Pigeon.PigeonType.HOMING);
+            availablePigeons.Insert(i, pigeon);
+            pigeon.gameObject.SetActive(false);
+            yield break;
+        }
     }
 }
