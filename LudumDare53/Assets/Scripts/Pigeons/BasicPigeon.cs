@@ -18,6 +18,21 @@ public class BasicPigeon : Pigeon
         transform.localScale = Vector3.one * SPAWN_SIZE;
     }
 
+    protected void RotateTowards(Transform target)
+    {
+        Vector3 toPlayer = target.localPosition - transform.localPosition;
+        Vector3 toPlayerDir = toPlayer.normalized;
+
+        Vector3 cross = Vector3.forward;
+        float angle = Vector3.Angle(firedDirection, toPlayerDir);
+
+        if(angle != 180)
+            cross = Vector3.Cross(firedDirection, toPlayerDir);
+
+        firedDirection = Quaternion.AngleAxis(Mathf.Min(angle, 180 * Time.deltaTime), cross) * firedDirection; 
+        GetComponentInChildren<Image>().transform.localScale = new Vector3(Mathf.Sign(firedDirection.x), 1, 1);     
+    }
+
     public override void Tick()
     {
         if(ReturnState == Pigeon.eReturnState.NONE)
@@ -33,19 +48,10 @@ public class BasicPigeon : Pigeon
                 ReturnState = Pigeon.eReturnState.RETURNING;
         }
         else if(ReturnState == Pigeon.eReturnState.RETURNING)
-        {
+        {      
+            RotateTowards(Player.Instance.transform);
+
             Vector3 toPlayer = Player.Instance.transform.localPosition - transform.localPosition;
-            Vector3 toPlayerDir = toPlayer.normalized;
-
-            Vector3 cross = Vector3.forward;
-            float angle = Vector3.Angle(firedDirection, toPlayerDir);
-
-            if(angle != 180)
-                cross = Vector3.Cross(firedDirection, toPlayerDir);
-
-            firedDirection = Quaternion.AngleAxis(Mathf.Min(angle, 180 * Time.deltaTime), cross) * firedDirection; 
-            GetComponentInChildren<Image>().transform.localScale = new Vector3(Mathf.Sign(firedDirection.x), 1, 1);           
-
             float dist = Mathf.Min(offsetSpeed * Time.deltaTime, toPlayer.magnitude);
             
             Vector3 newPosition = transform.localPosition + firedDirection * dist;

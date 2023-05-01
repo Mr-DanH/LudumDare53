@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ActiveHitBox
@@ -19,7 +20,7 @@ public class ActiveHitBox
     }
 }
 
-public class HitBoxRender : MonoBehaviour
+public class HitBoxRender : Singleton<HitBoxRender>
 {
     public System.Action OnPigeonArrived;
 
@@ -187,5 +188,29 @@ public class HitBoxRender : MonoBehaviour
 
             OnPigeonArrived.Invoke();
         }
+    }
+
+    public RectTransform GetClosest(Vector3 pos)
+    {
+        if(m_activeHitBoxes.Count == 0)
+            return null;
+
+        float minDist = float.MaxValue;
+        RectTransform minRect = null;
+
+        foreach(var box in m_activeHitBoxes)
+        {
+            if(!box.VisualBox.gameObject.activeSelf)
+                continue;
+
+            float dist = (box.HitBox.localPosition - pos).sqrMagnitude;
+            if(dist < minDist)
+            {
+                minDist = dist;
+                minRect = box.HitBox;
+            }
+        }
+
+        return minRect;
     }
 }

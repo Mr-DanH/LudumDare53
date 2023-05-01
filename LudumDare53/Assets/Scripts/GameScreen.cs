@@ -268,7 +268,10 @@ public class GameScreen : Singleton<GameScreen>
         StartLevel();        
 
         if(m_level == 0)
+        {
+            PigeonManager.Instance.NewGame();
             StartCoroutine(FadeDownControls());
+        }
     }
 
     private void MenuClosed()

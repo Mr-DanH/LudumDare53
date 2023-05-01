@@ -12,7 +12,8 @@ public class Upgrade
         ExtraPigeon = 2,
         IncreasePlayerSpeed = 3,
         IncreaseFiringSpeed = 4,
-        IncreasePigeonSpeed = 5
+        IncreasePigeonSpeed = 5,
+        UpgradeHomingPigeon = 6
     }
 
     public UpgradeType Type;
@@ -46,6 +47,11 @@ public class Upgrade
             case UpgradeType.IncreasePigeonSpeed:
             {
                 LevelDetails.Instance.IncreasePigeonSpeed();
+                break;
+            }
+            case UpgradeType.UpgradeHomingPigeon:
+            {
+                LevelDetails.Instance.UpgradeHomingPigeon();
                 break;
             }
         }

@@ -20,6 +20,7 @@ public class LevelDetails : Singleton<LevelDetails>
     [SerializeField] public float PlayerSpeed;
     [SerializeField] private float playerSpeedIncreaseAmount = 20;
 
+
     public void IncreaseMaxLife()
     {
         MaxLives++;
@@ -28,7 +29,12 @@ public class LevelDetails : Singleton<LevelDetails>
 
     public void IncreaseMaxPigeons()
     {
-        MaxNumPigeons++;
+        PigeonManager.Instance.AddBasicPigeon();
+    }
+
+    public void UpgradeHomingPigeon()
+    {
+        PigeonManager.Instance.UpgradePigeon();
     }
 
     public void IncreasePlayerSpeed()

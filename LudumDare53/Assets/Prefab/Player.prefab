@@ -518,7 +518,6 @@ MonoBehaviour:
   fireStraightDirection: {x: 0, y: 1}
   fireRightDirection: {x: 0.94, y: 0.342}
   fireLeftDirection: {x: -0.94, y: 0.342}
-  baseSpeed: 150
   explodeVfx: {fileID: 0}
 --- !u!1 &2253713985433583213
 GameObject:
@@ -2725,9 +2724,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawningParent: {fileID: 0}
-  fireDelayDuration: 1
   basicPigeonTemplate: {fileID: 9036979024860272924, guid: ca8c48a815cfa1b49bd5cdc89a7c7478, type: 3}
-  m_maxPigeons: 3
+  homingPigeonTemplate: {fileID: 8837573336717989149, guid: 2f91f62a974f0ba42a8d759a4aaf64e7, type: 3}
 --- !u!1 &8306664847818154245
 GameObject:
   m_ObjectHideFlags: 0

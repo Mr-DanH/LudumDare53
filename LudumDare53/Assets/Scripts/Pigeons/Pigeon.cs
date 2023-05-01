@@ -8,6 +8,7 @@ public abstract class Pigeon : MonoBehaviour
     {
         NONE = 0,
         BASIC = 1,
+        HOMING = 2,
     }
 
     public enum eReturnState
