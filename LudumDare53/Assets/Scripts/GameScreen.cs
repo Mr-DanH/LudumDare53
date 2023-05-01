@@ -214,13 +214,13 @@ public class GameScreen : Singleton<GameScreen>
             {
                 OpenGameOver(FAILED_MISSION_MESSAGE);
             }
-            else if(HasPassedCompletedLevel())
-            {
-                OpenLevelScreen();
-            }
             else if (HasCompletedAllLevels())
             {
                 OpenGameCompleted();
+            }
+            else if(HasPassedCompletedLevel())
+            {
+                OpenLevelScreen();
             }
             else
             {
