@@ -154,6 +154,10 @@ public class GameScreen : MonoBehaviour
             {
                 OpenLevelScreen();
             }
+            else if (HasCompletedAllLevels())
+            {
+                OpenGameCompleted();
+            }
             else
             {
                 float maxSize = (m_progress.parent as RectTransform).sizeDelta.y;
@@ -176,6 +180,20 @@ public class GameScreen : MonoBehaviour
         ScrollingLevel.Instance.Reset();
 
         menuScreen.SetupGameOver(message);
+        m_level = -1;
+        m_score = 0;
+
+        currentView = GameScreenView.GameOver;
+    }
+
+    private void OpenGameCompleted()
+    {      
+        Player.Instance.gameObject.SetActive(false);
+        Player.Instance.Reset();
+        
+        ScrollingLevel.Instance.Reset();
+
+        menuScreen.SetupGameComplete();
         m_level = -1;
         m_score = 0;
 
@@ -229,5 +247,12 @@ public class GameScreen : MonoBehaviour
     private bool HasCompletedAllDeliveries()
     {
         return m_score >= deliveriesImages.Count;
+    }
+
+    private bool HasCompletedAllLevels()
+    {
+        bool hasAnotherLevel = levelScreen.HasAnotherLevel(m_level);
+
+        return !hasAnotherLevel && HasPassedCompletedLevel();
     }
 }

@@ -17,6 +17,10 @@ public class MenuScreen : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameOverMessage;
     [SerializeField] private Button restartButton;
 
+    [Header("GameComplete")]
+    [SerializeField] private GameObject gameComplete;
+    [SerializeField] private Button continueButton;
+
     [SerializeField] private float introDuration = 0.5f;
 
     private float introTimer;
@@ -25,8 +29,8 @@ public class MenuScreen : MonoBehaviour
     public void SetupMainMenu()
     {
         InputManager.Instance.ChangeToUIInput();
+        DeactivateAll();
         mainMenu.SetActive(true);
-        gameOver.SetActive(false);
         startButton.gameObject.SetActive(false);
         introTimer = introDuration;
         runningIntro = true;
@@ -35,10 +39,18 @@ public class MenuScreen : MonoBehaviour
     public void SetupGameOver(string message)
     {
         InputManager.Instance.ChangeToUIInput();
-        mainMenu.SetActive(false);
+        DeactivateAll();
         gameOver.SetActive(true);
         gameOverMessage.SetText(message);
         restartButton.Select();
+    }
+
+    public void SetupGameComplete()
+    {
+        InputManager.Instance.ChangeToUIInput();
+        DeactivateAll();
+        gameComplete.SetActive(true);
+        continueButton.Select();
     }
 
     public void Tick()
@@ -55,8 +67,7 @@ public class MenuScreen : MonoBehaviour
 
     public void OnStart()
     {
-        mainMenu.SetActive(false);
-        gameOver.SetActive(false);
+        DeactivateAll();
         OnClosed.Invoke();
     }
 
@@ -65,5 +76,12 @@ public class MenuScreen : MonoBehaviour
         startButton.gameObject.SetActive(true);
         startButton.Select();
         runningIntro = false;
+    }
+
+    private void DeactivateAll()
+    {
+        mainMenu.SetActive(false);
+        gameOver.SetActive(false);
+        gameComplete.SetActive(false);
     }
 }

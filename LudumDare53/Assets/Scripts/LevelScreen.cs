@@ -43,6 +43,11 @@ public class LevelScreen : MonoBehaviour
         background.SetActive(false);
     }
 
+    public bool HasAnotherLevel(int currentLevel)
+    {
+        return currentLevel < levelData.Levels.Count;
+    }
+
     public void Setup(int levelIndex)
     {
         SetupLevel(levelIndex);
