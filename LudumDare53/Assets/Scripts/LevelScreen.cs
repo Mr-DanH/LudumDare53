@@ -46,7 +46,7 @@ public class LevelScreen : MonoBehaviour
 
     public bool HasAnotherLevel(int currentLevel)
     {
-        return currentLevel < levelData.Levels.Count;
+        return currentLevel + 1 < levelData.Levels.Count;
     }
 
     public void Setup(int levelIndex)
