@@ -937,6 +937,49 @@ MonoBehaviour:
   m_progress: {fileID: 286011125}
   m_waveNode: {fileID: 1483749876}
   m_dayTimeFog: {r: 0, g: 1, b: 0.50980395, a: 1}
+  m_levelData:
+  - m_fog: {r: 0, g: 1, b: 0.50980395, a: 1}
+    m_materials:
+    - {fileID: 2100000, guid: 5b6bb336d27893f4eabf8f819a888750, type: 2}
+    - {fileID: 2100000, guid: ef19bf7b767977f478dc33a14b6e114e, type: 2}
+    - {fileID: 2100000, guid: 552b590b4d485a04392f5222e53201ef, type: 2}
+    - {fileID: 2100000, guid: 1b904ee04b127044ebbb01616951e01d, type: 2}
+  - m_fog: {r: 0.69332695, g: 0, b: 1, a: 1}
+    m_materials:
+    - {fileID: 2100000, guid: 5b6bb336d27893f4eabf8f819a888750, type: 2}
+    - {fileID: 2100000, guid: ef19bf7b767977f478dc33a14b6e114e, type: 2}
+    - {fileID: 2100000, guid: 552b590b4d485a04392f5222e53201ef, type: 2}
+    - {fileID: 2100000, guid: 1b904ee04b127044ebbb01616951e01d, type: 2}
+  - m_fog: {r: 0.042452812, g: 1, b: 0.85965985, a: 1}
+    m_materials:
+    - {fileID: 2100000, guid: 5b6bb336d27893f4eabf8f819a888750, type: 2}
+    - {fileID: 2100000, guid: ef19bf7b767977f478dc33a14b6e114e, type: 2}
+    - {fileID: 2100000, guid: 552b590b4d485a04392f5222e53201ef, type: 2}
+    - {fileID: 2100000, guid: 1b904ee04b127044ebbb01616951e01d, type: 2}
+  - m_fog: {r: 1, g: 0.5266545, b: 0.043137252, a: 1}
+    m_materials:
+    - {fileID: 2100000, guid: 5b6bb336d27893f4eabf8f819a888750, type: 2}
+    - {fileID: 2100000, guid: ef19bf7b767977f478dc33a14b6e114e, type: 2}
+    - {fileID: 2100000, guid: 552b590b4d485a04392f5222e53201ef, type: 2}
+    - {fileID: 2100000, guid: 1b904ee04b127044ebbb01616951e01d, type: 2}
+  - m_fog: {r: 1, g: 0.043137252, b: 0.87634367, a: 1}
+    m_materials:
+    - {fileID: 2100000, guid: 5b6bb336d27893f4eabf8f819a888750, type: 2}
+    - {fileID: 2100000, guid: ef19bf7b767977f478dc33a14b6e114e, type: 2}
+    - {fileID: 2100000, guid: 552b590b4d485a04392f5222e53201ef, type: 2}
+    - {fileID: 2100000, guid: 1b904ee04b127044ebbb01616951e01d, type: 2}
+  - m_fog: {r: 0.17279778, g: 0.08904416, b: 0.6509434, a: 1}
+    m_materials:
+    - {fileID: 2100000, guid: 5b6bb336d27893f4eabf8f819a888750, type: 2}
+    - {fileID: 2100000, guid: ef19bf7b767977f478dc33a14b6e114e, type: 2}
+    - {fileID: 2100000, guid: 552b590b4d485a04392f5222e53201ef, type: 2}
+    - {fileID: 2100000, guid: 1b904ee04b127044ebbb01616951e01d, type: 2}
+  - m_fog: {r: 1, g: 0.25943398, b: 0.2893497, a: 1}
+    m_materials:
+    - {fileID: 2100000, guid: 5b6bb336d27893f4eabf8f819a888750, type: 2}
+    - {fileID: 2100000, guid: ef19bf7b767977f478dc33a14b6e114e, type: 2}
+    - {fileID: 2100000, guid: 552b590b4d485a04392f5222e53201ef, type: 2}
+    - {fileID: 2100000, guid: 1b904ee04b127044ebbb01616951e01d, type: 2}
   m_nightTimeFog: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &976963883
 MonoBehaviour:

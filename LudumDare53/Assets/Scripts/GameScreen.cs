@@ -15,6 +15,13 @@ public class GameScreen : MonoBehaviour
         GameOver = 4
     }
 
+    [System.Serializable]
+    public class LevelData
+    {
+        public Color m_fog;
+        public List<Material> m_materials;
+    }
+
     [SerializeField] private GameObject uiContainer;
     public TMPro.TextMeshProUGUI m_scoreLabel;
     public TMPro.TextMeshProUGUI m_overtimeBonusLabel;
@@ -30,6 +37,7 @@ public class GameScreen : MonoBehaviour
     public Transform m_waveNode;
 
     public Color m_dayTimeFog;
+    public List<LevelData> m_levelData;
     public Color m_nightTimeFog;
 
     const int NUM_TILES_PER_CITY = 5;
@@ -148,8 +156,16 @@ public class GameScreen : MonoBehaviour
             ScrollingLevel.Instance.m_speed = Mathf.MoveTowards(ScrollingLevel.Instance.m_speed, targetSpeed, Time.deltaTime * speedDelta);
         }
 
-        float fogLerp = Mathf.InverseLerp(NORMAL_SCROLL_SPEED, POST_LEVEL_SCROLL_SPEED, ScrollingLevel.Instance.m_speed);
-        RenderSettings.fogColor = Color.Lerp(m_dayTimeFog, m_nightTimeFog, fogLerp);
+        if(m_level == -1)
+        {
+            RenderSettings.fogColor = m_nightTimeFog;
+        }
+        else
+        {
+            float fogLerp = Mathf.InverseLerp(NORMAL_SCROLL_SPEED, POST_LEVEL_SCROLL_SPEED, ScrollingLevel.Instance.m_speed);
+            Color dayTimeFog = m_levelData[m_level].m_fog;
+            RenderSettings.fogColor = Color.Lerp(dayTimeFog, m_nightTimeFog, fogLerp);
+        }
 
         ScrollingLevel.Instance.Tick();
 
