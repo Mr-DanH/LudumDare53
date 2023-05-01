@@ -28,7 +28,8 @@ public class GameScreen : Singleton<GameScreen>
     public TMPro.TextMeshProUGUI m_levelLabel;
     public TMPro.TextMeshProUGUI m_livesLabel;
     public CanvasGroup m_controls;
-    public GameObject m_bossRoot;
+    public GameObject m_bossUiRoot;
+    public GameObject m_deliveryUiRoot;
     public RectTransform m_bossHealthSlider;
 
     [SerializeField] private List<Image> deliveriesImages;
@@ -96,7 +97,8 @@ public class GameScreen : Singleton<GameScreen>
         else
             ScrollingLevel.Instance.StartCity(NUM_TILES_PER_CITY, m_levelData[m_level]);
 
-        m_bossRoot.gameObject.SetActive(isBossLevel);
+        m_bossUiRoot.gameObject.SetActive(isBossLevel);
+        m_deliveryUiRoot.gameObject.SetActive(!isBossLevel);
 
         Player.Instance.gameObject.SetActive(true);
         Player.Instance.LevelReset();

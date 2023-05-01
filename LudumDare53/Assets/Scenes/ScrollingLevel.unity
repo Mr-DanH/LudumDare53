@@ -986,7 +986,8 @@ MonoBehaviour:
   m_levelLabel: {fileID: 1196902649}
   m_livesLabel: {fileID: 220518656}
   m_controls: {fileID: 99285373}
-  m_bossRoot: {fileID: 1066749316}
+  m_bossUiRoot: {fileID: 1066749316}
+  m_deliveryUiRoot: {fileID: 1691999546}
   m_bossHealthSlider: {fileID: 1066749315}
   deliveriesImages:
   - {fileID: 941783069}
