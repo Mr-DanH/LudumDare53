@@ -32,13 +32,12 @@ public class HomingPigeon : BasicPigeon
                 Vector3 worldPos = Boss.Instance.transform.position;
                 Vector3 pos = transform.parent.InverseTransformPoint(worldPos);
                 HomeOn(pos);
-            }
+            }            
+
+            if(transform.localPosition.y < -Screen.height * 0.5f * transform.lossyScale.y)
+                ReturnState = Pigeon.eReturnState.RETURNING;
+        }
             
-            base.Tick();
-        }
-        else
-        {
-            base.Tick();
-        }
+        base.Tick();
     }
 }
