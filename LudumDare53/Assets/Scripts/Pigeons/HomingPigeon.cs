@@ -6,6 +6,16 @@ public class HomingPigeon : BasicPigeon
 {
     const float FORWARD_PREDICT_SPEED = 50;
 
+    void HomeOn(Vector3 pos)
+    {
+        float dist = Mathf.Abs(pos.x - transform.localPosition.x);
+        float time = dist / baseSpeed;
+
+        pos.y -= time * ScrollingLevel.Instance.m_speed * FORWARD_PREDICT_SPEED;
+
+        RotateTowards(pos);
+    }
+
     public override void Tick()
     {
         if(ReturnState == Pigeon.eReturnState.NONE)
@@ -15,13 +25,13 @@ public class HomingPigeon : BasicPigeon
             if(target != null)
             {
                 Vector3 pos = target.localPosition;
-
-                float dist = Mathf.Abs(pos.x - transform.localPosition.x);
-                float time = dist / baseSpeed;
-
-                pos.y -= time * ScrollingLevel.Instance.m_speed * FORWARD_PREDICT_SPEED;
-
-                RotateTowards(pos);
+                HomeOn(pos);
+            }
+            else if(Boss.Instance.gameObject.activeInHierarchy)
+            {
+                Vector3 worldPos = Boss.Instance.transform.position;
+                Vector3 pos = transform.parent.InverseTransformPoint(worldPos);
+                HomeOn(pos);
             }
             
             base.Tick();
