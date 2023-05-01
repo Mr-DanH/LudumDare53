@@ -73,6 +73,9 @@ public class Tile : MonoBehaviour
 
         bool activateWave = m_type == eType.City || m_type == eType.Boss || m_type == eType.BossCooldown;
 
+        if(Boss.Instance.IsDead)
+            activateWave = false;
+
         if(m_waveOffset != null)
         {
             foreach(Transform child in m_waveOffset)
