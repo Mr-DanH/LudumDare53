@@ -23,9 +23,9 @@ public class BasicPigeon : Pigeon
         transform.localScale = Vector3.one * SPAWN_SIZE;
     }
 
-    protected void RotateTowards(Transform target)
+    protected void RotateTowards(Vector3 pos)
     {
-        Vector3 toPlayer = target.localPosition - transform.localPosition;
+        Vector3 toPlayer = pos - transform.localPosition;
         Vector3 toPlayerDir = toPlayer.normalized;
 
         Vector3 cross = Vector3.forward;
@@ -72,7 +72,7 @@ public class BasicPigeon : Pigeon
         }
         else if(ReturnState == Pigeon.eReturnState.RETURNING)
         {      
-            RotateTowards(Player.Instance.transform);
+            RotateTowards(Player.Instance.transform.localPosition);
 
             Vector3 toPlayer = Player.Instance.transform.localPosition - transform.localPosition;
             float dist = Mathf.Min(offsetSpeed * Time.deltaTime, toPlayer.magnitude);
