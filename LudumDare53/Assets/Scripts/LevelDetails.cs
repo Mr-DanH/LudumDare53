@@ -8,6 +8,11 @@ public class LevelDetails : Singleton<LevelDetails>
     [SerializeField] public int MaxNumPigeons = 2;
     [SerializeField] public float PigeonFiringDelay = 1;
     [SerializeField] private float pigeonFiringDelayDecrease = 0.2f;
+    [Header("Pigeon Speed")]
+    [SerializeField] private float pigeonSpeedIncreaseAmount;
+    public float PigeonSpeedOffset { get; private set; }
+
+    [Space]
 
     [Header("Player")]
     [SerializeField] public int MaxLives = 3;
@@ -34,5 +39,10 @@ public class LevelDetails : Singleton<LevelDetails>
     public void IncreaseFiringSpeed()
     {
         PigeonFiringDelay -= pigeonFiringDelayDecrease;
+    }
+
+    public void IncreasePigeonSpeed()
+    {
+        PigeonSpeedOffset += pigeonSpeedIncreaseAmount;
     }
 }

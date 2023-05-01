@@ -18,6 +18,7 @@ public abstract class Pigeon : MonoBehaviour
     }
 
     [SerializeField] protected float baseSpeed;
+    protected float offsetSpeed { get { return baseSpeed + LevelDetails.Instance.PigeonSpeedOffset; } }
 
     protected RectTransform rect;
 

@@ -12,6 +12,7 @@ public class Upgrade
         ExtraPigeon = 2,
         IncreasePlayerSpeed = 3,
         IncreaseFiringSpeed = 4,
+        IncreasePigeonSpeed = 5
     }
 
     public UpgradeType Type;
@@ -20,7 +21,6 @@ public class Upgrade
 
     public void Chosen()
     {
-        Debug.Log($"Upgrade Chosen {Type}");
         switch (Type)
         {
             case UpgradeType.ExtraLife:
@@ -41,6 +41,11 @@ public class Upgrade
             case UpgradeType.IncreaseFiringSpeed:
             {
                 LevelDetails.Instance.IncreaseFiringSpeed();
+                break;
+            }
+            case UpgradeType.IncreasePigeonSpeed:
+            {
+                LevelDetails.Instance.IncreasePigeonSpeed();
                 break;
             }
         }
