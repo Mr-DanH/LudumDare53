@@ -329,6 +329,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d6ee2b985880a94d8a500e7f9996c47, type: 3}
+--- !u!225 &99285373 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 3146491518327839177, guid: 1c7cb32e36e265f4eba8155b19997c54, type: 3}
+  m_PrefabInstance: {fileID: 1016561148}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &220518656 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8127586437378529774, guid: b4563be947291f44f9e055bf576c7152, type: 3}
@@ -911,6 +916,7 @@ MonoBehaviour:
   m_overtimeBonusLabel: {fileID: 1673309060}
   m_levelLabel: {fileID: 1196902649}
   m_livesLabel: {fileID: 220518656}
+  m_controls: {fileID: 99285373}
   deliveriesImages:
   - {fileID: 941783069}
   - {fileID: 941783068}
@@ -1355,17 +1361,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1497610333 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 221940759363521672, guid: 24941edcc33010d43b762a87586ebc17, type: 3}
-  m_PrefabInstance: {fileID: 670479969726428696}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1673309060 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6656843480019520543, guid: b4563be947291f44f9e055bf576c7152, type: 3}

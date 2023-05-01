@@ -20,6 +20,7 @@ public class GameScreen : MonoBehaviour
     public TMPro.TextMeshProUGUI m_overtimeBonusLabel;
     public TMPro.TextMeshProUGUI m_levelLabel;
     public TMPro.TextMeshProUGUI m_livesLabel;
+    public CanvasGroup m_controls;
 
     [SerializeField] private List<Image> deliveriesImages;
     [SerializeField] private List<Image> livesImages;
@@ -66,6 +67,7 @@ public class GameScreen : MonoBehaviour
 
     void Start()
     {
+        m_controls.alpha = 0;
         ScrollingLevel.Instance.ReparentWaves(m_waveNode);
         UpdateUI();
         Player.Instance.gameObject.SetActive(false);
@@ -77,6 +79,21 @@ public class GameScreen : MonoBehaviour
         Player.Instance.gameObject.SetActive(true);
         
         currentView = GameScreenView.Game;
+    }
+
+    IEnumerator FadeDownControls()
+    {
+        m_controls.alpha = 1;
+
+        yield return new WaitForSeconds(3);
+
+        for(float t = 1; t > 0; t -= Time.deltaTime * 0.5f)
+        {
+            m_controls.alpha = t;
+            yield return null;
+        }
+
+        m_controls.alpha = 0;
     }
 
     void UpdateUI()
@@ -212,7 +229,10 @@ public class GameScreen : MonoBehaviour
     {
         ++m_level;
 
-        StartLevel();
+        StartLevel();        
+
+        if(m_level == 0)
+            StartCoroutine(FadeDownControls());
     }
 
     private void MenuClosed()
