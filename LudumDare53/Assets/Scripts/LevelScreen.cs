@@ -20,7 +20,7 @@ public class LevelScreen : MonoBehaviour
     [SerializeField] private GameObject levelComplete;
     [SerializeField] private TextMeshProUGUI levelLabel;
     [SerializeField] private TextMeshProUGUI messageLabel;
-    [SerializeField] private GameObject upgradeArea;
+    [SerializeField] private UpgradeArea upgradeArea;
     [SerializeField] private float delayDuration = 1;
 
     [SerializeField] private LevelData levelData;
@@ -41,6 +41,7 @@ public class LevelScreen : MonoBehaviour
     {
         DeactivateAll();
         background.SetActive(false);
+        upgradeArea.OnUpgradeChosen += HandleUpgradeChosen;
     }
 
     public bool HasAnotherLevel(int currentLevel)
@@ -116,11 +117,11 @@ public class LevelScreen : MonoBehaviour
                 if (previousStatus != status)
                 {
                     DeactivateAll();
-                    upgradeArea.SetActive(true);
+                    upgradeArea.gameObject.SetActive(true);
                     previousStatus = status;
 
-                    // todo - upgrades!
-                    status = ScreenMode.LevelDetails;
+                    InputManager.Instance.ChangeToUpgradeUIInput();
+                    upgradeArea.Setup();
                 }
                 break;
             }
@@ -162,7 +163,7 @@ public class LevelScreen : MonoBehaviour
     private void DeactivateAll()
     {
         levelComplete.SetActive(false);
-        upgradeArea.SetActive(false);
+        upgradeArea.gameObject.SetActive(false);
         levelLabel.gameObject.SetActive(false);
         messageLabel.gameObject.SetActive(false);
     }
@@ -178,5 +179,14 @@ public class LevelScreen : MonoBehaviour
         messageLabel.SetText($"{level.Message}");
 
         background.SetActive(true);
+    }
+
+    private void HandleUpgradeChosen(Upgrade chosenUpgrade)
+    {
+        if(status == ScreenMode.Upgrading)
+        {
+            status = ScreenMode.LevelDetails;
+            InputManager.Instance.ChangeToUIInput();
+        }
     }
 }

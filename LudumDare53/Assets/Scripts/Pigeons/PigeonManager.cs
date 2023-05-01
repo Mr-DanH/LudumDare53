@@ -5,10 +5,7 @@ using UnityEngine;
 public class PigeonManager : Singleton<PigeonManager>
 {
     [SerializeField] private Transform spawningParent;
-    [SerializeField] private float fireDelayDuration = 0.5f;
     [SerializeField] private BasicPigeon basicPigeonTemplate;
-
-    public int m_maxPigeons = 3;
 
     private List<Pigeon> firedPigeons = new List<Pigeon>();
     private List<Pigeon> availablePigeons = new List<Pigeon>();
@@ -27,7 +24,7 @@ public class PigeonManager : Singleton<PigeonManager>
         if(fireDelay > 0)
             return;
 
-        if(firedPigeons.Count >= m_maxPigeons)
+        if(firedPigeons.Count >= LevelDetails.Instance.MaxNumPigeons)
             return;
 
         var pigeonTypes = System.Enum.GetValues(typeof(Pigeon.PigeonType));
@@ -43,7 +40,7 @@ public class PigeonManager : Singleton<PigeonManager>
         nextPigeon.Fire(direction);
         firedPigeons.Add(nextPigeon);
 
-        fireDelay = fireDelayDuration;
+        fireDelay = LevelDetails.Instance.PigeonFiringDelay;
     }
 
     public void Tick()
@@ -109,6 +106,6 @@ public class PigeonManager : Singleton<PigeonManager>
 
     public int GetAvailablePigeonCount()
     {
-        return Mathf.Max(0, m_maxPigeons - firedPigeons.Count);
+        return Mathf.Max(0, LevelDetails.Instance.MaxNumPigeons - firedPigeons.Count);
     }
 }

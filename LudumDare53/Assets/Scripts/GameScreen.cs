@@ -129,7 +129,7 @@ public class GameScreen : MonoBehaviour
 
 
         int availablePigeons = PigeonManager.Instance.GetAvailablePigeonCount();
-        int maxPigeons = PigeonManager.Instance.m_maxPigeons;
+        int maxPigeons = LevelDetails.Instance.MaxNumPigeons;
         for(int i = 0; i < availablePigeonImages.Count; ++i)
         {
             float alpha = 0;

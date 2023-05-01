@@ -855,6 +855,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "UpgradeUI",
+            "id": "5ebbc24f-a32b-40fd-b35c-acb9f055d4d6",
+            "actions": [
+                {
+                    "name": "RightChoice",
+                    "type": "PassThrough",
+                    "id": "c135f4d4-88b4-4b56-aaed-0f31137daf8c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "LeftChoice",
+                    "type": "PassThrough",
+                    "id": "9c630835-7cd6-4ae5-a9e9-ffa06fd122c4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f4fd8b41-cf21-458d-b68e-b6601129e245",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "RightChoice",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "18742e8d-0c5d-4b7e-9170-c3e5799a7903",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "LeftChoice",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

@@ -11,10 +11,9 @@ public class Player : Singleton<Player>
     [SerializeField] private Vector2 fireLeftDirection = new Vector2(0.3f, 0.7f);
 
     [Header("Player")]
-    [SerializeField] private float baseSpeed;
     [SerializeField] private RectTransform explodeVfx;
 
-    public int PlayerLives { get; private set; }
+    public int PlayerLives { get; set; }
 
     private Vector3 currentDirection = new Vector3();
     private RectTransform rect;
@@ -24,7 +23,7 @@ public class Player : Singleton<Player>
         rect = transform as RectTransform;
         explodeVfx.gameObject.SetActive(false);
 
-        PlayerLives = 3;
+        PlayerLives = LevelDetails.Instance.MaxLives;
 
         CollisionDetector.Instance.Register(CollidableObject.ColliderType.Player, rect);
         CollisionDetector.Instance.OnCollisionTriggered += HandleCollisionTriggered;
@@ -66,7 +65,7 @@ public class Player : Singleton<Player>
 
     private void UpdateMovement()
     {
-        Vector3 newPosition = rect.localPosition + (currentDirection * baseSpeed * Time.deltaTime);
+        Vector3 newPosition = rect.localPosition + (currentDirection * LevelDetails.Instance.PlayerSpeed * Time.deltaTime);
 
         int screenY = Mathf.RoundToInt(Screen.height / (transform.lossyScale.x * 2));
         int screenX = Mathf.RoundToInt(Screen.width / (transform.lossyScale.y * 2));

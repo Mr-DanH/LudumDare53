@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class InputManager : Singleton<InputManager>
 {
+    public System.Action<InputChoice> OnChoiceMade;
+
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private bool turnOnLogs = true;
 
@@ -15,6 +17,10 @@ public class InputManager : Singleton<InputManager>
     public void ChangeToUIInput()
     {
         playerInput.SwitchCurrentActionMap("UI");
+    }
+    public void ChangeToUpgradeUIInput()
+    {
+        playerInput.SwitchCurrentActionMap("UpgradeUI");
     }
 
     private void OnMove(InputValue value)
@@ -52,6 +58,22 @@ public class InputManager : Singleton<InputManager>
             Player.Instance.FireLeft();
         }
         Log($"FireLeft: {fired}");
+    }
+
+    private void OnRightChoice(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            OnChoiceMade.Invoke(InputChoice.Right);
+        }
+    }
+
+    private void OnLeftChoice(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            OnChoiceMade.Invoke(InputChoice.Left);
+        }
     }
 
     public void OnButtonConfirm()

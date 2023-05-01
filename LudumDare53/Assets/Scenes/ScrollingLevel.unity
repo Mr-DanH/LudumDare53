@@ -435,6 +435,63 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &727162664
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 727162666}
+  - component: {fileID: 727162665}
+  m_Layer: 0
+  m_Name: Upgrades
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &727162665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727162664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee793bb704584a5409eded51a603ae6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgrades:
+  - Type: 1
+    Icon: {fileID: 21300000, guid: 87e2c4123abbdfa41980e4825e2b7afd, type: 3}
+    Description: Extra Life!
+  - Type: 2
+    Icon: {fileID: 21300000, guid: a22b42decca490a4c963ce123fc8345d, type: 3}
+    Description: Extra Pigeon!
+  - Type: 3
+    Icon: {fileID: 21300000, guid: 0c62b9489f5df5341ae0d7bab19f66a7, type: 3}
+    Description: Boost Movement Speed!
+  - Type: 4
+    Icon: {fileID: 21300000, guid: 6009f93a68fc8bd4f82645db11bc46f0, type: 3}
+    Description: Decrease Pigeon Delay!
+--- !u!4 &727162666
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727162664}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 94.26234, y: 49.043594, z: 0.53123915}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &869126490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1549,6 +1606,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1783713252}
   m_CullTransparentMesh: 1
+--- !u!1 &1835574874
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1835574876}
+  - component: {fileID: 1835574875}
+  m_Layer: 0
+  m_Name: LevelDetails
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1835574875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835574874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ce26c596ae84dd4bb69cfbd3fb049ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxNumPigeons: 2
+  PigeonFiringDelay: 1
+  pigeonFiringDelayDecrease: 0.2
+  MaxLives: 3
+  PlayerSpeed: 150
+  playerSpeedIncreaseAmount: 20
+--- !u!4 &1835574876
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835574874}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 94.26234, y: 49.043594, z: 0.53123915}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1964826464
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1613,6 +1720,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 976963881}
     m_Modifications:
+    - target: {fileID: 1074624283892928577, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1871398011005327181, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
       propertyPath: m_text
       value: 'Pigeon Fact: <color=#E0E300>Pigeons live for approximately 200 years!</color>'
@@ -1707,6 +1818,54 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3724554932575689177, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3952612431110515996, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
+      propertyPath: upgradeConfig
+      value: 
+      objectReference: {fileID: 727162665}
+    - target: {fileID: 4032644567567576313, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4966051000535083084, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4966051000535083084, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4966051000535083084, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4966051000535083084, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6053777858875204431, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8484641900227220762, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8660296519217286709, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8660296519217286709, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8660296519217286709, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8660296519217286709, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
