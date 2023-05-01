@@ -477,6 +477,9 @@ MonoBehaviour:
   - Type: 4
     Icon: {fileID: 21300000, guid: 6009f93a68fc8bd4f82645db11bc46f0, type: 3}
     Description: Decrease Pigeon Delay!
+  - Type: 6
+    Icon: {fileID: 21300000, guid: a22b42decca490a4c963ce123fc8345d, type: 3}
+    Description: Upgrade one Pigeon to Homing
 --- !u!4 &727162666
 Transform:
   m_ObjectHideFlags: 0

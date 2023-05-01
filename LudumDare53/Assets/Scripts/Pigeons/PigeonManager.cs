@@ -6,9 +6,12 @@ public class PigeonManager : Singleton<PigeonManager>
 {
     [SerializeField] private Transform spawningParent;
     [SerializeField] private BasicPigeon basicPigeonTemplate;
+    [SerializeField] private HomingPigeon homingPigeonTemplate;
+
 
     private List<Pigeon> firedPigeons = new List<Pigeon>();
     private List<Pigeon> availablePigeons = new List<Pigeon>();
+    private List<Pigeon> pooledPigeons = new List<Pigeon>();
 
     private float fireDelay;
     int m_count;
@@ -19,18 +22,37 @@ public class PigeonManager : Singleton<PigeonManager>
         fireDelay = 0;
     }
 
+    public void NewGame()
+    {
+        pooledPigeons.Clear();
+        pooledPigeons.AddRange(availablePigeons);
+        pooledPigeons.AddRange(firedPigeons);
+
+        availablePigeons.Clear();
+        firedPigeons.Clear();
+
+        for(int i = 0; i < LevelDetails.Instance.MaxNumPigeons; ++i)
+            availablePigeons.Add(GetPigeonInstance(Pigeon.PigeonType.BASIC));
+
+        foreach(var pigeon in availablePigeons)
+            pigeon.gameObject.SetActive(false);
+
+        foreach(var pigeon in pooledPigeons)
+            pigeon.gameObject.SetActive(false);
+    }
+
     public void FireNext(Vector2 direction)
     {
         if(fireDelay > 0)
             return;
 
-        if(firedPigeons.Count >= LevelDetails.Instance.MaxNumPigeons)
+        if(availablePigeons.Count == 0)
             return;
 
-        var pigeonTypes = System.Enum.GetValues(typeof(Pigeon.PigeonType));
-        Pigeon.PigeonType pigeonType = (Pigeon.PigeonType)Random.Range(1, pigeonTypes.Length);
+        Pigeon nextPigeon = availablePigeons[0];
+        nextPigeon.transform.position = transform.position;
+        availablePigeons.RemoveAt(0);
 
-        Pigeon nextPigeon = GetPigeonInstance(pigeonType);
         nextPigeon.gameObject.SetActive(true);
 
         RectTransform nextPigeonTransform = nextPigeon.transform as RectTransform;
@@ -58,10 +80,10 @@ public class PigeonManager : Singleton<PigeonManager>
 
     private Pigeon GetPigeonInstance(Pigeon.PigeonType type)
     {
-        Pigeon chosenPigeon = availablePigeons.Find(x=>x.Type == type);
+        Pigeon chosenPigeon = pooledPigeons.Find(x=>x.Type == type);
         if (chosenPigeon != null)
         {
-            availablePigeons.Remove(chosenPigeon);
+            pooledPigeons.Remove(chosenPigeon);
         }
         else
         {
@@ -69,7 +91,6 @@ public class PigeonManager : Singleton<PigeonManager>
         }
 
         chosenPigeon.name = $"{m_count++}-Pigeon";
-        chosenPigeon.transform.position = transform.position;
 
         return chosenPigeon;
     }
@@ -80,6 +101,8 @@ public class PigeonManager : Singleton<PigeonManager>
         {
             case Pigeon.PigeonType.BASIC:
                 return Instantiate<BasicPigeon>(basicPigeonTemplate, transform.position, transform.rotation, spawningParent);
+            case Pigeon.PigeonType.HOMING:
+                return Instantiate<HomingPigeon>(homingPigeonTemplate, transform.position, transform.rotation, spawningParent);
         }
 
         return null;
@@ -106,6 +129,31 @@ public class PigeonManager : Singleton<PigeonManager>
 
     public int GetAvailablePigeonCount()
     {
-        return Mathf.Max(0, LevelDetails.Instance.MaxNumPigeons - firedPigeons.Count);
+        return availablePigeons.Count;
+    }
+
+    public void AddBasicPigeon()
+    {
+        Pigeon pigeon = GetPigeonInstance(Pigeon.PigeonType.BASIC);
+        availablePigeons.Add(pigeon);
+        pigeon.gameObject.SetActive(false);
+    }
+
+    public void UpgradePigeon()
+    {
+        StartCoroutine(UpgradePigeonCo());
+    }
+
+    IEnumerator UpgradePigeonCo()
+    {
+        while(availablePigeons.Count == 0)
+            yield return null;
+
+        pooledPigeons.Add(availablePigeons[0]);
+        availablePigeons.RemoveAt(0);
+
+        Pigeon pigeon = GetPigeonInstance(Pigeon.PigeonType.HOMING);
+        availablePigeons.Insert(0, pigeon);
+        pigeon.gameObject.SetActive(false);
     }
 }
