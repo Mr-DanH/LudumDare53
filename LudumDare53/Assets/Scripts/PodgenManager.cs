@@ -17,6 +17,7 @@ public class PodgenManager : MonoBehaviour
     public void CreatePodgen()
     {
         Podgen clone = Instantiate<Podgen>(template, transform);
+        clone.Launch();
         podgens.Add(clone);
         CollisionDetector.Instance.Register(CollidableObject.ColliderType.Podgen, clone.Collidable);
     }
@@ -26,10 +27,22 @@ public class PodgenManager : MonoBehaviour
         podgens.ForEach(x=>x.Tick());
     }
 
-    public void Reset()
+    public void Restart()
     {
         podgens.ForEach(x=>Destroy(x.gameObject));
         podgens.Clear();
+    }
+
+    public void ReLaunchAll()
+    {
+        podgens.ForEach(x=>
+        {
+           if( x.Status == Podgen.State.Resting)
+           {
+                x.Launch();
+                CollisionDetector.Instance.Register(CollidableObject.ColliderType.Podgen, x.Collidable);
+           }
+        });
     }
 
     private void CollisionHandled(List<CollidableObject> collidables)
@@ -44,8 +57,7 @@ public class PodgenManager : MonoBehaviour
             CollidableObject podgenCollidable = collidables.Find(x=>x.Type == CollidableObject.ColliderType.Podgen);
             CollisionDetector.Instance.UnRegister(podgenCollidable);
             Podgen podgen = podgens.Find(x=>x.Collidable == podgenCollidable.RectTransform);
-            podgens.Remove(podgen);
-            Destroy(podgen.gameObject);
+            podgen.Injured();
         }
     }
 }

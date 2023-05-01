@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Podgen : MonoBehaviour
 {
+    public enum State
+    {
+        None = 0,
+        Flying = 1,
+        Resting = 2
+    }
+
     [SerializeField] private List<float> possibleRotationSpeeds;
     [SerializeField] private RectTransform image;
 
@@ -11,8 +18,30 @@ public class Podgen : MonoBehaviour
 
     private float rotationSpeed;
     private int direction;
+    public State Status { get; private set; }
 
-    void Awake()
+    public void Tick()
+    {
+        if (Status == State.Flying)
+        {
+            float rotationZ = transform.localRotation.eulerAngles.z + rotationSpeed*Time.deltaTime;
+            transform.localRotation = Quaternion.Euler(0, 0, rotationZ);
+        }
+    }
+
+    public void Injured()
+    {
+        Status = State.Resting;
+        gameObject.SetActive(false);
+    }
+
+    public void Launch()
+    {
+        SetFlightDirection();
+        Status = State.Flying;
+    }
+
+    private void SetFlightDirection()
     {
         direction = Random.value > 0.5 ? 1 : -1;
         rotationSpeed = possibleRotationSpeeds[Random.Range(0, possibleRotationSpeeds.Count)] * direction;
@@ -21,11 +50,7 @@ public class Podgen : MonoBehaviour
 
         image.localRotation = Quaternion.Euler(0,0,50*direction);
         image.localScale = new Vector3(direction, 1, 1);
-    }
 
-    public void Tick()
-    {
-        float rotationZ = transform.localRotation.eulerAngles.z + rotationSpeed*Time.deltaTime;
-        transform.localRotation = Quaternion.Euler(0, 0, rotationZ);   
+        gameObject.SetActive(true);
     }
 }
