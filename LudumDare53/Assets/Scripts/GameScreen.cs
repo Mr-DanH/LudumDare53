@@ -144,16 +144,27 @@ public class GameScreen : Singleton<GameScreen>
             livesImages[i].color = new Color(1, 1, 1, alpha);
         }
 
+        List<Image> pigeonQueue = PigeonManager.Instance.GetPigeonQueue(out int availableCount);
 
-        int availablePigeons = PigeonManager.Instance.GetAvailablePigeonCount();
-        int maxPigeons = LevelDetails.Instance.MaxNumPigeons;
+
         for(int i = 0; i < availablePigeonImages.Count; ++i)
         {
-            float alpha = 0;
-            if(i < maxPigeons)
-                alpha = (i < availablePigeons) ? 0.8f : 0.2f;
+            Image targetImage = availablePigeonImages[i];
 
-            availablePigeonImages[i].color = new Color(1, 1, 1, alpha);
+            if (i >= pigeonQueue.Count)
+            {
+                targetImage.color = new Color(1, 1, 1, 0);
+            }
+            else
+            {
+
+                Color color = pigeonQueue[i].color;
+                color.a = (i < availableCount) ? 0.8f : 0.2f;
+
+                targetImage.sprite = pigeonQueue[i].sprite;
+                targetImage.color = color;
+            }
+
         }        
 
         float maxSize = (m_bossHealthSlider.parent as RectTransform).sizeDelta.y;

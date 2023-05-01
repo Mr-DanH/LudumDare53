@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PigeonManager : Singleton<PigeonManager>
 {
@@ -127,9 +128,18 @@ public class PigeonManager : Singleton<PigeonManager>
         }
     }
 
-    public int GetAvailablePigeonCount()
+    public List<Image> GetPigeonQueue(out int availableCount)
     {
-        return availablePigeons.Count;
+        var list = new List<Image>();
+        availableCount = availablePigeons.Count;
+
+        foreach(var pigeon in availablePigeons)
+            list.Add(pigeon.GetComponentInChildren<Image>());
+            
+        foreach(var pigeon in firedPigeons)
+            list.Add(pigeon.GetComponentInChildren<Image>());
+
+        return list;
     }
 
     public void AddBasicPigeon()
