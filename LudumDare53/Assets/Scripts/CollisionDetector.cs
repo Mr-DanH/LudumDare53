@@ -54,6 +54,11 @@ public class CollisionDetector : Singleton<CollisionDetector>
         collidableObjects.RemoveAll(x=>x.RectTransform == collidable);
     }
 
+    public void UnRegisterAll()
+    {
+        collidableObjects.Clear();
+    }
+
     public void Tick()
     {
         CheckForCollisions();

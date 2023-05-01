@@ -63,6 +63,9 @@ public class GameScreen : Singleton<GameScreen>
 
     void Awake()
     {
+        LevelDetails.Instance.Reset();
+        Player.Instance.Init();
+
         m_hitBoxRender = GetComponentInChildren<HitBoxRender>();
         m_hitBoxRender.OnPigeonArrived += () => m_score++;
 
@@ -102,6 +105,7 @@ public class GameScreen : Singleton<GameScreen>
         }
 
         Player.Instance.gameObject.SetActive(true);
+        Player.Instance.LevelReset();
         
         currentView = GameScreenView.Game;
     }
@@ -258,6 +262,8 @@ public class GameScreen : Singleton<GameScreen>
 
         m_level = -1;
         m_score = 0;
+
+        CollisionDetector.Instance.UnRegisterAll();
 
         currentView = GameScreenView.GameOver;
     }

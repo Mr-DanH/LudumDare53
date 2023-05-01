@@ -23,11 +23,6 @@ public class LevelDetails : Singleton<LevelDetails>
     public float CurrentPlayerSpeed { get; private set; }
     [SerializeField] private float playerSpeedIncreaseAmount = 20;
 
-    void Awake()
-    {
-        Reset();
-    }
-
     public void Reset()
     {
         CurrentMaxLives = maxLives;

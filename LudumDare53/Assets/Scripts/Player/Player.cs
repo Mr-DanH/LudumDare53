@@ -21,7 +21,7 @@ public class Player : Singleton<Player>
     private Vector3 currentDirection = new Vector3();
     private RectTransform rect;
 
-    void Awake()
+    public void Init()
     {
         rect = transform as RectTransform;
         explodeVfx.gameObject.SetActive(false);
@@ -43,7 +43,12 @@ public class Player : Singleton<Player>
     {
         PlayerLives = LevelDetails.Instance.CurrentMaxLives;
         explodeVfx.gameObject.SetActive(false);
-        podgenManager.Reset();
+        podgenManager.Restart();
+    }
+
+    public void LevelReset()
+    {
+        podgenManager.ReLaunchAll();
     }
 
     public void SetMovementDirection(Vector2 movement)
