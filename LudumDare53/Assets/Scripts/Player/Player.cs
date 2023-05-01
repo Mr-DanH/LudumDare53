@@ -20,9 +20,11 @@ public class Player : Singleton<Player>
 
     private Vector3 currentDirection = new Vector3();
     private RectTransform rect;
+    private Vector2 startPosition;
 
     public void Init()
     {
+        startPosition = transform.localPosition;
         rect = transform as RectTransform;
         explodeVfx.gameObject.SetActive(false);
 
@@ -44,21 +46,18 @@ public class Player : Singleton<Player>
         PlayerLives = LevelDetails.Instance.CurrentMaxLives;
         explodeVfx.gameObject.SetActive(false);
         podgenManager.Restart();
+        transform.localPosition = startPosition;
     }
 
     public void LevelReset()
     {
         podgenManager.ReLaunchAll();
+        transform.localPosition = startPosition;
     }
 
     public void SetMovementDirection(Vector2 movement)
     {
         currentDirection = movement;
-    }
-
-    public void Fire()
-    {
-        //pigeonManager.FireNext(fireStraightDirection);
     }
 
     public void FireRight()

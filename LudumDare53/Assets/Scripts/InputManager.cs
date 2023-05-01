@@ -33,10 +33,6 @@ public class InputManager : Singleton<InputManager>
     private void OnFire(InputValue value)
     {
         bool fired = value.isPressed;
-        if(fired)
-        {
-            Player.Instance.Fire();
-        }
         Log($"Fire: {fired}");
     }
 
