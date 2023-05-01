@@ -1665,11 +1665,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxNumPigeons: 2
-  PigeonFiringDelay: 1
+  pigeonFiringDelay: 1
   pigeonFiringDelayDecrease: 0.2
   pigeonSpeedIncreaseAmount: 20
-  MaxLives: 3
-  PlayerSpeed: 150
+  maxLives: 3
+  playerSpeed: 150
   playerSpeedIncreaseAmount: 30
 --- !u!4 &1835574876
 Transform:

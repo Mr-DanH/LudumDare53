@@ -6,7 +6,8 @@ public class LevelDetails : Singleton<LevelDetails>
 {
     [Header("Pigeons")]
     [SerializeField] public int MaxNumPigeons = 2;
-    [SerializeField] public float PigeonFiringDelay = 1;
+    [SerializeField] private float pigeonFiringDelay = 1;
+    public float CurrentPigeonFiringDelay { get; private set; }
     [SerializeField] private float pigeonFiringDelayDecrease = 0.2f;
     [Header("Pigeon Speed")]
     [SerializeField] private float pigeonSpeedIncreaseAmount;
@@ -15,15 +16,29 @@ public class LevelDetails : Singleton<LevelDetails>
     [Space]
 
     [Header("Player")]
-    [SerializeField] public int MaxLives = 3;
+    [SerializeField] private int maxLives = 3;
+    public int CurrentMaxLives { get; private set; }
     [Header("Player Speed")]
-    [SerializeField] public float PlayerSpeed;
+    [SerializeField] private float playerSpeed;
+    public float CurrentPlayerSpeed { get; private set; }
     [SerializeField] private float playerSpeedIncreaseAmount = 20;
 
+    void Awake()
+    {
+        Reset();
+    }
+
+    public void Reset()
+    {
+        CurrentMaxLives = maxLives;
+        CurrentPigeonFiringDelay = pigeonFiringDelay;
+        PigeonSpeedOffset = 0;
+        CurrentPlayerSpeed = playerSpeed;
+    }
 
     public void IncreaseMaxLife()
     {
-        MaxLives++;
+        CurrentMaxLives++;
         Player.Instance.PlayerLives++;
     }
 
@@ -39,12 +54,13 @@ public class LevelDetails : Singleton<LevelDetails>
 
     public void IncreasePlayerSpeed()
     {
-        PlayerSpeed += playerSpeedIncreaseAmount;
+        CurrentPlayerSpeed += playerSpeedIncreaseAmount;
     }
 
     public void IncreaseFiringSpeed()
     {
-        PigeonFiringDelay -= pigeonFiringDelayDecrease;
+        CurrentPigeonFiringDelay -= pigeonFiringDelayDecrease;
+        CurrentPigeonFiringDelay = Mathf.Max(CurrentPigeonFiringDelay, 0);
     }
 
     public void IncreasePigeonSpeed()

@@ -26,7 +26,7 @@ public class Player : Singleton<Player>
         rect = transform as RectTransform;
         explodeVfx.gameObject.SetActive(false);
 
-        PlayerLives = LevelDetails.Instance.MaxLives;
+        PlayerLives = LevelDetails.Instance.CurrentMaxLives;
 
         CollisionDetector.Instance.Register(CollidableObject.ColliderType.Player, rect);
         CollisionDetector.Instance.OnCollisionTriggered += HandleCollisionTriggered;
@@ -41,7 +41,7 @@ public class Player : Singleton<Player>
 
     public void Reset()
     {
-        PlayerLives = 3;
+        PlayerLives = LevelDetails.Instance.CurrentMaxLives;
         explodeVfx.gameObject.SetActive(false);
         podgenManager.Reset();
     }
@@ -75,7 +75,7 @@ public class Player : Singleton<Player>
 
     private void UpdateMovement()
     {
-        Vector3 newPosition = rect.localPosition + (currentDirection * LevelDetails.Instance.PlayerSpeed * Time.deltaTime);
+        Vector3 newPosition = rect.localPosition + (currentDirection * LevelDetails.Instance.CurrentPlayerSpeed * Time.deltaTime);
 
         int screenY = Mathf.RoundToInt(Screen.height / (transform.lossyScale.x * 2));
         int screenX = Mathf.RoundToInt(Screen.width / (transform.lossyScale.y * 2));

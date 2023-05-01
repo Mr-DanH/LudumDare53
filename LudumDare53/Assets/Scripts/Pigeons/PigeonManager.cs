@@ -63,7 +63,7 @@ public class PigeonManager : Singleton<PigeonManager>
         nextPigeon.Fire(direction);
         firedPigeons.Add(nextPigeon);
 
-        fireDelay = LevelDetails.Instance.PigeonFiringDelay;
+        fireDelay = LevelDetails.Instance.CurrentPigeonFiringDelay;
     }
 
     public void Tick()

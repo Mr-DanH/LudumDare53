@@ -238,26 +238,24 @@ public class GameScreen : Singleton<GameScreen>
 
     private void OpenGameOver(string message)
     {      
-        Player.Instance.gameObject.SetActive(false);
-        Player.Instance.Reset();
-        
-        ScrollingLevel.Instance.Reset();
-
         menuScreen.SetupGameOver(message);
-        m_level = -1;
-        m_score = 0;
-
-        currentView = GameScreenView.GameOver;
+        Restart();
     }
 
     private void OpenGameCompleted()
-    {      
+    {
+        menuScreen.SetupGameComplete();
+        Restart();
+    }
+
+    private void Restart()
+    {
         Player.Instance.gameObject.SetActive(false);
         Player.Instance.Reset();
         
         ScrollingLevel.Instance.Reset();
+        LevelDetails.Instance.Reset();
 
-        menuScreen.SetupGameComplete();
         m_level = -1;
         m_score = 0;
 
