@@ -13,6 +13,9 @@ public class Player : Singleton<Player>
     [Header("Player")]
     [SerializeField] private RectTransform explodeVfx;
 
+    [Header("Podgens")]
+    [SerializeField] private PodgenManager podgenManager;
+
     public int PlayerLives { get; set; }
 
     private Vector3 currentDirection = new Vector3();
@@ -33,12 +36,14 @@ public class Player : Singleton<Player>
     {
         UpdateMovement();
         pigeonManager.Tick();
+        podgenManager.Tick();
     }
 
     public void Reset()
     {
         PlayerLives = 3;
         explodeVfx.gameObject.SetActive(false);
+        podgenManager.Reset();
     }
 
     public void SetMovementDirection(Vector2 movement)
@@ -61,6 +66,11 @@ public class Player : Singleton<Player>
     {
         if(gameObject.activeInHierarchy)
             pigeonManager.FireNext(fireLeftDirection);
+    }
+
+    public void LaunchPodgen()
+    {
+        podgenManager.CreatePodgen();
     }
 
     private void UpdateMovement()

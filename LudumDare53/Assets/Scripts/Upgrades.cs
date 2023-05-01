@@ -13,7 +13,8 @@ public class Upgrade
         IncreasePlayerSpeed = 3,
         IncreaseFiringSpeed = 4,
         IncreasePigeonSpeed = 5,
-        UpgradeHomingPigeon = 6
+        UpgradeHomingPigeon = 6,
+        Podgen = 7
     }
 
     public UpgradeType Type;
@@ -52,6 +53,11 @@ public class Upgrade
             case UpgradeType.UpgradeHomingPigeon:
             {
                 LevelDetails.Instance.UpgradeHomingPigeon();
+                break;
+            }
+            case UpgradeType.Podgen:
+            {
+                Player.Instance.LaunchPodgen();
                 break;
             }
         }

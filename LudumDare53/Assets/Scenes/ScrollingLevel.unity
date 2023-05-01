@@ -480,6 +480,9 @@ MonoBehaviour:
   - Type: 6
     Icon: {fileID: 21300000, guid: a22b42decca490a4c963ce123fc8345d, type: 3}
     Description: Upgrade one Pigeon to Homing
+  - Type: 7
+    Icon: {fileID: 21300000, guid: 25e33dc22101940458a6c2c3a4c618c4, type: 3}
+    Description: Podgeon Shield!
 --- !u!4 &727162666
 Transform:
   m_ObjectHideFlags: 0
@@ -1204,6 +1207,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5518489509220090655, guid: 1c7cb32e36e265f4eba8155b19997c54, type: 3}
+      propertyPath: explodeVfx
+      value: 
+      objectReference: {fileID: 2097092928}
     - target: {fileID: 5998045110813995335, guid: 1c7cb32e36e265f4eba8155b19997c54, type: 3}
       propertyPath: spawningParent
       value: 
@@ -1660,10 +1667,10 @@ MonoBehaviour:
   MaxNumPigeons: 2
   PigeonFiringDelay: 1
   pigeonFiringDelayDecrease: 0.2
-  pigeonSpeedIncreaseAmount: 0
+  pigeonSpeedIncreaseAmount: 20
   MaxLives: 3
   PlayerSpeed: 150
-  playerSpeedIncreaseAmount: 20
+  playerSpeedIncreaseAmount: 30
 --- !u!4 &1835574876
 Transform:
   m_ObjectHideFlags: 0
@@ -1841,7 +1848,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3724554932575689177, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3952612431110515996, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
       propertyPath: upgradeConfig
@@ -1853,19 +1860,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4966051000535083084, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4966051000535083084, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4966051000535083084, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4966051000535083084, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -33.77265
       objectReference: {fileID: 0}
     - target: {fileID: 6053777858875204431, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
       propertyPath: m_RootOrder
@@ -1877,19 +1884,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8660296519217286709, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8660296519217286709, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8660296519217286709, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 8660296519217286709, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -33.77265
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c075d08de2fe59f4b86d3a44613fbcb3, type: 3}

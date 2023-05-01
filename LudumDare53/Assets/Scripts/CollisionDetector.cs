@@ -11,7 +11,8 @@ public class CollidableObject
         Pigeon = 2,
         Enemy = 3,
         Building = 4,
-        Boss = 5
+        Podgen = 5,
+        Boss = 6
     }
 
     public ColliderType Type { get; private set; }
@@ -30,6 +31,7 @@ public class CollisionDetector : Singleton<CollisionDetector>
         {
             CollidableObject.ColliderType.Player, CollidableObject.ColliderType.Enemy,
             CollidableObject.ColliderType.Pigeon, CollidableObject.ColliderType.Building,
+            CollidableObject.ColliderType.Enemy, CollidableObject.ColliderType.Podgen,
             CollidableObject.ColliderType.Player, CollidableObject.ColliderType.Boss,
             CollidableObject.ColliderType.Pigeon, CollidableObject.ColliderType.Boss,
         };
@@ -80,7 +82,6 @@ public class CollisionDetector : Singleton<CollisionDetector>
                     if(collidableRect.Overlaps(otherCollidableRect))
                     {
                         OnCollisionTriggered(new List<CollidableObject>(){collidable, otherCollidable});
-
                     }
                 }
             }
