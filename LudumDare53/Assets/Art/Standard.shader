@@ -16,7 +16,7 @@ Shader "PigeonGame/Standard"
 
         CGPROGRAM
         #pragma surface surf Standard fullforwardshadows
-		#pragma instancing_options forcemaxcount:64
+		#pragma instancing_options forcemaxcount:16
         #pragma target 3.0
 
         sampler2D _MainTex;
