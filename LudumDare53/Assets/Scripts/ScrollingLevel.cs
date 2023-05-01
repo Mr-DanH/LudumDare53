@@ -13,17 +13,19 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
     public float m_waveOffsetZOffset;
     
     List<Tile> m_tilePool = new List<Tile>();
-    List<Tile> m_outskirtTilePool = new List<Tile>();
     public List<Tile> ActiveTiles { get; } = new List<Tile>();
 
     int m_cityTiles;
     int m_cityTilesLeft;
 
+    GameScreen.LevelData m_levelData;
+
     void Awake()
     {
         foreach(var tile in GetComponentsInChildren<Tile>())
         {
-            m_tilePool.Add(tile);                
+            m_tilePool.Add(tile);
+            tile.Init();  
             tile.Deactivate();
         }
 
@@ -49,10 +51,17 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
         m_cityTilesLeft = 0;
     }
 
-    public void StartCity(int tiles)
+    public void StartCity(int tiles, GameScreen.LevelData levelData)
     {
         m_cityTiles = tiles;
         m_cityTilesLeft = tiles;
+        m_levelData = levelData;
+
+        foreach(var tile in m_tilePool)
+            tile.CacheMaterialIndex(levelData.m_materials);
+            
+        foreach(var tile in ActiveTiles)
+            tile.CacheMaterialIndex(levelData.m_materials);
     }
 
     public void ReparentWaves(Transform parent)
@@ -98,7 +107,7 @@ public class ScrollingLevel : Singleton<ScrollingLevel>
         else
             tile.transform.position = ActiveTiles.Last().transform.position + (Vector3.forward * m_spacing);
 
-        tile.Activate(type == Tile.eType.City);
+        tile.Activate(type == Tile.eType.City, m_levelData != null ? m_levelData.m_materials : null);
 
         ActiveTiles.Add(tile);
         m_tilePool.Remove(tile);
