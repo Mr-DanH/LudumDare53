@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseSpeed: 200
+  Image: {fileID: 3591100483657322718}
 --- !u!1 &8135716376148950102
 GameObject:
   m_ObjectHideFlags: 0

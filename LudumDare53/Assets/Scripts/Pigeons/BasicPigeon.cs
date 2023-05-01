@@ -10,10 +10,15 @@ public class BasicPigeon : Pigeon
     const float SPAWN_SIZE = 1.2f;
     const float TARGET_SIZE = 0.7f;
 
+    Vector3 m_referenceDirection;
+
     public override void Fire(Vector2 direction)
     {
+        m_referenceDirection = direction;
         firedDirection = direction;
-        GetComponentInChildren<Image>().transform.localScale = new Vector3(Mathf.Sign(firedDirection.x), 1, 1);
+
+        Image.transform.localScale = new Vector3(Mathf.Sign(firedDirection.x), 1, 1);
+        Image.transform.localRotation = Quaternion.identity;
 
         transform.localScale = Vector3.one * SPAWN_SIZE;
     }
@@ -30,7 +35,23 @@ public class BasicPigeon : Pigeon
             cross = Vector3.Cross(firedDirection, toPlayerDir);
 
         firedDirection = Quaternion.AngleAxis(Mathf.Min(angle, 180 * Time.deltaTime), cross) * firedDirection; 
-        GetComponentInChildren<Image>().transform.localScale = new Vector3(Mathf.Sign(firedDirection.x), 1, 1);     
+
+        Image.transform.localScale = new Vector3(Mathf.Sign(firedDirection.x), 1, 1);
+
+        Vector3 comparisonDirection = firedDirection;
+        if(comparisonDirection.x * m_referenceDirection.x < 0)
+        {
+            comparisonDirection.x *= -1;
+            
+            float rot = Vector3.SignedAngle(comparisonDirection, m_referenceDirection, Vector3.forward);
+            Image.transform.localRotation = Quaternion.Euler(0, 0 , rot);
+        }
+        else
+        {
+
+            float rot = Vector3.SignedAngle(comparisonDirection, m_referenceDirection, Vector3.back);
+            Image.transform.localRotation = Quaternion.Euler(0, 0 , rot);
+        }
     }
 
     public override void Tick()
@@ -40,7 +61,9 @@ public class BasicPigeon : Pigeon
             Vector3 newPosition = transform.localPosition + firedDirection * offsetSpeed * Time.deltaTime;
             transform.localPosition = newPosition;
 
-            transform.localScale = Vector3.one * Mathf.MoveTowards(transform.localScale.x, TARGET_SIZE, Time.deltaTime * 0.5f);
+            float xScale = Mathf.Min(1, Mathf.Abs(firedDirection.x * 2));
+
+            transform.localScale = new Vector3(xScale, 1, 1) * Mathf.MoveTowards(transform.localScale.y, TARGET_SIZE, Time.deltaTime * 0.5f);
 
             float vpX = transform.position.x / Screen.width;
 
@@ -56,8 +79,10 @@ public class BasicPigeon : Pigeon
             
             Vector3 newPosition = transform.localPosition + firedDirection * dist;
             transform.localPosition = ClampToScreen(newPosition);
+
+            float xScale = Mathf.Min(1, Mathf.Abs(firedDirection.x * 2));
             
-            transform.localScale = Vector3.one * Mathf.Lerp(TARGET_SIZE, SPAWN_SIZE, Mathf.InverseLerp(100, 0, toPlayer.magnitude));
+            transform.localScale = new Vector3(xScale, 1, 1) * Mathf.Lerp(TARGET_SIZE, SPAWN_SIZE, Mathf.InverseLerp(100, 0, toPlayer.magnitude));
 
             if(offsetSpeed * Time.deltaTime > toPlayer.magnitude)
                 ReturnState = Pigeon.eReturnState.RETURNED;

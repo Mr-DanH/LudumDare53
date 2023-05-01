@@ -134,10 +134,10 @@ public class PigeonManager : Singleton<PigeonManager>
         availableCount = availablePigeons.Count;
 
         foreach(var pigeon in availablePigeons)
-            list.Add(pigeon.GetComponentInChildren<Image>());
+            list.Add(pigeon.Image);
             
         foreach(var pigeon in firedPigeons)
-            list.Add(pigeon.GetComponentInChildren<Image>());
+            list.Add(pigeon.Image);
 
         return list;
     }

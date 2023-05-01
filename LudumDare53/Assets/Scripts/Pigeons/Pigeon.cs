@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Pigeon : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public abstract class Pigeon : MonoBehaviour
     }
 
     [SerializeField] protected float baseSpeed;
+    public Image Image;
+
     protected float offsetSpeed { get { return baseSpeed + LevelDetails.Instance.PigeonSpeedOffset; } }
 
     protected RectTransform rect;
