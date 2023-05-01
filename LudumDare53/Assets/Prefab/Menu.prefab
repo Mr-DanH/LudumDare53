@@ -71,6 +71,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 8659790523864399179}
+    - target: {fileID: 6417889933888848144, guid: 5b67c69ef89c20a409adc69c71f75734, type: 3}
+      propertyPath: m_text
+      value: PidgeMech Pat
+      objectReference: {fileID: 0}
     - target: {fileID: 6417889934114230114, guid: 5b67c69ef89c20a409adc69c71f75734, type: 3}
       propertyPath: m_Name
       value: MainMenu
