@@ -7,8 +7,8 @@ public class BasicPigeon : Pigeon
 {
     public override PigeonType Type { get { return PigeonType.BASIC; } }
 
-    const float SPAWN_SIZE = 1;
-    const float TARGET_SIZE = 0.5f;
+    const float SPAWN_SIZE = 1.2f;
+    const float TARGET_SIZE = 0.7f;
 
     public override void Fire(Vector2 direction)
     {
