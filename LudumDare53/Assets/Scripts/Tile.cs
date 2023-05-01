@@ -19,8 +19,47 @@ public class Tile : MonoBehaviour
     
     public List<Tower> TargetTowers { get; } = new List<Tower>();
 
-    public void Activate(bool activateWave)
+    public List<MeshRenderer> Renderers { get; } = new List<MeshRenderer>();
+
+    Dictionary<MeshRenderer, int> m_meshMaterialIndex;
+
+    public void Init()
     {
+        Renderers.AddRange(GetComponentsInChildren<MeshRenderer>());
+    }
+
+    public void CacheMaterialIndex(List<Material> materials)
+    {
+        if(m_meshMaterialIndex == null)
+        {
+            m_meshMaterialIndex = new Dictionary<MeshRenderer, int>();
+
+            foreach(var renderer in Renderers)
+            {
+                int matIndex = materials.IndexOf(renderer.sharedMaterial);
+                if(matIndex != -1)
+                    m_meshMaterialIndex[renderer] = matIndex;
+            }
+        }
+    }
+
+    public void Activate(bool activateWave, List<Material> materials)
+    {
+        if(materials != null)
+        {
+            foreach(var renderer in Renderers)
+            {
+                if(m_meshMaterialIndex.TryGetValue(renderer, out int matIndex))
+                    renderer.sharedMaterial = materials[matIndex];
+            }
+
+            foreach(var tower in m_possibleTargetTowers)
+            {
+                tower.m_standardMaterial = materials[0];
+                tower.m_targetMaterial = materials[1];
+            }
+        }
+
         TargetTowers.Clear();
         TargetTowers.AddRange(m_possibleTargetTowers);
 

@@ -83,7 +83,7 @@ public class GameScreen : MonoBehaviour
 
     private void StartLevel()
     {
-        ScrollingLevel.Instance.StartCity(NUM_TILES_PER_CITY);
+        ScrollingLevel.Instance.StartCity(NUM_TILES_PER_CITY, m_levelData[m_level]);
         Player.Instance.gameObject.SetActive(true);
         
         currentView = GameScreenView.Game;
