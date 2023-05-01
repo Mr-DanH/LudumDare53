@@ -90,7 +90,7 @@ public class GameScreen : Singleton<GameScreen>
 
     private void StartLevel()
     {
-        bool isBossLevel = false;//(m_level == 0);
+        bool isBossLevel = !levelScreen.HasAnotherLevel(m_level);
 
         if(isBossLevel)
             ScrollingLevel.Instance.StartCity(999, m_levelData[m_level]);
