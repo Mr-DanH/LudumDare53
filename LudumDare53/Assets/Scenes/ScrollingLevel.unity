@@ -1270,7 +1270,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8705305386493297673, guid: e7404fec2b0d59f41835ecb452485635, type: 3}
       propertyPath: m_Name
-      value: ScrollingLevel (1)
+      value: ScrollingLevel
       objectReference: {fileID: 0}
     - target: {fileID: 8705305386493297675, guid: e7404fec2b0d59f41835ecb452485635, type: 3}
       propertyPath: m_RootOrder
