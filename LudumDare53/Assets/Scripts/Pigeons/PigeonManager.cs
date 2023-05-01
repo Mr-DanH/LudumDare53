@@ -125,6 +125,12 @@ public class PigeonManager : Singleton<PigeonManager>
         {
             Pigeon returnedPigeon = collidable.RectTransform.GetComponent<Pigeon>();
             PigeonReturned(returnedPigeon);
+
+            // var other = collidables.Find(x=>x.Type != CollidableObject.ColliderType.Pigeon);
+            // if(other.Type == CollidableObject.ColliderType.Boss)
+            // {
+            //     GameScreen.Instance.BossHit();
+            // }
         }
     }
 

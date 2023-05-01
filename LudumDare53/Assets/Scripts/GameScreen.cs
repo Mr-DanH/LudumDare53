@@ -54,8 +54,6 @@ public class GameScreen : Singleton<GameScreen>
 
     int m_score;
     int m_level = -1;
-    int m_bossHealth;
-    const int BOSS_HEALTH_MAX = 20;
 
     HitBoxRender m_hitBoxRender;
     LevelScreen levelScreen;
@@ -82,6 +80,7 @@ public class GameScreen : Singleton<GameScreen>
 
     void Start()
     {
+        Boss.Instance.gameObject.SetActive(false);
         m_controls.alpha = 0;
         ScrollingLevel.Instance.ReparentWaves(m_waveNode);
         UpdateUI();
@@ -98,11 +97,6 @@ public class GameScreen : Singleton<GameScreen>
             ScrollingLevel.Instance.StartCity(NUM_TILES_PER_CITY, m_levelData[m_level]);
 
         m_bossRoot.gameObject.SetActive(isBossLevel);
-
-        if(isBossLevel)
-        {        
-            m_bossHealth = BOSS_HEALTH_MAX;
-        }
 
         Player.Instance.gameObject.SetActive(true);
         Player.Instance.LevelReset();
@@ -172,7 +166,7 @@ public class GameScreen : Singleton<GameScreen>
         }        
 
         float maxSize = (m_bossHealthSlider.parent as RectTransform).sizeDelta.y;
-        m_bossHealthSlider.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, maxSize * m_bossHealth / BOSS_HEALTH_MAX);
+        m_bossHealthSlider.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, maxSize * Boss.Instance.GetNormalisedHealth());
     }
 
     void Update()
@@ -284,6 +278,8 @@ public class GameScreen : Singleton<GameScreen>
 
         if(m_level == 0)
         {
+            Boss.Instance.Init();
+            Boss.Instance.gameObject.SetActive(false);
             PigeonManager.Instance.NewGame();
             StartCoroutine(FadeDownControls());
         }
@@ -310,6 +306,9 @@ public class GameScreen : Singleton<GameScreen>
 
     private bool HasPassedCompletedLevel()
     {
+        if(Boss.Instance.IsDead)
+            return true;
+
         return ScrollingLevel.Instance.IsLevelComplete() && HasCompletedAllDeliveries();
     }
 
@@ -328,11 +327,5 @@ public class GameScreen : Singleton<GameScreen>
         bool hasAnotherLevel = levelScreen.HasAnotherLevel(m_level);
 
         return !hasAnotherLevel && HasPassedCompletedLevel();
-    }
-
-    public void BossHit()
-    {
-        if(m_bossHealth > 0)
-            --m_bossHealth;
     }
 }

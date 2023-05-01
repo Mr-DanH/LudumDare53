@@ -81,7 +81,11 @@ public class Tile : MonoBehaviour
                 if (activateWave)
                 {
                     RectTransform childRectTransform = child as RectTransform;
-                    CollidableObject.ColliderType colType = (child.name == "Boss") ? CollidableObject.ColliderType.Boss : CollidableObject.ColliderType.Enemy;
+
+                    if(child.TryGetComponent(out BossPoint bossPoint))
+                        bossPoint.Activate();                    
+
+                    CollidableObject.ColliderType colType = (bossPoint != null) ? CollidableObject.ColliderType.Boss : CollidableObject.ColliderType.Enemy;
                     CollisionDetector.Instance.Register(colType, childRectTransform);
                 }
             }
@@ -100,6 +104,8 @@ public class Tile : MonoBehaviour
             foreach(RectTransform child in m_waveOffset)
                 DeactivateChild(child);
         }
+        
+        CollisionDetector.Instance.OnCollisionTriggered -= OnCollisionTriggered;
             
         gameObject.SetActive(false);
     }
@@ -109,20 +115,6 @@ public class Tile : MonoBehaviour
         var enemy = collidables.Find(x=>x.Type == CollidableObject.ColliderType.Enemy);
         if(enemy != null)
             DeactivateChild(enemy.RectTransform);
-            
-        var boss = collidables.Find(x=>x.Type == CollidableObject.ColliderType.Boss);
-        if(boss != null)
-        {
-            var other = collidables.Find(x=>x.Type != CollidableObject.ColliderType.Boss);
-            if(other.Type == CollidableObject.ColliderType.Pigeon)
-            {
-                GameScreen.Instance.BossHit();
-            }            
-            if(other.Type == CollidableObject.ColliderType.Player)
-            {
-                
-            }
-        }
     }
 
     private void DeactivateChild(RectTransform rectTransform)
